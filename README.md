@@ -4,8 +4,23 @@ A 4-lane note-highway rhythm game about Isan (northeastern Thai) folk music.
 Two songs — **หมอลำ** and **เซิ้ง** — with procedurally synthesised music, so the
 game is playable before a single audio file exists.
 
+**▶ เล่นได้เลยที่ https://meatball-007.github.io/thai-folk-beat/**
+
 Built as a school-project demo. See `NOTES.md` for every decision and shortcut,
 and `public/assets/README.md` for the art drop-in list.
+
+---
+
+## Show it to someone
+
+| What | Where |
+|---|---|
+| Play online | <https://meatball-007.github.io/thai-folk-beat/> |
+| Play locally, no terminal | double-click **`เปิดเกม.bat`** |
+| Progress report (Thai) | `report/progress-report.pdf` |
+
+At the Title screen **click once before expecting sound** — browsers block audio
+until the user interacts.
 
 ---
 
@@ -87,6 +102,9 @@ F11 need are declared in `src-tauri/capabilities/default.json`.
 | `npm run check` | Verify judgement windows, combo/multiplier and the fail rule (29 checks) |
 | `npm run chart` | Chart statistics — note counts, density, tightest same-lane gap |
 | `npm run assets:readme` | Regenerate `public/assets/README.md` from the manifest |
+| `npm run demo` | Serve the built demo and open a browser (no terminal needed via `เปิดเกม.bat`) |
+| `npm run report` | Rebuild the Thai progress report — HTML + PDF into `report/` |
+| `npm run deploy` | Build and publish to GitHub Pages (`gh-pages` branch) |
 | `npm run tauri:build` | Windows installer (needs MSVC Build Tools, see above) |
 
 ---
@@ -147,7 +165,9 @@ src/
   scenes/   Title, Settings, RegionSelect, SongSelect, Comic,
             Loading, Gameplay, Result, nav
   ui/       Button, Slider, Carousel, Particles, artLayer, theme
-scripts/          dev tools (chart report, gameplay checks, asset README)
+scripts/          dev tools (chart report, gameplay checks, asset README,
+                  demo server, progress report, Pages deploy)
+report/           generated progress report (PDF for submission)
 src-tauri/        desktop shell
 design-reference/ the designer's layout mockup + one screenshot per screen
 ```
@@ -174,3 +194,22 @@ once.
 **Not built** (explicit non-goals): regions other than อีสาน, songs beyond the two,
 the instrument-select screen, the record-your-performance ending, macOS, online
 features, a chart editor.
+
+---
+
+## Publishing
+
+The live site is served from the `gh-pages` branch, rebuilt from scratch on each
+deploy so stale assets never linger:
+
+```bash
+npm run deploy      # builds, then force-pushes dist/ to gh-pages
+```
+
+Deploying via a branch rather than a GitHub Actions workflow is deliberate: a
+workflow file requires the `workflow` OAuth scope, which the CLI token here does
+not have. The branch route needs only `repo` and produces the same result.
+
+**A custom domain** can be pointed at it later by adding a `CNAME` file to the
+`gh-pages` branch and a DNS record — that only needs a domain you own; the Pages
+site itself is already live.

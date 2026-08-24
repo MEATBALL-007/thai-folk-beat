@@ -14,7 +14,8 @@
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
     "report": "python scripts/build-report.py",
-    "demo": "node scripts/serve-demo.mjs"
+    "demo": "node scripts/serve-demo.mjs",
+    "deploy": "npm run build && node scripts/deploy-pages.mjs"
   },
   "dependencies": {
     "@fontsource/kanit": "^5.1.0",
@@ -26,5 +27,6 @@
     "@tauri-apps/cli": "^2.11.4",
     "typescript": "^5.7.2",
     "vite": "^5.4.11"
-  }
+  },
+  "homepage": "https://meatball-007.github.io/thai-folk-beat/"
 }
