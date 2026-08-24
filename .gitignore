@@ -1,0 +1,16 @@
+# dependencies
+node_modules/
+
+# build output (published to the gh-pages branch instead)
+dist/
+
+# scratch
+tmp/
+.playwright-mcp/
+
+# rust / tauri build artefacts
+src-tauri/target/
+src-tauri/gen/
+
+# regenerable: 1.7MB of base64. Rebuild with `npm run report`.
+report/progress-report.html

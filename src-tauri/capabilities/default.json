@@ -1,0 +1,13 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Permissions the game window needs: closing itself for the EXIT button (spec §5.1) and toggling fullscreen on F11.",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "core:window:allow-close",
+    "core:window:allow-destroy",
+    "core:window:allow-set-fullscreen",
+    "core:window:allow-is-fullscreen"
+  ]
+}

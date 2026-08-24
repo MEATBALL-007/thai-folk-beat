@@ -1,0 +1,30 @@
+{
+  "name": "thai-folk-beat",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "chart": "esbuild scripts/chart-report.ts --bundle --format=esm --platform=node --outfile=tmp/chart-report.mjs --log-level=error && node tmp/chart-report.mjs",
+    "check": "esbuild scripts/gameplay-check.ts --bundle --format=esm --platform=node --outfile=tmp/gameplay-check.mjs --log-level=error && node tmp/gameplay-check.mjs",
+    "assets:readme": "esbuild scripts/gen-asset-readme.ts --bundle --format=esm --platform=node --packages=external --outfile=tmp/gen-asset-readme.mjs --log-level=error && node tmp/gen-asset-readme.mjs",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "report": "python scripts/build-report.py",
+    "demo": "node scripts/serve-demo.mjs"
+  },
+  "dependencies": {
+    "@fontsource/kanit": "^5.1.0",
+    "@fontsource/sarabun": "^5.1.0",
+    "@tauri-apps/api": "^2.11.1",
+    "pixi.js": "^8.6.6"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.11.4",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11"
+  }
+}
