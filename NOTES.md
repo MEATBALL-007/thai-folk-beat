@@ -173,6 +173,27 @@ its hitArea anyway.
 otherwise ideal — it reproduces the designer's composition exactly — but every
 interactive layer group needs a hitArea or it will swallow everything below it.
 
+### D34 — Gameplay, Loading and Comic restyled to the delivered art
+Once the finished menu art landed, three screens still looked like the
+placeholder geometry they started as. All three now use the shared frame and the
+wooden-panel language:
+
+- **Gameplay** — wooden board under the lanes, HUD moved onto plaques in the two
+  side gutters (nothing overlaps the lanes any more), notes redrawn as discs with
+  a pale rim, and each lane labelled with its instrument (กลอง / โปงลาง / พิณ / แคน),
+  which is worth doing on its own: the game is *about* those four instruments and
+  nothing on screen used to say so.
+- **Loading** — wooden panel, real progress bar, and four discs bouncing in
+  sequence in the lane colours, so even the wait belongs to this game.
+- **Comic** — the panel is hung as a framed picture (wooden frame, cream mat) with
+  the caption on a plaque beneath, and turning a page slides the new panel in.
+
+Two layout traps showed up and are worth remembering for this frame:
+1. Notes were visible *above* the board before entering the lanes — the note
+   layer now carries a mask clipped to the board interior.
+2. Anything full-width collides with the frame's border rule and corner
+   ornaments. Content has to stay inside roughly x 110..1810, y 70..1010.
+
 ---
 
 ## §9 acceptance checklist — final run

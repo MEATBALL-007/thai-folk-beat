@@ -104,9 +104,24 @@ export function goDevScene(scenes: SceneManager, name: string): boolean {
     case 'comic':
       goComic(scenes, song);
       return true;
-    case 'loading':
-      goLoading(scenes, song);
+    case 'loading': {
+      // DEV inspection only: the real loader finishes in milliseconds, so this
+      // variant reports progress slowly enough to actually look at.
+      void scenes.replace(
+        new LoadingScene({
+          detail: song.titleTh,
+          task: async (report) => {
+            const steps = 24;
+            for (let i = 1; i <= steps; i++) {
+              await new Promise((r) => setTimeout(r, 500));
+              report(i / steps);
+            }
+          },
+          onDone: () => goTitle(scenes),
+        }),
+      );
       return true;
+    }
     case 'game':
       goGameplay(scenes, song);
       return true;

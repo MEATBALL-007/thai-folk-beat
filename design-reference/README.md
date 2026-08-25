@@ -19,3 +19,4 @@ These are the evidence behind the acceptance table in `NOTES.md`.
 | `07-result.png` | Result screen, CLEARED |
 | `08-letterbox-ultrawide.png` | 1900x620 — pillarboxed, not stretched |
 | `09-audio-debug-scene.png` | Phase 2 audio debug readout (dev scene) |
+| `10-loading.png` | Loading screen — real progress bar + four bouncing lane discs |
