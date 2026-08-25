@@ -31,6 +31,10 @@ if (!existsSync(join(DIST, 'index.html'))) {
 }
 
 const worktree = mkdtempSync(join(tmpdir(), 'tfb-pages-'));
+// Build the orphan under a throwaway name, then push it to gh-pages. Checking
+// out `gh-pages` directly fails on every run after the first, because the local
+// branch already exists — this keeps the script idempotent.
+const staging = `deploy-staging-${process.pid}`;
 
 try {
   console.log(`preparing ${BRANCH} in ${worktree}`);
@@ -38,7 +42,7 @@ try {
 
   // Orphan: the published branch shares no history with main, so the repo does
   // not carry a second copy of every source file.
-  git(['checkout', '--orphan', BRANCH], worktree);
+  git(['checkout', '--orphan', staging], worktree);
   git(['rm', '-rf', '--quiet', '.'], worktree);
 
   cpSync(DIST, worktree, { recursive: true });
@@ -51,7 +55,7 @@ try {
 
   const stamp = git(['log', '-1', '--format=%h %s']);
   git(['commit', '--quiet', '-m', `deploy: ${stamp}`], worktree);
-  git(['push', '--force', '--quiet', 'origin', `${BRANCH}:${BRANCH}`], worktree);
+  git(['push', '--force', '--quiet', 'origin', `${staging}:${BRANCH}`], worktree);
 
   const url = git(['remote', 'get-url', 'origin'])
     .replace(/^https:\/\/github\.com\//, '')
@@ -64,5 +68,11 @@ try {
     git(['worktree', 'remove', '--force', worktree]);
   } catch {
     rmSync(worktree, { recursive: true, force: true });
+  }
+  // Drop the staging branch so it never accumulates in the local repo.
+  try {
+    git(['branch', '-D', staging]);
+  } catch {
+    /* never created — nothing to clean up */
   }
 }
