@@ -14,12 +14,33 @@ const PUMP_MS = 25;
 const START_DELAY_S = 0.15;
 
 /**
- * Master headroom. NOT a guess: scripts/verify measured the raw summed peak of
- * the four voices at 1.58 (หมอลำ) and 1.74 (เซิ้ง). Anything over 1.0 hard-clips,
- * so the whole mix is scaled to sit under unity at full volume.
- * See NOTES.md D14.
+ * Peak sample value of the loudest delivered recording, measured with ffmpeg
+ * astats: molam 0.972, soeng 0.996, main 1.022. They are mastered hard against
+ * full scale, and mp3 decoding overshoots slightly past it.
  */
-export const MASTER_HEADROOM = 0.5;
+export const RECORDING_PEAK = 1.022;
+
+/** Hit-feedback gain per verdict. GOOD is quieter so the sound carries information. */
+export const HIT_GAIN = { PERFECT: 0.35, GOOD: 0.22 } as const;
+
+/**
+ * Worst case the master bus must survive: the loudest sample of the recording
+ * landing on the same sample as four simultaneous PERFECT hits, with both
+ * volume sliders at 100.
+ */
+const WORST_CASE_SUM = RECORDING_PEAK + 4 * HIT_GAIN.PERFECT;
+
+/**
+ * Master headroom. NOT a guess, and re-derived on 2026-08-31.
+ *
+ * The previous value of 0.5 was measured against the SYNTH mix, whose raw
+ * summed peak was 1.58 (หมอลำ) and 1.74 (เซิ้ง). The game no longer plays that
+ * mix: it plays mastered recordings that sit at ~1.0 on their own, plus hit
+ * feedback on top. A figure sized for the old mix would clip the new one.
+ *
+ * See NOTES.md D14 (superseded) and D36.
+ */
+export const MASTER_HEADROOM = Math.min(0.5, 1 / WORST_CASE_SUM);
 
 export interface LoadedSong {
   def: SongDef;
@@ -126,7 +147,7 @@ export class AudioEngine {
     src.playbackRate.value = voice === 'klong' ? 0.62 : voice === 'khaen' ? 1.18 : 1;
 
     const g = this.ctx.createGain();
-    g.gain.value = verdict === 'PERFECT' ? 0.5 : 0.3;
+    g.gain.value = HIT_GAIN[verdict];
 
     src.connect(g);
     g.connect(this.sfxBus);

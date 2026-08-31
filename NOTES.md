@@ -270,3 +270,34 @@ music actually sounds good.** Sync, levels and audibility are proven; taste is n
 ## Swap-in: replacing synthesised audio with real recordings
 
 (Written in Phase 2 — see `src/audio/`.)
+
+## D35 — Song BPM and downbeat are measured, not chosen (2026-08-31)
+
+The designer delivered real recordings, so tempo became a property of the file
+rather than a number we pick. A fixed (bpm, phase) comb was fitted over a 200 Hz
+onset envelope, then the phase re-fitted independently in each third of the track
+to detect drift:
+
+  หมอลำ  107.070 BPM, downbeat 0.247s, phase drift <= 1.2 ms across 90.65 s
+  เซิ้ง  114.016 BPM, downbeat 0.449s, phase drift 0.0 ms across 101.10 s
+
+Both were produced against a click or loop, which is the only reason a
+fixed-grid chart works here. A 0.5% tempo error at 107 BPM would accumulate
+~450 ms over the song, five times the GOOD window.
+
+เซิ้ง has two candidate downbeats an eighth apart (0.449 / 0.712); its metrical
+histogram is flatter than หมอลำ's, which is correct for a processional
+eighth-driven groove. Only bar labelling differs, not note placement.
+
+## D36 — MASTER_HEADROOM re-derived for recordings (2026-08-31)
+
+D14's 0.5 was measured against the SYNTH mix (raw summed peak 1.58 / 1.74).
+The game no longer plays that mix. The recordings are mastered hard against full
+scale — measured peaks 0.972 (molam), 0.996 (soeng), 1.022 (main; mp3 decoding
+overshoots) — and hit feedback now sits on top of them.
+
+The headroom is derived from the worst case it must survive rather than picked:
+the loudest recording sample coinciding with four simultaneous PERFECT hits at
+full volume. That is 1.022 + 4 x 0.35 = 2.422, so headroom = 0.413.
+`npm run check` asserts this, so a louder recording or a raised hit gain fails
+the checks instead of turning up as distortion.

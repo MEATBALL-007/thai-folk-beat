@@ -10,6 +10,7 @@ import { Judge, GOOD_MS, PERFECT_MS } from '../src/game/Judge';
 import { ScoreSystem, FAIL_CONSECUTIVE_MISSES } from '../src/game/ScoreSystem';
 import { buildChart, songDuration, type ChartNote } from '../src/game/Chart';
 import { renderPluck } from '../src/audio/pluck';
+import { HIT_GAIN, MASTER_HEADROOM, RECORDING_PEAK } from '../src/audio/AudioEngine';
 import type { Lane, SongDef } from '../src/audio/types';
 
 let passed = 0;
@@ -217,6 +218,19 @@ console.log('[hit feedback] physical models');
     check(`${kind}: decays`, tail < head * 0.5, true);
     check(`${kind}: ends silent (no click)`, Math.abs(d[d.length - 1]!) < 1e-6, true);
   }
+}
+
+
+console.log('');
+console.log('[levels] master headroom');
+{
+  // The headroom protects a specific worst case. Assert that case explicitly,
+  // so a later change to the hit gain or a louder recording fails here rather
+  // than as distortion someone has to notice by ear.
+  const worst = (RECORDING_PEAK + 4 * HIT_GAIN.PERFECT) * MASTER_HEADROOM;
+  check('recording + 4 simultaneous hits stays under unity', worst <= 1.0, true);
+  check('GOOD is quieter than PERFECT', HIT_GAIN.GOOD < HIT_GAIN.PERFECT, true);
+  check('headroom leaves the music audible', MASTER_HEADROOM > 0.3, true);
 }
 
 console.log(`\n${passed} passed, ${failed} failed\n`);
