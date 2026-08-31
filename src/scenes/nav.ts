@@ -1,6 +1,7 @@
 import type { SceneManager } from '../core/SceneManager';
 import type { SongDef } from '../audio/types';
 import type { GameResult } from '../game/ScoreSystem';
+import { settings } from '../core/Settings';
 
 import { TitleScene } from './Title';
 import { SettingsScene } from './Settings';
@@ -51,7 +52,7 @@ export function goLoading(scenes: SceneManager, song: SongDef): void {
     new LoadingScene({
       task: async (report) => {
         report(0.15);
-        await audio.load(song, 'normal');
+        await audio.load(song, settings.difficulty);
         report(1);
       },
       onDone: () => goGameplay(scenes, song),

@@ -1,4 +1,5 @@
 import { readJSON, writeJSON } from './Storage';
+import { DIFFICULTIES, type Difficulty } from '../game/Difficulty';
 
 /** Spec §5.2. Persisted under this key. */
 const KEY = 'tfb.settings';
@@ -23,6 +24,8 @@ export interface SettingsData {
   offsetMs: number;
   /** Seconds a note is visible before its hit time, 0.8..2.5. */
   scrollSec: number;
+  /** Note density. Chosen at song select, persisted here. */
+  difficulty: Difficulty;
 }
 
 const DEFAULTS: SettingsData = {
@@ -31,6 +34,9 @@ const DEFAULTS: SettingsData = {
   resolutionStep: 1,
   offsetMs: 0,
   scrollSec: 1.5,
+  // Deliberately the gentlest setting: the first person to play any given
+  // build is someone seeing it cold, and four consecutive misses ends a run.
+  difficulty: 'easy',
 };
 
 function clamp(v: number, lo: number, hi: number): number {
@@ -52,6 +58,7 @@ class SettingsStore {
       resolutionStep: clamp(Math.round(Number(raw.resolutionStep) || 0), 0, RESOLUTION_SCALES.length - 1),
       offsetMs: clamp(Number(raw.offsetMs) || 0, OFFSET_MIN, OFFSET_MAX),
       scrollSec: clamp(Number(raw.scrollSec) || DEFAULTS.scrollSec, SCROLL_MIN, SCROLL_MAX),
+      difficulty: DIFFICULTIES.includes(raw.difficulty) ? raw.difficulty : DEFAULTS.difficulty,
     };
   }
 
@@ -73,6 +80,9 @@ class SettingsStore {
   get scrollSec(): number {
     return this.data.scrollSec;
   }
+  get difficulty(): Difficulty {
+    return this.data.difficulty;
+  }
 
   setSound(v: number): void {
     this.data.sound = clamp(v, 0, 100);
@@ -92,6 +102,10 @@ class SettingsStore {
   }
   setScrollSec(v: number): void {
     this.data.scrollSec = clamp(v, SCROLL_MIN, SCROLL_MAX);
+    this.save();
+  }
+  setDifficulty(v: Difficulty): void {
+    this.data.difficulty = DIFFICULTIES.includes(v) ? v : DEFAULTS.difficulty;
     this.save();
   }
 
