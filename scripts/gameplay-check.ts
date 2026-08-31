@@ -9,6 +9,7 @@
 import { Judge, GOOD_MS, PERFECT_MS } from '../src/game/Judge';
 import { ScoreSystem, FAIL_CONSECUTIVE_MISSES } from '../src/game/ScoreSystem';
 import { buildChart, songDuration, type ChartNote } from '../src/game/Chart';
+import { renderPluck } from '../src/audio/pluck';
 import type { Lane, SongDef } from '../src/audio/types';
 
 let passed = 0;
@@ -178,6 +179,44 @@ console.log('[chart derivation] design doc §4');
   check('bar 1 beat 2 at 120bpm = offset + 3s', buildChart(fake, 'normal')[1]?.time, 3.25);
   check('difficulty selects its own chart', buildChart(fake, 'normal').length, 2);
   check('songDuration includes the offset', songDuration(fake), 5.75);
+}
+
+
+console.log('');
+console.log('[hit feedback] physical models');
+{
+  // No speakers in a check run, so the models are verified by measurement:
+  // a buffer that is silent, clipping, or not decaying is broken regardless of
+  // how it would have sounded.
+  const SR = 44100;
+  const ctx = {
+    sampleRate: SR,
+    createBuffer: (_ch: number, len: number, sr: number) => {
+      const data = new Float32Array(len);
+      return { length: len, sampleRate: sr, getChannelData: () => data };
+    },
+  } as unknown as BaseAudioContext;
+
+  for (const kind of ['phin', 'ponglang'] as const) {
+    const buf = renderPluck(ctx, 60, kind);
+    const d = buf.getChannelData(0);
+
+    let peak = 0;
+    for (let i = 0; i < d.length; i++) peak = Math.max(peak, Math.abs(d[i]!));
+
+    const rms = (from: number, to: number): number => {
+      let s = 0;
+      for (let i = from; i < to; i++) s += d[i]! * d[i]!;
+      return Math.sqrt(s / (to - from));
+    };
+    const head = rms(0, SR * 0.05);
+    const tail = rms(Math.floor(SR * 0.8), Math.floor(SR * 0.85));
+
+    check(`${kind}: produces sound`, head > 0.01, true);
+    check(`${kind}: does not clip`, peak <= 1, true);
+    check(`${kind}: decays`, tail < head * 0.5, true);
+    check(`${kind}: ends silent (no click)`, Math.abs(d[d.length - 1]!) < 1e-6, true);
+  }
 }
 
 console.log(`\n${passed} passed, ${failed} failed\n`);

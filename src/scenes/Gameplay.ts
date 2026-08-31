@@ -365,6 +365,9 @@ export class GameplayScene extends Scene {
     if (event.verdict === 'MISS') {
       this.shake = 1;
     } else {
+      // Audible confirmation. Fired here rather than on key-down so a press
+      // that matched no note stays silent — the sound means "you hit it".
+      audio.playHit(event.note.voice, event.note.midi, event.verdict);
       this.highway.flashReceptor(event.note.lane, 1);
       this.comboPunch = 1;
 

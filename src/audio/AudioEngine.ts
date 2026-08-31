@@ -1,6 +1,8 @@
 import { Conductor } from './Conductor';
 import { playVoice } from './voices';
-import type { SongDef } from './types';
+import { renderPluck, type PluckKind } from './pluck';
+import type { SongDef, VoiceName } from './types';
+import { PENTATONIC } from './pattern';
 import type { Difficulty } from '../game/Difficulty';
 import { buildChart, type ChartNote } from '../game/Chart';
 
@@ -51,6 +53,13 @@ export class AudioEngine {
   private nextIndex = 0;
   private pumpId: number | null = null;
 
+  /**
+   * Pre-rendered hit sounds, keyed `kind:midi`. Built once on first load; the
+   * chart only uses five pitches per instrument, so the whole bank is ten
+   * short buffers.
+   */
+  private readonly hitBank = new Map<string, AudioBuffer>();
+
   /** Debug/telemetry hook — fires as each note is handed to the hardware. */
   onNoteScheduled: ((note: ChartNote) => void) | null = null;
 
@@ -82,6 +91,48 @@ export class AudioEngine {
     this.conductor = new Conductor(this.ctx);
   }
 
+  /**
+   * Renders the hit-feedback bank. Idempotent, and cheap enough to sit inside
+   * load(): ten 0.9s mono buffers.
+   */
+  private buildHitBank(): void {
+    if (this.hitBank.size > 0) return;
+    const kinds: PluckKind[] = ['phin', 'ponglang'];
+    for (const kind of kinds) {
+      for (const midi of PENTATONIC) {
+        this.hitBank.set(`${kind}:${midi}`, renderPluck(this.ctx, midi, kind));
+      }
+    }
+  }
+
+  /**
+   * Feedback for a successful hit. Routed through sfxBus, so the player's SFX
+   * slider governs it and it is mixed independently of the recording.
+   *
+   * GOOD is quieter than PERFECT: the sound carries information about how well
+   * the note was hit, not just that it was.
+   */
+  playHit(voice: VoiceName, midi: number, verdict: 'PERFECT' | 'GOOD'): void {
+    // The two drum-like lanes borrow the wooden bar, which has a sharper attack
+    // than the string and reads better as a percussive confirmation.
+    const kind: PluckKind = voice === 'phin' ? 'phin' : 'ponglang';
+    const buf = this.hitBank.get(`${kind}:${midi}`);
+    if (!buf) return;
+
+    const src = this.ctx.createBufferSource();
+    src.buffer = buf;
+    // Slight detune per hit so a run of notes in one lane does not sound like
+    // the same sample retriggering.
+    src.playbackRate.value = voice === 'klong' ? 0.62 : voice === 'khaen' ? 1.18 : 1;
+
+    const g = this.ctx.createGain();
+    g.gain.value = verdict === 'PERFECT' ? 0.5 : 0.3;
+
+    src.connect(g);
+    g.connect(this.sfxBus);
+    src.start();
+  }
+
   /** Browsers block audio until a gesture — call from the first Title click (§5.1). */
   async resume(): Promise<void> {
     if (this.ctx.state !== 'running') await this.ctx.resume();
@@ -106,6 +157,7 @@ export class AudioEngine {
    * one it also decodes the file, and play() takes the buffer branch instead.
    */
   async load(def: SongDef, difficulty: Difficulty): Promise<LoadedSong> {
+    this.buildHitBank();
     let buffer: AudioBuffer | null = null;
 
     if (def.audioUrl) {
