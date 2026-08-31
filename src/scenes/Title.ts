@@ -138,7 +138,7 @@ export class TitleScene extends Scene {
     msg.position.set(DESIGN_W / 2, DESIGN_H / 2 - 30);
 
     const hint = new Text({
-      text: 'ขอบคุณที่เล่น  ·  กดที่ใดก็ได้เพื่อกลับ',
+      text: 'ขอบคุณที่เล่น  •  กดที่ใดก็ได้เพื่อกลับ',
       style: { fontFamily: FONT.body, fontSize: 36, fill: ART.field },
     });
     hint.anchor.set(0.5);

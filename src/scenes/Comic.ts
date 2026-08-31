@@ -179,7 +179,7 @@ export class ComicScene extends Scene {
     this.index = i;
     this.art.texture = assetLoader.get(panel.image);
     this.caption.text = panel.captionTh;
-    this.counter.text = `${this.song.titleTh}  ·  ${i + 1} / ${this.panels.length}`;
+    this.counter.text = `${this.song.titleTh}  •  ${i + 1} / ${this.panels.length}`;
     this.turn = 1;
 
     this.drawDots();

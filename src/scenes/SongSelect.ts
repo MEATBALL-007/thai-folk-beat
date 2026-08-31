@@ -2,6 +2,7 @@ import { Container, Graphics, Text } from 'pixi.js';
 import { Scene } from '../core/Scene';
 import { DESIGN_H, DESIGN_W } from '../core/Layout';
 import { ART, C, FONT } from '../ui/theme';
+import { type Dir, triangle } from '../ui/glyphs';
 import { layerSprite } from '../ui/artLayer';
 import { Button } from '../ui/Button';
 import { Carousel } from '../ui/Carousel';
@@ -53,10 +54,10 @@ export class SongSelectScene extends Scene {
     this.container.addChild(clip);
     this.carousel.mask = clip;
 
-    this.prevBtn = this.arrow('◁', () => this.carousel.prev());
+    this.prevBtn = this.arrow('left', () => this.carousel.prev());
     this.prevBtn.position.set(DESIGN_W / 2 - 372, 216 + CARD_H / 2);
 
-    this.nextBtn = this.arrow('▷', () => this.carousel.next());
+    this.nextBtn = this.arrow('right', () => this.carousel.next());
     this.nextBtn.position.set(DESIGN_W / 2 + 372, 216 + CARD_H / 2);
 
     this.container.addChild(this.prevBtn, this.nextBtn);
@@ -160,7 +161,7 @@ export class SongSelectScene extends Scene {
     return card;
   }
 
-  private arrow(glyph: string, onTap: () => void): Container {
+  private arrow(dir: Dir, onTap: () => void): Container {
     const c = new Container();
 
     const g = new Graphics()
@@ -169,13 +170,7 @@ export class SongSelectScene extends Scene {
       .circle(0, 0, 52)
       .stroke({ width: 6, color: ART.wood, alignment: 0 });
 
-    const t = new Text({
-      text: glyph,
-      style: { fontFamily: FONT.display, fontSize: 46, fill: ART.wood },
-    });
-    t.anchor.set(0.5);
-
-    c.addChild(g, t);
+    c.addChild(g, triangle(dir, 42, ART.wood));
     c.eventMode = 'static';
     c.cursor = 'pointer';
     c.on('pointertap', onTap);

@@ -2,6 +2,7 @@ import { Container, Graphics, Text } from 'pixi.js';
 import { Scene } from '../core/Scene';
 import { DESIGN_H, DESIGN_W } from '../core/Layout';
 import { ART, FONT } from '../ui/theme';
+import { type Dir, triangle } from '../ui/glyphs';
 import { layerSprite } from '../ui/artLayer';
 import { Button } from '../ui/Button';
 import { Slider } from '../ui/Slider';
@@ -146,7 +147,7 @@ export class SettingsScene extends Scene {
     this.container.addChild(back);
   }
 
-  /** `◁ ต่ำ / กลาง / สูง ▷` (spec §5.2). */
+  /** Resolution stepper: a triangle either side of the value (spec §5.2). */
   private buildResolutionRow(x: number, y: number, width: number): Container {
     const row = new Container();
     row.position.set(x, y);
@@ -165,17 +166,17 @@ export class SettingsScene extends Scene {
     this.resLabel.anchor.set(0.5, 0.5);
     this.resLabel.position.set(width / 2, 0);
 
-    const prev = this.arrowButton('◁', () => this.stepResolution(-1));
+    const prev = this.arrowButton('left', () => this.stepResolution(-1));
     prev.position.set(width / 2 - 230, 0);
 
-    const next = this.arrowButton('▷', () => this.stepResolution(1));
+    const next = this.arrowButton('right', () => this.stepResolution(1));
     next.position.set(width / 2 + 230, 0);
 
     row.addChild(label, this.resLabel, prev, next);
     return row;
   }
 
-  private arrowButton(glyph: string, onTap: () => void): Container {
+  private arrowButton(dir: Dir, onTap: () => void): Container {
     const c = new Container();
 
     const g = new Graphics()
@@ -184,13 +185,7 @@ export class SettingsScene extends Scene {
       .circle(0, 0, 34)
       .stroke({ width: 5, color: ART.wood, alignment: 0 });
 
-    const t = new Text({
-      text: glyph,
-      style: { fontFamily: FONT.display, fontSize: 34, fill: ART.wood },
-    });
-    t.anchor.set(0.5);
-
-    c.addChild(g, t);
+    c.addChild(g, triangle(dir, 30, ART.wood));
     c.eventMode = 'static';
     c.cursor = 'pointer';
     c.on('pointerover', () => (g.tint = 0xffe3b4));

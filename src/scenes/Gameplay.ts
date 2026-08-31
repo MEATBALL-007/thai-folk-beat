@@ -4,6 +4,7 @@ import { DESIGN_H, DESIGN_W } from '../core/Layout';
 import { ART, C, FONT } from '../ui/theme';
 import { Input } from '../core/Input';
 import { Particles } from '../ui/Particles';
+import { BULLET, arrowKeyRow } from '../ui/glyphs';
 import { layerSprite } from '../ui/artLayer';
 import { settings } from '../core/Settings';
 import { audio } from '../audio/engine';
@@ -286,12 +287,24 @@ export class GameplayScene extends Scene {
     prompt.anchor.set(0.5);
     prompt.position.set(DESIGN_W / 2, DESIGN_H / 2 - 40);
 
-    const keys = new Text({
-      text: 'D  F  J  K   หรือ   ←  ↓  ↑  →   ·  แตะที่วงกลมก็ได้',
-      style: { fontFamily: FONT.body, fontSize: 38, fill: ART.field },
-    });
-    keys.anchor.set(0.5);
-    keys.position.set(DESIGN_W / 2, DESIGN_H / 2 + 70);
+    // The four arrows are drawn, not typed: the display face does not map them
+    // and they would render as blank boxes. Laid out left to right, then the
+    // whole row is centred by its measured width.
+    const keys = new Container();
+    const style = { fontFamily: FONT.body, fontSize: 38, fill: ART.field };
+
+    const lead = new Text({ text: 'D  F  J  K   หรือ', style });
+    lead.anchor.set(0, 0.5);
+
+    const arrows = arrowKeyRow(34, ART.field);
+    arrows.position.set(lead.width + 24 + arrows.width / 2, 0);
+
+    const tail = new Text({ text: `${BULLET}  แตะที่วงกลมก็ได้`, style });
+    tail.anchor.set(0, 0.5);
+    tail.position.set(lead.width + 48 + arrows.width, 0);
+
+    keys.addChild(lead, arrows, tail);
+    keys.position.set((DESIGN_W - keys.width) / 2, DESIGN_H / 2 + 70);
 
     overlay.addChild(veil, prompt, keys);
     overlay.eventMode = 'static';

@@ -79,7 +79,7 @@ export class AudioDebugScene extends Scene {
     title.position.set(DESIGN_W / 2, 50);
 
     const hint = new Text({
-      text: 'คลิกเพื่อเริ่ม  ·  [1] หมอลำ   [2] เซิ้ง   [S] หยุด',
+      text: 'คลิกเพื่อเริ่ม  •  [1] หมอลำ   [2] เซิ้ง   [S] หยุด',
       style: { fontFamily: FONT.body, fontSize: 32, fill: C.olive },
     });
     hint.anchor.set(0.5, 0);
