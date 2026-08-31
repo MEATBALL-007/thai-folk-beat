@@ -64,7 +64,7 @@ export class ResultScene extends Scene {
       style: { fontFamily: FONT.body, fontSize: 32, fill: ART.wood },
     });
     bannerTh.anchor.set(0.5);
-    bannerTh.position.set(DESIGN_W / 2, panelY + 214);
+    bannerTh.position.set(DESIGN_W / 2, panelY + 206);
     this.container.addChild(bannerTh);
 
     const scoreLabel = new Text({
@@ -72,21 +72,21 @@ export class ResultScene extends Scene {
       style: { fontFamily: FONT.display, fontSize: 34, fill: ART.wood },
     });
     scoreLabel.anchor.set(0.5, 0);
-    scoreLabel.position.set(DESIGN_W / 2, panelY + 262);
+    scoreLabel.position.set(DESIGN_W / 2, panelY + 244);
 
     this.scoreText = new Text({
       text: '0',
       style: { fontFamily: FONT.display, fontSize: 112, fill: ART.tealDark },
     });
     this.scoreText.anchor.set(0.5, 0);
-    this.scoreText.position.set(DESIGN_W / 2, panelY + 300);
+    this.scoreText.position.set(DESIGN_W / 2, panelY + 282);
 
     const bestText = new Text({
       text: `BEST  ${this.best.toLocaleString('en-US')}`,
       style: { fontFamily: FONT.body, fontSize: 34, fill: ART.wood },
     });
     bestText.anchor.set(0.5, 0);
-    bestText.position.set(DESIGN_W / 2, panelY + 430);
+    bestText.position.set(DESIGN_W / 2, panelY + 412);
 
     this.container.addChild(scoreLabel, this.scoreText, bestText);
 
@@ -100,12 +100,12 @@ export class ResultScene extends Scene {
     const colW = panelW / 4;
     tallies.forEach(([label, value, color], i) => {
       const cx = panelX + colW * (i + 0.5);
-      this.container.addChild(this.tallyColumn(cx, panelY + 545, label, value, color));
+      this.container.addChild(this.tallyColumn(cx, panelY + 476, label, value, color));
     });
 
     const comboCx = panelX + colW * 3.5;
     this.container.addChild(
-      this.tallyColumn(comboCx, panelY + 545, 'MAX COMBO', this.result.maxCombo, ART.wood),
+      this.tallyColumn(comboCx, panelY + 476, 'MAX COMBO', this.result.maxCombo, ART.wood),
     );
 
     // ---- new record ------------------------------------------------------
@@ -115,7 +115,8 @@ export class ResultScene extends Scene {
         style: { fontFamily: FONT.display, fontSize: 56, fill: C.gold },
       });
       this.recordText.anchor.set(0.5);
-      this.recordText.position.set(DESIGN_W / 2, panelY + PANEL.h + 22);
+      // Inside the panel, not below it: the delivered buttons start at y~796.
+      this.recordText.position.set(DESIGN_W / 2, panelY + 592);
       this.container.addChild(this.recordText);
     } else {
       this.recordText = null;
