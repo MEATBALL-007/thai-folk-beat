@@ -145,11 +145,38 @@ composites at (0,0) with measured alpha bounds — no new pipeline.
 - Menu and region art in the drop is byte-identical to what is already
   installed; seven additional files are new.
 
-## 7. Fonts — blocked
+## 7. Fonts
 
-The brief asks for a game-wide font change to a supplied Thai typeface
-(`Phrichcha….ttf`), but **no font file was included in the drop**. Everything
-else proceeds; this needs the .ttf.
+Delivered 2026-08-31: **MN Steak Mu Phrikthai Dam** (สเต๊กหมูพริกไทยดำ ชุดพิเศษ),
+Regular + Italic, replacing Kanit (display) and Sarabun (body) everywhere.
+
+The cmap and name tables were parsed directly to check coverage before
+committing to the swap, because the entire UI is Thai and a display face often
+ships an incomplete mark set. Results:
+
+- **Thai coverage is complete** for everything the game renders — consonants,
+  base vowels, leading vowels, tone marks, Thai digits. The only unmapped Thai
+  codepoint is U+0E4E ยามักการ, which is archaic and unused in modern Thai.
+- `GPOS`/`GSUB`/`GDEF` are present, so vowel and tone-mark stacking is properly
+  positioned rather than left to fallback.
+- ASCII letters and digits are complete, so scores and key labels are safe.
+
+Two consequences that require code changes, not just a family swap:
+
+**7.1 Eight decorative characters are missing** and would render as blank boxes:
+`·` (U+00B7) and the arrows and triangles `← ↑ → ↓ ◁ ▷`. These appear in the key
+hint line, the settings carousel, and several separators.
+
+`•` (U+2022) *is* mapped and replaces `·` directly. The arrows and triangles will
+be **drawn as `Graphics` instead of typed as text** — more robust than depending
+on any font's symbol coverage, and a better match for the hand-drawn art than a
+glyph would be.
+
+**7.2 There is no bold weight.** The face ships Regular and Italic only, while 31
+call sites currently pass `fontWeight: '700'`. That would trigger synthetic bold,
+which smears glyphs horizontally and can push tone marks into the consonant
+beneath them. The face is already a heavy display weight by design, so
+`fontWeight: '700'` is dropped rather than faked.
 
 ## 8. Verification
 
@@ -178,4 +205,5 @@ reused rather than replaced:
 2. **Loading icon colours.** The brief says the order is เขียว/แดง/เหลือง/ฟ้า, but
    the delivered icons are orange/green/yellow-green/orange-red. Follow the
    delivered art, or tint to the stated order?
-3. Fonts (§7).
+
+Resolved: fonts (§7) — delivered and verified 2026-08-31.
