@@ -28,7 +28,8 @@ const SCENES = [
   { name: 'comic', wait: 1500 },
   { name: 'game', wait: 1000, click: true },
   { name: 'game-soeng', link: 'game:soeng', wait: 1000, click: true },
-  { name: 'result', wait: 1500 },
+  { name: 'result', wait: 2500 },
+  { name: 'loading', wait: 3000 },
   { name: 'settings', wait: 1500 },
 ];
 
