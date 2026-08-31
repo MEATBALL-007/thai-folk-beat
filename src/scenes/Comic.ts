@@ -143,7 +143,7 @@ export class ComicScene extends Scene {
   private buildBottomRow(): void {
     this.counter = new Text({
       text: '',
-      style: { fontFamily: FONT.display, fontSize: 30, fontWeight: '700', fill: ART.wood },
+      style: { fontFamily: FONT.display, fontSize: 30, fill: ART.wood },
     });
     this.counter.anchor.set(0, 0.5);
     this.counter.position.set(ART_X - WOOD, ROW_Y);
@@ -179,7 +179,7 @@ export class ComicScene extends Scene {
     this.index = i;
     this.art.texture = assetLoader.get(panel.image);
     this.caption.text = panel.captionTh;
-    this.counter.text = `${this.song.titleTh}  ·  ${i + 1} / ${this.panels.length}`;
+    this.counter.text = `${this.song.titleTh}  •  ${i + 1} / ${this.panels.length}`;
     this.turn = 1;
 
     this.drawDots();

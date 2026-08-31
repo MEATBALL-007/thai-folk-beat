@@ -8,8 +8,13 @@
  */
 import { Judge, GOOD_MS, PERFECT_MS } from '../src/game/Judge';
 import { ScoreSystem, FAIL_CONSECUTIVE_MISSES } from '../src/game/ScoreSystem';
-import type { ChartNote } from '../src/game/Chart';
-import type { Lane } from '../src/audio/types';
+import { buildChart, songDuration, type ChartNote } from '../src/game/Chart';
+import { renderPluck } from '../src/audio/pluck';
+import { HIT_GAIN, MASTER_HEADROOM, RECORDING_PEAK } from '../src/audio/AudioEngine';
+import { MOLAM } from '../src/audio/songs/molam';
+import { SOENG } from '../src/audio/songs/soeng';
+import { DIFFICULTIES } from '../src/game/Difficulty';
+import type { Lane, SongDef } from '../src/audio/types';
 
 let passed = 0;
 let failed = 0;
@@ -149,6 +154,115 @@ console.log('\n[accuracy]');
   s.apply('MISS');
   s.apply('MISS');
   check('+2 miss = 37.5%', +(s.accuracy * 100).toFixed(1), 37.5);
+}
+
+
+console.log('');
+console.log('[chart derivation] design doc §4');
+{
+  const fake: SongDef = {
+    id: 'molam',
+    titleTh: 'x',
+    blurbTh: 'x',
+    bpm: 120,
+    bars: 2,
+    gridOffsetS: 0.25,
+    charts: {
+      easy: [{ bar: 0, beat: 0, lane: 0, voice: 'klong', midi: 60 }],
+      normal: [
+        { bar: 0, beat: 0, lane: 0, voice: 'klong', midi: 60 },
+        { bar: 1, beat: 2, lane: 1, voice: 'phin', midi: 62 },
+      ],
+      hard: [],
+    },
+  };
+
+  // The offset is what keeps a chart aligned to a recording that does not
+  // begin exactly on beat 1.
+  check('grid offset shifts the first note', buildChart(fake, 'easy')[0]?.time, 0.25);
+  check('bar 1 beat 2 at 120bpm = offset + 3s', buildChart(fake, 'normal')[1]?.time, 3.25);
+  check('difficulty selects its own chart', buildChart(fake, 'normal').length, 2);
+  check('songDuration includes the offset', songDuration(fake), 5.75);
+}
+
+
+console.log('');
+console.log('[hit feedback] physical models');
+{
+  // No speakers in a check run, so the models are verified by measurement:
+  // a buffer that is silent, clipping, or not decaying is broken regardless of
+  // how it would have sounded.
+  const SR = 44100;
+  const ctx = {
+    sampleRate: SR,
+    createBuffer: (_ch: number, len: number, sr: number) => {
+      const data = new Float32Array(len);
+      return { length: len, sampleRate: sr, getChannelData: () => data };
+    },
+  } as unknown as BaseAudioContext;
+
+  for (const kind of ['phin', 'ponglang'] as const) {
+    const buf = renderPluck(ctx, 60, kind);
+    const d = buf.getChannelData(0);
+
+    let peak = 0;
+    for (let i = 0; i < d.length; i++) peak = Math.max(peak, Math.abs(d[i]!));
+
+    const rms = (from: number, to: number): number => {
+      let s = 0;
+      for (let i = from; i < to; i++) s += d[i]! * d[i]!;
+      return Math.sqrt(s / (to - from));
+    };
+    const head = rms(0, SR * 0.05);
+    const tail = rms(Math.floor(SR * 0.8), Math.floor(SR * 0.85));
+
+    check(`${kind}: produces sound`, head > 0.01, true);
+    check(`${kind}: does not clip`, peak <= 1, true);
+    check(`${kind}: decays`, tail < head * 0.5, true);
+    check(`${kind}: ends silent (no click)`, Math.abs(d[d.length - 1]!) < 1e-6, true);
+  }
+}
+
+
+console.log('');
+console.log('[levels] master headroom');
+{
+  // The headroom protects a specific worst case. Assert that case explicitly,
+  // so a later change to the hit gain or a louder recording fails here rather
+  // than as distortion someone has to notice by ear.
+  const worst = (RECORDING_PEAK + 4 * HIT_GAIN.PERFECT) * MASTER_HEADROOM;
+  check('recording + 4 simultaneous hits stays under unity', worst <= 1.0, true);
+  check('GOOD is quieter than PERFECT', HIT_GAIN.GOOD < HIT_GAIN.PERFECT, true);
+  check('headroom leaves the music audible', MASTER_HEADROOM > 0.3, true);
+}
+
+
+console.log('');
+console.log('[chart-audio alignment] design doc section 8');
+{
+  // The sync guarantee is now structural: notes are defined in terms of the
+  // recording's own grid, so they cannot drift from it. This asserts the
+  // property directly — a note that is not on the grid cannot be in sync with
+  // the music, whatever it sounds like.
+  const FILE_LENGTH_S: Record<string, number> = { molam: 90.65, soeng: 101.1 };
+
+  for (const song of [MOLAM, SOENG]) {
+    const step = 15 / song.bpm;
+    let worstOffGrid = 0;
+    let last = 0;
+
+    for (const difficulty of DIFFICULTIES) {
+      for (const n of buildChart(song, difficulty)) {
+        const k = Math.round((n.time - song.gridOffsetS) / step);
+        worstOffGrid = Math.max(worstOffGrid, Math.abs(n.time - (song.gridOffsetS + k * step)));
+        last = Math.max(last, n.time);
+      }
+    }
+
+    check(`${song.id}: every note sits on the 16th grid`, worstOffGrid < 0.001, true);
+    check(`${song.id}: last note is inside the recording`, last <= FILE_LENGTH_S[song.id]!, true);
+    check(`${song.id}: plays the recording, not the synth`, song.audioUrl !== undefined, true);
+  }
 }
 
 console.log(`\n${passed} passed, ${failed} failed\n`);

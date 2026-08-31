@@ -15,11 +15,12 @@
     "tauri:build": "tauri build",
     "report": "python scripts/build-report.py",
     "demo": "node scripts/serve-demo.mjs",
-    "deploy": "npm run build && node scripts/deploy-pages.mjs"
+    "deploy": "npm run build && node scripts/deploy-pages.mjs",
+    "derive": "node scripts/derive-chart.mjs",
+    "playthrough": "node scripts/playthrough.mjs",
+    "shots": "node scripts/shots.mjs"
   },
   "dependencies": {
-    "@fontsource/kanit": "^5.1.0",
-    "@fontsource/sarabun": "^5.1.0",
     "@tauri-apps/api": "^2.11.1",
     "pixi.js": "^8.6.6"
   },

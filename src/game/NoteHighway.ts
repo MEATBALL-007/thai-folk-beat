@@ -1,27 +1,29 @@
 import { Container, Graphics, Text } from 'pixi.js';
-import { DESIGN_W } from '../core/Layout';
 import { ART, C, FONT } from '../ui/theme';
 import type { Lane } from '../audio/types';
 import type { ChartNote } from './Chart';
 
-/** Spec §4.1 geometry, in design-space pixels. */
+/**
+ * Geometry, in design-space pixels.
+ *
+ * These are MEASURED from the delivered stage art rather than chosen (see
+ * scripts/measure-sprites.mjs and the gp.lane* entries in the manifest). The
+ * receptors are painted into the artwork, so the notes have to line up with
+ * where the designer put them — deriving the lanes from an even spread would
+ * leave every note landing slightly off its target.
+ */
 export const LANE_COUNT = 4;
-export const LANE_W = 180;
-export const LANE_GAP = 24;
-export const HIGHWAY_W = LANE_COUNT * LANE_W + (LANE_COUNT - 1) * LANE_GAP; // 792
-export const HIGHWAY_X = (DESIGN_W - HIGHWAY_W) / 2; // 564
-export const RECEPTOR_Y = 880;
-export const RECEPTOR_R = 62;
-export const NOTE_R = 54;
+/** Centre of each painted receptor disc, left to right. */
+export const LANE_CENTERS = [671.5, 863.5, 1054.5, 1244.5] as const;
+export const LANE_W = 168;
+export const HIGHWAY_X = LANE_CENTERS[0] - LANE_W / 2;
+export const HIGHWAY_W = LANE_CENTERS[3] - LANE_CENTERS[0] + LANE_W;
+export const RECEPTOR_Y = 946.5;
+export const RECEPTOR_R = 79;
+export const NOTE_R = 58;
 
-/** The wooden board the lanes sit on, inside the frame's inner edge. */
-const BOARD_PAD = 34;
-const BOARD_X = HIGHWAY_X - BOARD_PAD;
-const BOARD_W = HIGHWAY_W + BOARD_PAD * 2;
-const BOARD_Y = 74;
-const BOARD_H = 934; // stops just above the frame's bottom rule (~y 1010)
-/** Wood margin at the top of the board, where the progress track lives. */
-const LANE_TOP = BOARD_Y + 38;
+/** Notes are clipped to this band so they never overlap the proscenium. */
+const LANE_TOP = 96;
 
 /** Notes enter from above the top edge so they never "pop" into view. */
 const SPAWN_Y = -NOTE_R * 2;
@@ -29,12 +31,12 @@ const SPAWN_Y = -NOTE_R * 2;
 /** Spec §3.2 lane -> instrument. Shown under each receptor. */
 const LANE_INSTRUMENT: readonly string[] = ['กลอง', 'โปงลาง', 'พิณ', 'แคน'];
 
-export function laneLeft(lane: Lane): number {
-  return HIGHWAY_X + lane * (LANE_W + LANE_GAP);
+export function laneCenterX(lane: Lane): number {
+  return LANE_CENTERS[lane];
 }
 
-export function laneCenterX(lane: Lane): number {
-  return laneLeft(lane) + LANE_W / 2;
+export function laneLeft(lane: Lane): number {
+  return laneCenterX(lane) - LANE_W / 2;
 }
 
 /**
@@ -87,33 +89,30 @@ export class NoteHighway {
     this.buildProgressTrack();
   }
 
-  /** Wooden board + cream lanes, in the language of the menu panels. */
+  /**
+   * Lane tracks, drawn straight onto the stage.
+   *
+   * The old opaque wooden board is gone: the delivered art IS the backdrop, and
+   * covering it with a panel would hide the stage the designer drew. These are
+   * translucent so the boards of the stage floor read through them, while still
+   * giving the notes enough contrast to be followed at speed.
+   */
   private buildBoard(): void {
     const g = new Graphics();
 
-    // Drop shadow, so the board sits on the field rather than floating.
-    g.roundRect(BOARD_X + 6, BOARD_Y + 8, BOARD_W, BOARD_H, 30).fill({
-      color: ART.wood,
-      alpha: 0.18,
-    });
-
-    g.roundRect(BOARD_X, BOARD_Y, BOARD_W, BOARD_H, 30).fill(ART.woodFill);
-
     for (let i = 0; i < LANE_COUNT; i++) {
       const lane = i as Lane;
-      // Lanes run the full board height; the rounded board corners clip them
-      // visually because the border is stroked on top.
-      g.roundRect(laneLeft(lane), LANE_TOP, LANE_W, BOARD_H - 52, 16).fill({
+      g.roundRect(laneLeft(lane), LANE_TOP, LANE_W, RECEPTOR_Y - LANE_TOP, 18).fill({
         color: C.paper,
-        alpha: 0.92,
+        alpha: 0.17,
+      });
+      g.roundRect(laneLeft(lane), LANE_TOP, LANE_W, RECEPTOR_Y - LANE_TOP, 18).stroke({
+        width: 3,
+        color: ART.pale,
+        alpha: 0.3,
+        alignment: 0,
       });
     }
-
-    g.roundRect(BOARD_X, BOARD_Y, BOARD_W, BOARD_H, 30).stroke({
-      width: 9,
-      color: ART.wood,
-      alignment: 0,
-    });
 
     this.container.addChild(g);
   }
@@ -123,11 +122,10 @@ export class NoteHighway {
     const g = new Graphics();
     const y = RECEPTOR_Y;
 
-    g.rect(BOARD_X + 18, y - 3, BOARD_W - 36, 6).fill({ color: ART.wood, alpha: 0.5 });
+    g.rect(HIGHWAY_X - 14, y - 2, HIGHWAY_W + 28, 4).fill({ color: ART.pale, alpha: 0.45 });
 
-    for (const x of [BOARD_X + 18, BOARD_X + BOARD_W - 18]) {
-      g.circle(x, y, 11).fill(ART.wood);
-      g.circle(x, y, 4).fill(ART.woodFill);
+    for (const x of [HIGHWAY_X - 14, HIGHWAY_X + HIGHWAY_W + 14]) {
+      g.circle(x, y, 9).fill({ color: ART.pale, alpha: 0.75 });
     }
 
     this.container.addChild(g);
@@ -150,8 +148,8 @@ export class NoteHighway {
    */
   private buildProgressTrack(): void {
     const g = new Graphics()
-      .roundRect(HIGHWAY_X, BOARD_Y + 14, HIGHWAY_W, 12, 6)
-      .fill({ color: ART.wood, alpha: 0.22 });
+      .roundRect(HIGHWAY_X, 58, HIGHWAY_W, 10, 5)
+      .fill({ color: ART.pale, alpha: 0.28 });
     this.container.addChild(g);
   }
 
@@ -161,25 +159,17 @@ export class NoteHighway {
       const lane = i as Lane;
       const name = LANE_INSTRUMENT[i] ?? '';
 
-      const plate = new Graphics();
-      const w = 128;
-      const h = 42;
       const cx = laneCenterX(lane);
-      const cy = RECEPTOR_Y + 95;
-      plate
-        .roundRect(cx - w / 2, cy - h / 2, w, h, 14)
-        .fill(ART.woodFill)
-        .roundRect(cx - w / 2, cy - h / 2, w, h, 14)
-        .stroke({ width: 4, color: laneColor(lane), alignment: 0 });
+      const cy = RECEPTOR_Y + 84;
 
       const text = new Text({
         text: name,
-        style: { fontFamily: FONT.body, fontSize: 24, fill: ART.wood },
+        style: { fontFamily: FONT.body, fontSize: 26, fill: ART.pale },
       });
       text.anchor.set(0.5);
       text.position.set(cx, cy);
 
-      this.container.addChild(plate, text);
+      this.container.addChild(text);
     }
   }
 
@@ -187,7 +177,7 @@ export class NoteHighway {
     // Clip to the board interior: notes spawn above the top edge, and without a
     // mask they were visible floating over the frame before entering the lanes.
     const clip = new Graphics()
-      .roundRect(BOARD_X + 10, LANE_TOP, BOARD_W - 20, BOARD_H - 48, 20)
+      .roundRect(HIGHWAY_X - 8, LANE_TOP, HIGHWAY_W + 16, RECEPTOR_Y + 40 - LANE_TOP, 20)
       .fill(0xffffff);
     this.container.addChild(this.notesLayer, clip);
     this.notesLayer.mask = clip;
@@ -225,10 +215,9 @@ export class NoteHighway {
       const colour = laneColor(lane);
       g.clear();
 
-      // Idle: a cream disc with a coloured ring — the same visual language as
-      // the region-select buttons (spec §4.1: outlined, filled on hit).
-      g.circle(0, 0, RECEPTOR_R).fill({ color: ART.discFill, alpha: 0.85 });
-
+      // No idle disc: the delivered art paints the receptor, and filling over
+      // it would hide the instrument icon the designer drew inside. Only the
+      // hit feedback is drawn here, on top of the artwork.
       if (flash > 0) {
         g.circle(0, 0, RECEPTOR_R).fill({ color: colour, alpha: flash });
         // Expanding shockwave on a hit.
@@ -239,17 +228,13 @@ export class NoteHighway {
         });
       }
 
-      g.circle(0, 0, RECEPTOR_R).stroke({
-        width: 7 + 4 * flash,
-        color: colour,
-        alignment: 0,
-      });
-      // Inner hairline keeps the target readable against a bright flash.
-      g.circle(0, 0, RECEPTOR_R - 13).stroke({
-        width: 3,
-        color: ART.wood,
-        alpha: 0.35,
-      });
+      if (flash > 0) {
+        g.circle(0, 0, RECEPTOR_R).stroke({
+          width: 4 + 5 * flash,
+          color: colour,
+          alignment: 0,
+        });
+      }
     }
   }
 

@@ -73,13 +73,13 @@ export class AudioDebugScene extends Scene {
 
     const title = new Text({
       text: 'PHASE 2 — AUDIO DEBUG',
-      style: { fontFamily: FONT.display, fontSize: 60, fontWeight: '700', fill: C.ink },
+      style: { fontFamily: FONT.display, fontSize: 60, fill: C.ink },
     });
     title.anchor.set(0.5, 0);
     title.position.set(DESIGN_W / 2, 50);
 
     const hint = new Text({
-      text: 'คลิกเพื่อเริ่ม  ·  [1] หมอลำ   [2] เซิ้ง   [S] หยุด',
+      text: 'คลิกเพื่อเริ่ม  •  [1] หมอลำ   [2] เซิ้ง   [S] หยุด',
       style: { fontFamily: FONT.body, fontSize: 32, fill: C.olive },
     });
     hint.anchor.set(0.5, 0);
@@ -165,7 +165,7 @@ export class AudioDebugScene extends Scene {
 
     const label = new Text({
       text: '▶  START',
-      style: { fontFamily: FONT.display, fontSize: 56, fontWeight: '700', fill: C.ink },
+      style: { fontFamily: FONT.display, fontSize: 56, fill: C.ink },
     });
     label.anchor.set(0.5);
     label.position.set(w / 2, h / 2);
@@ -192,7 +192,7 @@ export class AudioDebugScene extends Scene {
       this.engine.master.connect(this.analyser);
     }
 
-    this.loaded = await this.engine.load(def);
+    this.loaded = await this.engine.load(def, 'normal');
     this.engine.play(this.loaded);
 
     this.rafClockMs = 0;

@@ -270,3 +270,87 @@ music actually sounds good.** Sync, levels and audibility are proven; taste is n
 ## Swap-in: replacing synthesised audio with real recordings
 
 (Written in Phase 2 — see `src/audio/`.)
+
+## D35 — Song BPM and downbeat are measured, not chosen (2026-08-31)
+
+The designer delivered real recordings, so tempo became a property of the file
+rather than a number we pick. A fixed (bpm, phase) comb was fitted over a 200 Hz
+onset envelope, then the phase re-fitted independently in each third of the track
+to detect drift:
+
+  หมอลำ  107.070 BPM, downbeat 0.247s, phase drift <= 1.2 ms across 90.65 s
+  เซิ้ง  114.016 BPM, downbeat 0.449s, phase drift 0.0 ms across 101.10 s
+
+Both were produced against a click or loop, which is the only reason a
+fixed-grid chart works here. A 0.5% tempo error at 107 BPM would accumulate
+~450 ms over the song, five times the GOOD window.
+
+เซิ้ง has two candidate downbeats an eighth apart (0.449 / 0.712); its metrical
+histogram is flatter than หมอลำ's, which is correct for a processional
+eighth-driven groove. Only bar labelling differs, not note placement.
+
+## D36 — MASTER_HEADROOM re-derived for recordings (2026-08-31)
+
+D14's 0.5 was measured against the SYNTH mix (raw summed peak 1.58 / 1.74).
+The game no longer plays that mix. The recordings are mastered hard against full
+scale — measured peaks 0.972 (molam), 0.996 (soeng), 1.022 (main; mp3 decoding
+overshoots) — and hit feedback now sits on top of them.
+
+The headroom is derived from the worst case it must survive rather than picked:
+the loudest recording sample coinciding with four simultaneous PERFECT hits at
+full volume. That is 1.022 + 4 x 0.35 = 2.422, so headroom = 0.413.
+`npm run check` asserts this, so a louder recording or a raised hit gain fails
+the checks instead of turning up as distortion.
+
+## D37 — Charts are derived from the recordings, not authored (2026-08-31)
+
+Free onset detection was tried first and failed on this material: only ~42% of
+detected onsets fell within 70 ms of the eighth grid (chance alone scores 50%),
+and the distribution across metrical positions was flat. Isan textures are
+sustained — the khaen drones, the phin tremolos — so energy flux fires
+continuously rather than at note starts.
+
+The working method inverts the question. The grid is already known to be stable
+(D35), so instead of asking where the onsets are, each 16th-note slot is scored
+by peak band energy and the strongest N% are kept. Every note then lands on the
+grid BY CONSTRUCTION, which is what replaces the old guarantee that the chart
+and the synth came from one PatternEvent[].
+
+Validation: on หมอลำ at 20% density this reproduces the metrical hierarchy of
+real music — beats strongest (56/60/63/54), eighth offbeats next (47/23/32/62),
+sixteenths weakest (8–29). A detector reading noise cannot produce that shape.
+
+Two defects the first pass produced, both fixed in the derivation:
+  - Same-lane notes 140 ms apart (one 16th), inside 2x the GOOD window, so one
+    press fell within range of both and the judge could not tell them apart.
+    Each lane is now thinned to a minimum of an eighth, keeping the louder of a
+    colliding pair.
+  - Notes started at 0.25 s. Restored the 2-bar lead-in (spec §3.3), which
+    matters MORE with a recording than it did with the synth, since the music
+    is already playing during it.
+
+`npm run chart` gates both and exits non-zero if either returns.
+
+## D38 — Difficulty is density, and easy is the default (2026-08-31)
+
+Because selection is "keep the strongest N%", difficulty falls out of the
+derivation rather than needing three hand-authored charts: every difficulty
+charts the same performance, and a harder one just includes quieter detail.
+
+Default is easy on purpose. The first person to play any given build is someone
+seeing it cold, and four consecutive misses ends a run.
+
+## D39 — Automated playthrough needs a GPU host (2026-08-31)
+
+scripts/playthrough.mjs plays a whole song over CDP, pressing at a fixed offset
+so drift cannot be absorbed. It does NOT produce a usable accuracy figure on
+this build machine: with no GPU, Chrome software-rasterises each 1920x1080 frame
+in ~150 ms and starves the page's timers — a setInterval(5) fires every 267 ms
+(measured). Nothing can press inside a +-90 ms window at that resolution.
+
+A failing run here is therefore not evidence of a defect. Read the reported
+press delta first: a median in the tens of ms means the accuracy figure is
+meaningful, hundreds means the harness is the bottleneck.
+
+scripts/shots.mjs (screenshots) works fine on the same host, because a still
+frame needs no timing precision.

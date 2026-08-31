@@ -1,6 +1,9 @@
 import { Conductor } from './Conductor';
 import { playVoice } from './voices';
-import type { SongDef } from './types';
+import { renderPluck, type PluckKind } from './pluck';
+import type { SongDef, VoiceName } from './types';
+import { PENTATONIC } from './pattern';
+import type { Difficulty } from '../game/Difficulty';
 import { buildChart, type ChartNote } from '../game/Chart';
 
 /** How far ahead of the playhead notes are handed to Web Audio. */
@@ -11,12 +14,33 @@ const PUMP_MS = 25;
 const START_DELAY_S = 0.15;
 
 /**
- * Master headroom. NOT a guess: scripts/verify measured the raw summed peak of
- * the four voices at 1.58 (หมอลำ) and 1.74 (เซิ้ง). Anything over 1.0 hard-clips,
- * so the whole mix is scaled to sit under unity at full volume.
- * See NOTES.md D14.
+ * Peak sample value of the loudest delivered recording, measured with ffmpeg
+ * astats: molam 0.972, soeng 0.996, main 1.022. They are mastered hard against
+ * full scale, and mp3 decoding overshoots slightly past it.
  */
-export const MASTER_HEADROOM = 0.5;
+export const RECORDING_PEAK = 1.022;
+
+/** Hit-feedback gain per verdict. GOOD is quieter so the sound carries information. */
+export const HIT_GAIN = { PERFECT: 0.35, GOOD: 0.22 } as const;
+
+/**
+ * Worst case the master bus must survive: the loudest sample of the recording
+ * landing on the same sample as four simultaneous PERFECT hits, with both
+ * volume sliders at 100.
+ */
+const WORST_CASE_SUM = RECORDING_PEAK + 4 * HIT_GAIN.PERFECT;
+
+/**
+ * Master headroom. NOT a guess, and re-derived on 2026-08-31.
+ *
+ * The previous value of 0.5 was measured against the SYNTH mix, whose raw
+ * summed peak was 1.58 (หมอลำ) and 1.74 (เซิ้ง). The game no longer plays that
+ * mix: it plays mastered recordings that sit at ~1.0 on their own, plus hit
+ * feedback on top. A figure sized for the old mix would clip the new one.
+ *
+ * See NOTES.md D14 (superseded) and D36.
+ */
+export const MASTER_HEADROOM = Math.min(0.5, 1 / WORST_CASE_SUM);
 
 export interface LoadedSong {
   def: SongDef;
@@ -50,6 +74,13 @@ export class AudioEngine {
   private nextIndex = 0;
   private pumpId: number | null = null;
 
+  /**
+   * Pre-rendered hit sounds, keyed `kind:midi`. Built once on first load; the
+   * chart only uses five pitches per instrument, so the whole bank is ten
+   * short buffers.
+   */
+  private readonly hitBank = new Map<string, AudioBuffer>();
+
   /** Debug/telemetry hook — fires as each note is handed to the hardware. */
   onNoteScheduled: ((note: ChartNote) => void) | null = null;
 
@@ -81,6 +112,48 @@ export class AudioEngine {
     this.conductor = new Conductor(this.ctx);
   }
 
+  /**
+   * Renders the hit-feedback bank. Idempotent, and cheap enough to sit inside
+   * load(): ten 0.9s mono buffers.
+   */
+  private buildHitBank(): void {
+    if (this.hitBank.size > 0) return;
+    const kinds: PluckKind[] = ['phin', 'ponglang'];
+    for (const kind of kinds) {
+      for (const midi of PENTATONIC) {
+        this.hitBank.set(`${kind}:${midi}`, renderPluck(this.ctx, midi, kind));
+      }
+    }
+  }
+
+  /**
+   * Feedback for a successful hit. Routed through sfxBus, so the player's SFX
+   * slider governs it and it is mixed independently of the recording.
+   *
+   * GOOD is quieter than PERFECT: the sound carries information about how well
+   * the note was hit, not just that it was.
+   */
+  playHit(voice: VoiceName, midi: number, verdict: 'PERFECT' | 'GOOD'): void {
+    // The two drum-like lanes borrow the wooden bar, which has a sharper attack
+    // than the string and reads better as a percussive confirmation.
+    const kind: PluckKind = voice === 'phin' ? 'phin' : 'ponglang';
+    const buf = this.hitBank.get(`${kind}:${midi}`);
+    if (!buf) return;
+
+    const src = this.ctx.createBufferSource();
+    src.buffer = buf;
+    // Slight detune per hit so a run of notes in one lane does not sound like
+    // the same sample retriggering.
+    src.playbackRate.value = voice === 'klong' ? 0.62 : voice === 'khaen' ? 1.18 : 1;
+
+    const g = this.ctx.createGain();
+    g.gain.value = HIT_GAIN[verdict];
+
+    src.connect(g);
+    g.connect(this.sfxBus);
+    src.start();
+  }
+
   /** Browsers block audio until a gesture — call from the first Title click (§5.1). */
   async resume(): Promise<void> {
     if (this.ctx.state !== 'running') await this.ctx.resume();
@@ -104,20 +177,58 @@ export class AudioEngine {
    * Spec §3.4 swap-in path. With no audioUrl this only builds the chart; with
    * one it also decodes the file, and play() takes the buffer branch instead.
    */
-  async load(def: SongDef): Promise<LoadedSong> {
+  async load(
+    def: SongDef,
+    difficulty: Difficulty,
+    onProgress?: (fraction: number) => void,
+  ): Promise<LoadedSong> {
+    this.buildHitBank();
     let buffer: AudioBuffer | null = null;
 
     if (def.audioUrl) {
       try {
         const res = await fetch(def.audioUrl);
-        buffer = await this.ctx.decodeAudioData(await res.arrayBuffer());
+        // Read the body as a stream so the loading bar can report real
+        // progress. Without this the bar has nothing to measure: the decode is
+        // one opaque await, and the screen just sits at 0 and then jumps.
+        const total = Number(res.headers.get('content-length')) || 0;
+        const reader = res.body?.getReader();
+
+        let bytes: Uint8Array;
+        if (reader && total > 0) {
+          const chunks: Uint8Array[] = [];
+          let received = 0;
+          for (;;) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            chunks.push(value);
+            received += value.length;
+            // Leave the last 15% for the decode, which is not instant.
+            onProgress?.(Math.min(0.85, (received / total) * 0.85));
+          }
+          bytes = new Uint8Array(received);
+          let at = 0;
+          for (const c of chunks) {
+            bytes.set(c, at);
+            at += c.length;
+          }
+        } else {
+          bytes = new Uint8Array(await res.arrayBuffer());
+        }
+
+        onProgress?.(0.85);
+        buffer = await this.ctx.decodeAudioData(bytes.buffer as ArrayBuffer);
+        onProgress?.(1);
       } catch (err) {
         console.warn(`[audio] "${def.audioUrl}" failed to load, falling back to synth`, err);
         buffer = null;
+        onProgress?.(1);
       }
+    } else {
+      onProgress?.(1);
     }
 
-    const song: LoadedSong = { def, chart: buildChart(def), buffer };
+    const song: LoadedSong = { def, chart: buildChart(def, difficulty), buffer };
     this.loaded = song;
     return song;
   }

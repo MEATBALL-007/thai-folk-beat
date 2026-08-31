@@ -11,7 +11,7 @@ change needed.
 Sizes are the **4K authoring size**; the game downscales at runtime, so export
 at these dimensions from the vector source.
 
-Total assets: **24**
+Total assets: **41**
 
 ## UI
 
@@ -27,6 +27,22 @@ Total assets: **24**
 | `ui/btn_exit.png` | 1920 x 1080 | `ui.btn.exit` | ออกเกม sign (Title, bottom) |
 | `ui/btn_back.png` | 1920 x 1080 | `ui.btn.back` | Wooden BACK sign, bottom-left |
 | `ui/btn_next.png` | 1920 x 1080 | `ui.btn.next` | Wooden NEXT sign, bottom-right |
+| `gameplay/panel.png` | 1920 x 1080 | `gp.panel` | Wooden base the lane receptors sit on |
+| `gameplay/receptors.png` | 1920 x 1080 | `gp.receptors` | All four lane receptors in their idle state |
+| `gameplay/lane0.png` | 1920 x 1080 | `gp.lane0` | Lane 0 กลอง receptor, lit state |
+| `gameplay/lane1.png` | 1920 x 1080 | `gp.lane1` | Lane 1 โปงลาง receptor, lit state |
+| `gameplay/lane2.png` | 1920 x 1080 | `gp.lane2` | Lane 2 พิณ receptor, lit state |
+| `gameplay/lane3.png` | 1920 x 1080 | `gp.lane3` | Lane 3 แคน receptor, lit state |
+| `gameplay/sun.png` | 1920 x 1080 | `gp.sun` | Sun ornament, top-left of the stage |
+| `loading/bar.png` | 1920 x 1080 | `load.bar` | Progress bar frame; the fill is drawn inside this box |
+| `loading/icon0.png` | 1920 x 1080 | `load.icon0` | Loading spinner frame 1 — กลอง |
+| `loading/icon1.png` | 1920 x 1080 | `load.icon1` | Loading spinner frame 2 — โหม่ง |
+| `loading/icon2.png` | 1920 x 1080 | `load.icon2` | Loading spinner frame 3 — พิณ |
+| `loading/icon3.png` | 1920 x 1080 | `load.icon3` | Loading spinner frame 4 — แคน |
+| `result/pass.png` | 1920 x 1080 | `result.pass` | Cleared panel, with "ผ่าน!" baked in |
+| `result/fail.png` | 1920 x 1080 | `result.fail` | Failed panel, with "พลาด!" baked in |
+| `result/home.png` | 1920 x 1080 | `result.home` | Return-to-menu button |
+| `result/retry.png` | 1920 x 1080 | `result.retry` | Play-again button |
 
 ## Backgrounds
 
@@ -35,7 +51,8 @@ Total assets: **24**
 | `bg/menu.png` | 1920 x 1080 | `bg.menu` | Title backdrop — orange field, teal frame, corner ornaments, instrument silhouettes and the THAI FOLK BEAT logo, all baked in |
 | `bg/region.png` | 1920 x 1080 | `bg.region` | Region-select backdrop — same frame plus the wooden panel and the เลือกภูมิภาค heading, baked in |
 | `bg/menu_frame.png` | 1920 x 1080 | `bg.menuFrame` | Frame + instrument silhouettes with the panel and heading removed — shared backdrop for Settings / SongSelect / Result (derived from bg/region.png) |
-| `bg/gameplay.png` | 3840 x 2160 | `bg.gameplay` | Backdrop behind the note highway (not yet delivered) |
+| `gameplay/stage.png` | 1920 x 1080 | `bg.gameplay` | The stage: proscenium, curtains, wooden floor, red apron |
+| `loading/bg.png` | 1920 x 1080 | `load.bg` | Loading backdrop: orange field, teal rule and corner flourishes |
 
 ## Characters
 

@@ -34,8 +34,6 @@ export class TitleScene extends Scene {
     // Flat field behind the layer, so the letterbox never shows through.
     const field = new Graphics().rect(0, 0, DESIGN_W, DESIGN_H).fill(ART.field);
     this.container.addChild(field, layerSprite('bg.menu'));
-
-    this.buildSubtitle();
     this.buildBest();
     this.buildCharacter();
     this.buildSigns();
@@ -55,30 +53,19 @@ export class TitleScene extends Scene {
     void audio.resume();
   };
 
-  /** The logo art carries no Thai subtitle; spec §5.1 asks for one. */
-  private buildSubtitle(): void {
-    const subtitle = new Text({
-      text: 'ดนตรีพื้นบ้านอีสาน',
-      style: { fontFamily: FONT.body, fontSize: 50, fill: ART.tealDark },
-    });
-    subtitle.anchor.set(0.5, 0);
-    subtitle.position.set(650, 726);
-    this.container.addChild(subtitle);
-  }
-
   private buildBest(): void {
     const best = getOverallBest(SONG_IDS);
 
     const label = new Text({
       text: 'BEST SCORE',
-      style: { fontFamily: FONT.display, fontSize: 30, fontWeight: '700', fill: ART.wood },
+      style: { fontFamily: FONT.display, fontSize: 30, fill: ART.wood },
     });
     label.anchor.set(1, 0.5);
     label.position.set(635, 812);
 
     const value = new Text({
       text: best.toLocaleString('en-US'),
-      style: { fontFamily: FONT.display, fontSize: 46, fontWeight: '700', fill: ART.wood },
+      style: { fontFamily: FONT.display, fontSize: 46, fill: ART.wood },
     });
     value.anchor.set(0, 0.5);
     value.position.set(663, 812);
@@ -132,13 +119,13 @@ export class TitleScene extends Scene {
 
     const msg = new Text({
       text: 'ปิดหน้าต่างได้เลย',
-      style: { fontFamily: FONT.display, fontSize: 96, fontWeight: '700', fill: ART.pale },
+      style: { fontFamily: FONT.display, fontSize: 96, fill: ART.pale },
     });
     msg.anchor.set(0.5);
     msg.position.set(DESIGN_W / 2, DESIGN_H / 2 - 30);
 
     const hint = new Text({
-      text: 'ขอบคุณที่เล่น  ·  กดที่ใดก็ได้เพื่อกลับ',
+      text: 'ขอบคุณที่เล่น  •  กดที่ใดก็ได้เพื่อกลับ',
       style: { fontFamily: FONT.body, fontSize: 36, fill: ART.field },
     });
     hint.anchor.set(0.5);

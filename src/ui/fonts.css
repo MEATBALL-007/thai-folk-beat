@@ -1,0 +1,23 @@
+/*
+ * The delivered face: MN Steak Mu Phrikthai Dam (สเต๊กหมูพริกไทยดำ ชุดพิเศษ).
+ *
+ * Regular and Italic only — there is no bold cut. No `font-weight: 700` rule is
+ * declared here on purpose: declaring one would let the browser synthesise bold
+ * by smearing glyphs horizontally, which on a Thai face pushes tone marks into
+ * the consonant beneath them. The face is already a heavy display weight.
+ */
+@font-face {
+  font-family: 'Phrikthai Dam';
+  src: url('/assets/fonts/PhrikthaiDam-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Phrikthai Dam';
+  src: url('/assets/fonts/PhrikthaiDam-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: block;
+}
