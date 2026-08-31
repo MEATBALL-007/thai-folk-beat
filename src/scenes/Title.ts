@@ -34,8 +34,6 @@ export class TitleScene extends Scene {
     // Flat field behind the layer, so the letterbox never shows through.
     const field = new Graphics().rect(0, 0, DESIGN_W, DESIGN_H).fill(ART.field);
     this.container.addChild(field, layerSprite('bg.menu'));
-
-    this.buildSubtitle();
     this.buildBest();
     this.buildCharacter();
     this.buildSigns();
@@ -54,17 +52,6 @@ export class TitleScene extends Scene {
   private onKey = (): void => {
     void audio.resume();
   };
-
-  /** The logo art carries no Thai subtitle; spec §5.1 asks for one. */
-  private buildSubtitle(): void {
-    const subtitle = new Text({
-      text: 'ดนตรีพื้นบ้านอีสาน',
-      style: { fontFamily: FONT.body, fontSize: 50, fill: ART.tealDark },
-    });
-    subtitle.anchor.set(0.5, 0);
-    subtitle.position.set(650, 726);
-    this.container.addChild(subtitle);
-  }
 
   private buildBest(): void {
     const best = getOverallBest(SONG_IDS);
