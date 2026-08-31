@@ -37,6 +37,23 @@ const BANDS = [
 /** Must stay in step with DIFFICULTY_DENSITY in src/game/Difficulty.ts. */
 const DENSITY = { easy: 0.08, normal: 0.2, hard: 0.32 };
 
+/**
+ * Two notes in the SAME lane closer than twice the GOOD window (2 x 90ms) are
+ * ambiguous: one press falls inside both, and the judge cannot tell which note
+ * the player meant. One 16th is only 140ms at these tempos, so consecutive
+ * 16ths in one lane must be thinned -- effectively a minimum of an eighth per
+ * lane, which is also how the music is actually played.
+ */
+const MIN_SAME_LANE_S = 0.19;
+
+/**
+ * Bars of music before the first note, so the player hears the pulse and can
+ * find the beat before anything needs hitting (spec §3.3). The recordings start
+ * immediately, which makes this MORE important than it was for the synth build,
+ * not less -- and better, since there is now real music playing underneath it.
+ */
+const LEAD_IN_BARS = 2;
+
 /** Pentatonic, matching PENTATONIC in src/audio/pattern.ts. */
 const PENTATONIC = [60, 62, 64, 67, 69];
 
@@ -98,9 +115,12 @@ function derive(file, bpm, offsetS, durationS) {
      */
     const claimed = new Map();
     const keep = Math.floor(slots * take);
+    const firstSlot = LEAD_IN_BARS * 16;
 
     for (const band of perBand) {
-      const order = [...band.strength.keys()].sort((a, b) => band.strength[b] - band.strength[a]);
+      const order = [...band.strength.keys()]
+        .filter((n) => n >= firstSlot)
+        .sort((a, b) => band.strength[b] - band.strength[a]);
       for (const n of order.slice(0, keep)) {
         if (band.strength[n] <= 0) continue;
         const prev = claimed.get(n);
@@ -112,6 +132,31 @@ function derive(file, bpm, offsetS, durationS) {
           prev[0] = { band, v: band.strength[n] };
         }
       }
+    }
+
+    // Thin each lane so no two of its notes fall inside one judgement window.
+    // Walking in time order and keeping whichever of a colliding pair is louder
+    // preserves the accent the music actually plays.
+    const minSlots = MIN_SAME_LANE_S / step;
+    const lastKept = new Map(); // lane -> { slot, v }
+    for (const n of [...claimed.keys()].sort((a, b) => a - b)) {
+      const picks = claimed.get(n);
+      const survivors = [];
+      for (const pick of picks) {
+        const prev = lastKept.get(pick.band.lane);
+        if (prev && n - prev.slot < minSlots) {
+          if (pick.v <= prev.v) continue; // quieter of the pair: drop it
+          // Louder: retract the earlier note and take this slot instead.
+          const old = claimed.get(prev.slot);
+          const at = old.indexOf(prev.pick);
+          if (at >= 0) old.splice(at, 1);
+          if (old.length === 0) claimed.delete(prev.slot);
+        }
+        survivors.push(pick);
+        lastKept.set(pick.band.lane, { slot: n, v: pick.v, pick });
+      }
+      if (survivors.length === 0) claimed.delete(n);
+      else claimed.set(n, survivors);
     }
 
     const events = [];
