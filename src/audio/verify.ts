@@ -46,7 +46,7 @@ function renderLane(
   sampleRate: number,
   applyMasterChain = false,
 ): Promise<AudioBuffer> {
-  const chart = buildChart(def);
+  const chart = buildChart(def, 'normal');
   const dur = songDuration(def);
   const ctx = new OfflineAudioContext(1, Math.ceil(sampleRate * dur), sampleRate);
 
@@ -153,7 +153,7 @@ function longestSilentSpan(buf: AudioBuffer, thresh = 0.001): number {
 }
 
 export async function verifySongAudio(def: SongDef, sampleRate = 44100): Promise<OnsetReport> {
-  const chart = buildChart(def);
+  const chart = buildChart(def, 'normal');
   const drumTimes = chart.filter((n) => n.lane === 0).map((n) => n.time);
 
   const drumBuf = await renderLane(def, 0, sampleRate);

@@ -192,7 +192,7 @@ export class AudioDebugScene extends Scene {
       this.engine.master.connect(this.analyser);
     }
 
-    this.loaded = await this.engine.load(def);
+    this.loaded = await this.engine.load(def, 'normal');
     this.engine.play(this.loaded);
 
     this.rafClockMs = 0;

@@ -51,7 +51,7 @@ export function goLoading(scenes: SceneManager, song: SongDef): void {
     new LoadingScene({
       task: async (report) => {
         report(0.15);
-        await audio.load(song);
+        await audio.load(song, 'normal');
         report(1);
       },
       onDone: () => goGameplay(scenes, song),

@@ -1,6 +1,7 @@
 import { Conductor } from './Conductor';
 import { playVoice } from './voices';
 import type { SongDef } from './types';
+import type { Difficulty } from '../game/Difficulty';
 import { buildChart, type ChartNote } from '../game/Chart';
 
 /** How far ahead of the playhead notes are handed to Web Audio. */
@@ -104,7 +105,7 @@ export class AudioEngine {
    * Spec §3.4 swap-in path. With no audioUrl this only builds the chart; with
    * one it also decodes the file, and play() takes the buffer branch instead.
    */
-  async load(def: SongDef): Promise<LoadedSong> {
+  async load(def: SongDef, difficulty: Difficulty): Promise<LoadedSong> {
     let buffer: AudioBuffer | null = null;
 
     if (def.audioUrl) {
@@ -117,7 +118,7 @@ export class AudioEngine {
       }
     }
 
-    const song: LoadedSong = { def, chart: buildChart(def), buffer };
+    const song: LoadedSong = { def, chart: buildChart(def, difficulty), buffer };
     this.loaded = song;
     return song;
   }

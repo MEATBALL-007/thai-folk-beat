@@ -8,8 +8,8 @@
  */
 import { Judge, GOOD_MS, PERFECT_MS } from '../src/game/Judge';
 import { ScoreSystem, FAIL_CONSECUTIVE_MISSES } from '../src/game/ScoreSystem';
-import type { ChartNote } from '../src/game/Chart';
-import type { Lane } from '../src/audio/types';
+import { buildChart, songDuration, type ChartNote } from '../src/game/Chart';
+import type { Lane, SongDef } from '../src/audio/types';
 
 let passed = 0;
 let failed = 0;
@@ -149,6 +149,35 @@ console.log('\n[accuracy]');
   s.apply('MISS');
   s.apply('MISS');
   check('+2 miss = 37.5%', +(s.accuracy * 100).toFixed(1), 37.5);
+}
+
+
+console.log('');
+console.log('[chart derivation] design doc §4');
+{
+  const fake: SongDef = {
+    id: 'molam',
+    titleTh: 'x',
+    blurbTh: 'x',
+    bpm: 120,
+    bars: 2,
+    gridOffsetS: 0.25,
+    charts: {
+      easy: [{ bar: 0, beat: 0, lane: 0, voice: 'klong', midi: 60 }],
+      normal: [
+        { bar: 0, beat: 0, lane: 0, voice: 'klong', midi: 60 },
+        { bar: 1, beat: 2, lane: 1, voice: 'phin', midi: 62 },
+      ],
+      hard: [],
+    },
+  };
+
+  // The offset is what keeps a chart aligned to a recording that does not
+  // begin exactly on beat 1.
+  check('grid offset shifts the first note', buildChart(fake, 'easy')[0]?.time, 0.25);
+  check('bar 1 beat 2 at 120bpm = offset + 3s', buildChart(fake, 'normal')[1]?.time, 3.25);
+  check('difficulty selects its own chart', buildChart(fake, 'normal').length, 2);
+  check('songDuration includes the offset', songDuration(fake), 5.75);
 }
 
 console.log(`\n${passed} passed, ${failed} failed\n`);

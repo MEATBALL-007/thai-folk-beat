@@ -11,7 +11,7 @@ import type { SongDef } from '../src/audio/types';
 const GOOD_WINDOW_MS = 90;
 
 function report(song: SongDef): void {
-  const chart = buildChart(song);
+  const chart = buildChart(song, 'normal');
   const dur = songDuration(song);
   const bar = secondsPerBar(song.bpm);
 

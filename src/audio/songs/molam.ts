@@ -79,5 +79,6 @@ export const MOLAM: SongDef = {
   blurbTh: 'ลำกลอนอีสาน จังหวะปานกลาง',
   bpm: 110,
   bars: 28,
-  events,
+  gridOffsetS: 0,
+  charts: { easy: events, normal: events, hard: events },
 };

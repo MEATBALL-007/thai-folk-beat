@@ -100,5 +100,6 @@ export const SOENG: SongDef = {
   blurbTh: 'จังหวะเซิ้งเร็ว กลองหนัก',
   bpm: 140,
   bars: 35,
-  events,
+  gridOffsetS: 0,
+  charts: { easy: events, normal: events, hard: events },
 };

@@ -122,7 +122,7 @@ export class SongSelectScene extends Scene {
     card.addChild(title, blurb, rule);
 
     // Spec §5.4: Thai name, BPM and note count.
-    const noteCount = buildChart(song).length;
+    const noteCount = buildChart(song, 'normal').length;
     const stats: [string, string][] = [
       ['BPM', String(song.bpm)],
       ['โน้ต', String(noteCount)],

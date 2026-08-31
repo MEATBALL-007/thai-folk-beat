@@ -107,7 +107,7 @@ export class GameplayScene extends Scene {
   override async onEnter(): Promise<void> {
     this.duration = songDuration(this.def);
 
-    this.loaded = await audio.load(this.def);
+    this.loaded = await audio.load(this.def, 'normal');
     this.highway = new NoteHighway(this.loaded.chart);
     this.judge = new Judge(this.loaded.chart);
 
