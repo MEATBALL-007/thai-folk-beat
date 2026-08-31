@@ -49,6 +49,12 @@ async function main(): Promise<void> {
           const want = import.meta.env.DEV
             ? new URLSearchParams(location.search).get('scene')
             : null;
+          // Marks the end of boot for the screenshot harness. Boot takes ~16s
+          // under software rendering, and a fixed delay just photographs the
+          // loading screen instead of the scene under test.
+          if (import.meta.env.DEV) {
+            (window as unknown as { __tfbBooted?: boolean }).__tfbBooted = true;
+          }
           if (want && goDevScene(app.scenes, want)) return;
           goTitle(app.scenes);
         },

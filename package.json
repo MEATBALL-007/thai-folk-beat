@@ -17,7 +17,8 @@
     "demo": "node scripts/serve-demo.mjs",
     "deploy": "npm run build && node scripts/deploy-pages.mjs",
     "derive": "node scripts/derive-chart.mjs",
-    "playthrough": "node scripts/playthrough.mjs"
+    "playthrough": "node scripts/playthrough.mjs",
+    "shots": "node scripts/shots.mjs"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.11.1",

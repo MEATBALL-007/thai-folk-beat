@@ -1,4 +1,4 @@
-import { Container, Graphics, Text } from 'pixi.js';
+import { Container, Graphics, Sprite, Text } from 'pixi.js';
 import { Scene } from '../core/Scene';
 import { DESIGN_H, DESIGN_W } from '../core/Layout';
 import { ART, C, FONT } from '../ui/theme';
@@ -6,6 +6,7 @@ import { Input } from '../core/Input';
 import { Particles } from '../ui/Particles';
 import { BULLET, arrowKeyRow } from '../ui/glyphs';
 import { layerSprite } from '../ui/artLayer';
+import { Performers } from './gameplay/Performers';
 import { settings } from '../core/Settings';
 import { audio } from '../audio/engine';
 import type { LoadedSong } from '../audio/AudioEngine';
@@ -27,6 +28,14 @@ const VERDICT_COLOR: Record<Verdict, number> = {
   GOOD: C.gold,
   MISS: C.red,
 };
+
+/**
+ * Centre of the คะแนน plaque painted into the stage art, measured off
+ * stage.png. The score number sits under its label rather than on a plaque of
+ * its own.
+ */
+const SCORE_PLAQUE_X = 1672;
+const SCORE_PLAQUE_Y = 112;
 
 const VERDICT_TEXT: Record<Verdict, string> = {
   PERFECT: 'PERFECT',
@@ -94,6 +103,10 @@ export class GameplayScene extends Scene {
   private dbgPressIn = 0;
   private dbgPressJudged = 0;
 
+  private laneLit: Sprite[] = [];
+  private readonly laneLitLife = [0, 0, 0, 0];
+  private performers!: Performers;
+
   private comboPunch = 0;
   private verdictLife = 0;
   private shake = 0;
@@ -111,11 +124,27 @@ export class GameplayScene extends Scene {
     this.highway = new NoteHighway(this.loaded.chart);
     this.judge = new Judge(this.loaded.chart);
 
-    const bg = new Graphics().rect(0, 0, DESIGN_W, DESIGN_H).fill(ART.field);
-    // Same frame + instrument silhouettes as every menu screen, so gameplay no
-    // longer reads as a different game.
-    this.container.addChild(bg, layerSprite('bg.menuFrame'));
+    // The delivered stage, in layer order: backdrop, the wooden base the
+    // receptors stand on, then the receptors in their idle state. The note
+    // highway draws on top of all of it.
+    this.container.addChild(
+      layerSprite('bg.gameplay'),
+      layerSprite('gp.panel'),
+      layerSprite('gp.sun'),
+    );
+    this.performers = new Performers();
+    this.container.addChild(this.performers);
+    this.container.addChild(layerSprite('gp.receptors'));
     this.container.addChild(this.highway.container, this.particles.container);
+
+    // One lit sprite per lane, revealed for a moment on a hit. The designer
+    // supplied them separately for exactly this.
+    this.laneLit = ([0, 1, 2, 3] as Lane[]).map((lane) => {
+      const s = layerSprite(`gp.lane${lane}`);
+      s.alpha = 0;
+      this.container.addChild(s);
+      return s;
+    });
 
     this.buildHud();
     this.bindPointer();
@@ -182,7 +211,6 @@ export class GameplayScene extends Scene {
    */
   private buildHud(): void {
     const LEFT = 322;
-    const RIGHT = DESIGN_W - 322;
 
     // ---- song name -------------------------------------------------------
     const titlePlate = this.plaque(LEFT, 168, 350, 104);
@@ -217,32 +245,27 @@ export class GameplayScene extends Scene {
     this.multText.anchor.set(0.5);
     this.multText.position.set(LEFT, 496);
 
-    // ---- score + accuracy ------------------------------------------------
-    const scorePlate = this.plaque(RIGHT, 300, 350, 210);
-
-    const scoreLabel = new Text({
-      text: 'SCORE',
-      style: { fontFamily: FONT.display, fontSize: 28, fill: ART.wood },
-    });
-    scoreLabel.anchor.set(0.5, 0);
-    scoreLabel.position.set(RIGHT, 218);
-
+    // ---- score ------------------------------------------------------------
+    // The stage art already paints a คะแนน plaque in the top-right corner, so
+    // the score goes INSIDE it. Drawing a second plaque over the top was the
+    // clearest sign the HUD had been designed against different artwork.
     this.scoreText = new Text({
       text: '0',
-      style: { fontFamily: FONT.display, fontSize: 68, fill: ART.wood },
+      style: { fontFamily: FONT.display, fontSize: 52, fill: ART.wood },
     });
     this.scoreText.anchor.set(0.5);
-    this.scoreText.position.set(RIGHT, 292);
+    this.scoreText.position.set(SCORE_PLAQUE_X, SCORE_PLAQUE_Y);
 
+    // ---- accuracy, under the combo plaque ---------------------------------
     this.accBar = new Graphics();
-    this.accBar.position.set(RIGHT - 130, 356);
+    this.accBar.position.set(LEFT - 130, 580);
 
     this.accLabel = new Text({
       text: '100%',
-      style: { fontFamily: FONT.body, fontSize: 26, fill: ART.wood },
+      style: { fontFamily: FONT.body, fontSize: 26, fill: ART.pale },
     });
     this.accLabel.anchor.set(0.5, 0);
-    this.accLabel.position.set(RIGHT, 382);
+    this.accLabel.position.set(LEFT, 606);
 
     // ---- verdict + progress ---------------------------------------------
     this.verdictText = new Text({
@@ -263,8 +286,6 @@ export class GameplayScene extends Scene {
       comboLabel,
       this.comboText,
       this.multText,
-      scorePlate,
-      scoreLabel,
       this.scoreText,
       this.accBar,
       this.accLabel,
@@ -368,6 +389,7 @@ export class GameplayScene extends Scene {
       // Audible confirmation. Fired here rather than on key-down so a press
       // that matched no note stays silent — the sound means "you hit it".
       audio.playHit(event.note.voice, event.note.midi, event.verdict);
+      this.laneLitLife[event.note.lane] = 1;
       this.highway.flashReceptor(event.note.lane, 1);
       this.comboPunch = 1;
 
@@ -423,6 +445,11 @@ export class GameplayScene extends Scene {
 
     this.highway.update(songTime, settings.scrollSec, dtMS);
     this.particles.update(dtMS);
+    // Driven by song time so the troupe keeps time with the music rather than
+    // with the frame rate. Kept moving before the song starts, using the wall
+    // clock, so the stage is not frozen while the start overlay is up.
+    this.performers.update(this.running ? songTime : performance.now() / 1000);
+    this.updateLaneLights(dtMS);
     this.updateHud(songTime, dtMS);
     this.updateEffects(dtMS);
 
@@ -439,6 +466,18 @@ export class GameplayScene extends Scene {
       judged: this.score.judgedCount,
       total: this.loaded?.chart.length ?? 0,
     };
+  }
+
+  /** The painted lit receptor, faded out over ~140ms after a hit. */
+  private updateLaneLights(dtMS: number): void {
+    for (let i = 0; i < this.laneLit.length; i++) {
+      const life = this.laneLitLife[i] ?? 0;
+      if (life <= 0) continue;
+      const next = Math.max(0, life - dtMS / 140);
+      this.laneLitLife[i] = next;
+      const s = this.laneLit[i];
+      if (s) s.alpha = next;
+    }
   }
 
   private updateHud(songTime: number, _dtMS: number): void {

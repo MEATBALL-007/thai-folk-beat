@@ -307,6 +307,23 @@ export const MANIFEST: readonly AssetSpec[] = [
     hit: box(132, 85, 104, 106),
   },
 
+  {
+    key: 'gp.dancer',
+    path: 'assets/gameplay/dancer_strip.png',
+    kind: 'character',
+    w: 2140,
+    h: 331,
+    purpose: '10-frame dancer loop as a horizontal strip, sliced at runtime',
+  },
+  {
+    key: 'gp.couple',
+    path: 'assets/gameplay/couple_strip.png',
+    kind: 'character',
+    w: 3168,
+    h: 383,
+    purpose: '8-frame dancing-couple loop; delivered but not yet placed',
+  },
+
   // ---- loading ------------------------------------------------------------
   {
     key: 'load.bg',
