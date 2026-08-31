@@ -79,7 +79,7 @@ export class LoadingScene extends Scene {
     // ---- heading ---------------------------------------------------------
     const heading = new Text({
       text: 'กำลังโหลด',
-      style: { fontFamily: FONT.display, fontSize: 66, fontWeight: '700', fill: ART.tealDark },
+      style: { fontFamily: FONT.display, fontSize: 66, fill: ART.tealDark },
     });
     heading.anchor.set(0.5);
     heading.position.set(DESIGN_W / 2 - 26, py + 76);
@@ -88,7 +88,7 @@ export class LoadingScene extends Scene {
     // centring a growing string would shift the whole word.
     this.ellipsis = new Text({
       text: '',
-      style: { fontFamily: FONT.display, fontSize: 66, fontWeight: '700', fill: ART.tealDark },
+      style: { fontFamily: FONT.display, fontSize: 66, fill: ART.tealDark },
     });
     this.ellipsis.anchor.set(0, 0.5);
     this.ellipsis.position.set(DESIGN_W / 2 + 136, py + 76);
@@ -103,7 +103,7 @@ export class LoadingScene extends Scene {
 
     this.percentText = new Text({
       text: '0%',
-      style: { fontFamily: FONT.display, fontSize: 32, fontWeight: '700', fill: ART.wood },
+      style: { fontFamily: FONT.display, fontSize: 32, fill: ART.wood },
     });
     this.percentText.anchor.set(0.5, 0);
     this.percentText.position.set(DESIGN_W / 2, py + 310);

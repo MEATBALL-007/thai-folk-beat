@@ -59,7 +59,7 @@ export class ResultScene extends Scene {
 
     const bannerText = new Text({
       text: cleared ? 'CLEARED' : 'FAILED',
-      style: { fontFamily: FONT.display, fontSize: 104, fontWeight: '700', fill: bannerColor },
+      style: { fontFamily: FONT.display, fontSize: 104, fill: bannerColor },
     });
     bannerText.anchor.set(0.5);
     bannerText.position.set(DESIGN_W / 2, 166);
@@ -88,14 +88,14 @@ export class ResultScene extends Scene {
 
     const scoreLabel = new Text({
       text: 'SCORE',
-      style: { fontFamily: FONT.display, fontSize: 34, fontWeight: '700', fill: ART.wood },
+      style: { fontFamily: FONT.display, fontSize: 34, fill: ART.wood },
     });
     scoreLabel.anchor.set(0.5, 0);
     scoreLabel.position.set(DESIGN_W / 2, panelY + 34);
 
     this.scoreText = new Text({
       text: '0',
-      style: { fontFamily: FONT.display, fontSize: 120, fontWeight: '700', fill: ART.tealDark },
+      style: { fontFamily: FONT.display, fontSize: 120, fill: ART.tealDark },
     });
     this.scoreText.anchor.set(0.5, 0);
     this.scoreText.position.set(DESIGN_W / 2, panelY + 74);
@@ -131,7 +131,7 @@ export class ResultScene extends Scene {
     if (this.isNewRecord) {
       this.recordText = new Text({
         text: 'NEW RECORD!',
-        style: { fontFamily: FONT.display, fontSize: 56, fontWeight: '700', fill: C.gold },
+        style: { fontFamily: FONT.display, fontSize: 56, fill: C.gold },
       });
       this.recordText.anchor.set(0.5);
       this.recordText.position.set(DESIGN_W / 2, panelY + panelH + 52);
@@ -176,7 +176,7 @@ export class ResultScene extends Scene {
 
     const v = new Text({
       text: String(value),
-      style: { fontFamily: FONT.display, fontSize: 60, fontWeight: '700', fill: color },
+      style: { fontFamily: FONT.display, fontSize: 60, fill: color },
     });
     v.anchor.set(0.5, 0);
     v.position.set(cx, y + 30);

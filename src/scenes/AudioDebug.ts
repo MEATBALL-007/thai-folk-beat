@@ -73,7 +73,7 @@ export class AudioDebugScene extends Scene {
 
     const title = new Text({
       text: 'PHASE 2 — AUDIO DEBUG',
-      style: { fontFamily: FONT.display, fontSize: 60, fontWeight: '700', fill: C.ink },
+      style: { fontFamily: FONT.display, fontSize: 60, fill: C.ink },
     });
     title.anchor.set(0.5, 0);
     title.position.set(DESIGN_W / 2, 50);
@@ -165,7 +165,7 @@ export class AudioDebugScene extends Scene {
 
     const label = new Text({
       text: '▶  START',
-      style: { fontFamily: FONT.display, fontSize: 56, fontWeight: '700', fill: C.ink },
+      style: { fontFamily: FONT.display, fontSize: 56, fill: C.ink },
     });
     label.anchor.set(0.5);
     label.position.set(w / 2, h / 2);

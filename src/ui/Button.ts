@@ -80,7 +80,7 @@ export class Button extends Container {
       style: {
         fontFamily: FONT.display,
         fontSize: opts.fontSize ?? 46,
-        fontWeight: '700',
+       
         fill: LABEL[this.variant],
       },
     });

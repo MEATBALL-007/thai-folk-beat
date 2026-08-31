@@ -187,7 +187,7 @@ export class GameplayScene extends Scene {
     const titlePlate = this.plaque(LEFT, 168, 350, 104);
     this.titleText = new Text({
       text: this.def.titleTh,
-      style: { fontFamily: FONT.display, fontSize: 52, fontWeight: '700', fill: ART.tealDark },
+      style: { fontFamily: FONT.display, fontSize: 52, fill: ART.tealDark },
     });
     this.titleText.anchor.set(0.5);
     this.titleText.position.set(LEFT, 168);
@@ -197,21 +197,21 @@ export class GameplayScene extends Scene {
 
     const comboLabel = new Text({
       text: 'COMBO',
-      style: { fontFamily: FONT.display, fontSize: 28, fontWeight: '700', fill: ART.wood },
+      style: { fontFamily: FONT.display, fontSize: 28, fill: ART.wood },
     });
     comboLabel.anchor.set(0.5, 0);
     comboLabel.position.set(LEFT, 326);
 
     this.comboText = new Text({
       text: '0',
-      style: { fontFamily: FONT.display, fontSize: 96, fontWeight: '700', fill: ART.wood },
+      style: { fontFamily: FONT.display, fontSize: 96, fill: ART.wood },
     });
     this.comboText.anchor.set(0.5);
     this.comboText.position.set(LEFT, 412);
 
     this.multText = new Text({
       text: 'x1',
-      style: { fontFamily: FONT.display, fontSize: 46, fontWeight: '700', fill: ART.tealDark },
+      style: { fontFamily: FONT.display, fontSize: 46, fill: ART.tealDark },
     });
     this.multText.anchor.set(0.5);
     this.multText.position.set(LEFT, 496);
@@ -221,14 +221,14 @@ export class GameplayScene extends Scene {
 
     const scoreLabel = new Text({
       text: 'SCORE',
-      style: { fontFamily: FONT.display, fontSize: 28, fontWeight: '700', fill: ART.wood },
+      style: { fontFamily: FONT.display, fontSize: 28, fill: ART.wood },
     });
     scoreLabel.anchor.set(0.5, 0);
     scoreLabel.position.set(RIGHT, 218);
 
     this.scoreText = new Text({
       text: '0',
-      style: { fontFamily: FONT.display, fontSize: 68, fontWeight: '700', fill: ART.wood },
+      style: { fontFamily: FONT.display, fontSize: 68, fill: ART.wood },
     });
     this.scoreText.anchor.set(0.5);
     this.scoreText.position.set(RIGHT, 292);
@@ -246,7 +246,7 @@ export class GameplayScene extends Scene {
     // ---- verdict + progress ---------------------------------------------
     this.verdictText = new Text({
       text: '',
-      style: { fontFamily: FONT.display, fontSize: 76, fontWeight: '700', fill: C.green },
+      style: { fontFamily: FONT.display, fontSize: 76, fill: C.green },
     });
     this.verdictText.anchor.set(0.5);
     this.verdictText.position.set(DESIGN_W / 2, RECEPTOR_Y - 330);
@@ -281,7 +281,7 @@ export class GameplayScene extends Scene {
 
     const prompt = new Text({
       text: 'คลิกเพื่อเริ่ม',
-      style: { fontFamily: FONT.display, fontSize: 92, fontWeight: '700', fill: ART.pale },
+      style: { fontFamily: FONT.display, fontSize: 92, fill: ART.pale },
     });
     prompt.anchor.set(0.5);
     prompt.position.set(DESIGN_W / 2, DESIGN_H / 2 - 40);

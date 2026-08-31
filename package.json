@@ -18,8 +18,6 @@
     "deploy": "npm run build && node scripts/deploy-pages.mjs"
   },
   "dependencies": {
-    "@fontsource/kanit": "^5.1.0",
-    "@fontsource/sarabun": "^5.1.0",
     "@tauri-apps/api": "^2.11.1",
     "pixi.js": "^8.6.6"
   },

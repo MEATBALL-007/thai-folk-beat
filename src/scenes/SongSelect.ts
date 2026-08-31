@@ -29,7 +29,7 @@ export class SongSelectScene extends Scene {
 
     const heading = new Text({
       text: 'เลือกเพลง',
-      style: { fontFamily: FONT.display, fontSize: 76, fontWeight: '700', fill: ART.tealDark },
+      style: { fontFamily: FONT.display, fontSize: 76, fill: ART.tealDark },
     });
     heading.anchor.set(0.5, 0);
     heading.position.set(DESIGN_W / 2, 84);
@@ -102,7 +102,7 @@ export class SongSelectScene extends Scene {
 
     const title = new Text({
       text: song.titleTh,
-      style: { fontFamily: FONT.display, fontSize: 92, fontWeight: '700', fill: ART.tealDark },
+      style: { fontFamily: FONT.display, fontSize: 92, fill: ART.tealDark },
     });
     title.anchor.set(0.5, 0);
     title.position.set(CARD_W / 2, 54);
@@ -140,7 +140,7 @@ export class SongSelectScene extends Scene {
 
       const v = new Text({
         text: value,
-        style: { fontFamily: FONT.display, fontSize: 54, fontWeight: '700', fill: ART.tealDark },
+        style: { fontFamily: FONT.display, fontSize: 54, fill: ART.tealDark },
       });
       v.anchor.set(0.5, 0);
       v.position.set(cx, 322);
@@ -171,7 +171,7 @@ export class SongSelectScene extends Scene {
 
     const t = new Text({
       text: glyph,
-      style: { fontFamily: FONT.display, fontSize: 46, fontWeight: '700', fill: ART.wood },
+      style: { fontFamily: FONT.display, fontSize: 46, fill: ART.wood },
     });
     t.anchor.set(0.5);
 

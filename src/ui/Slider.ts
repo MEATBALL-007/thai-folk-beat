@@ -47,7 +47,7 @@ export class Slider extends Container {
 
     this.valueText = new Text({
       text: this.formatted(),
-      style: { fontFamily: FONT.display, fontSize: 34, fontWeight: '700', fill: ART.tealDark },
+      style: { fontFamily: FONT.display, fontSize: 34, fill: ART.tealDark },
     });
     this.valueText.anchor.set(1, 0.5);
     this.valueText.position.set(this.opts.width, -46);

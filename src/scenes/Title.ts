@@ -71,14 +71,14 @@ export class TitleScene extends Scene {
 
     const label = new Text({
       text: 'BEST SCORE',
-      style: { fontFamily: FONT.display, fontSize: 30, fontWeight: '700', fill: ART.wood },
+      style: { fontFamily: FONT.display, fontSize: 30, fill: ART.wood },
     });
     label.anchor.set(1, 0.5);
     label.position.set(635, 812);
 
     const value = new Text({
       text: best.toLocaleString('en-US'),
-      style: { fontFamily: FONT.display, fontSize: 46, fontWeight: '700', fill: ART.wood },
+      style: { fontFamily: FONT.display, fontSize: 46, fill: ART.wood },
     });
     value.anchor.set(0, 0.5);
     value.position.set(663, 812);
@@ -132,7 +132,7 @@ export class TitleScene extends Scene {
 
     const msg = new Text({
       text: 'ปิดหน้าต่างได้เลย',
-      style: { fontFamily: FONT.display, fontSize: 96, fontWeight: '700', fill: ART.pale },
+      style: { fontFamily: FONT.display, fontSize: 96, fill: ART.pale },
     });
     msg.anchor.set(0.5);
     msg.position.set(DESIGN_W / 2, DESIGN_H / 2 - 30);

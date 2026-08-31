@@ -40,7 +40,7 @@ export class SettingsScene extends Scene {
 
     const heading = new Text({
       text: 'ตั้งค่า',
-      style: { fontFamily: FONT.display, fontSize: 76, fontWeight: '700', fill: ART.tealDark },
+      style: { fontFamily: FONT.display, fontSize: 76, fill: ART.tealDark },
     });
     heading.anchor.set(0.5, 0);
     heading.position.set(DESIGN_W / 2, 86);
@@ -160,7 +160,7 @@ export class SettingsScene extends Scene {
 
     this.resLabel = new Text({
       text: this.resolutionCaption(),
-      style: { fontFamily: FONT.display, fontSize: 40, fontWeight: '700', fill: ART.tealDark },
+      style: { fontFamily: FONT.display, fontSize: 40, fill: ART.tealDark },
     });
     this.resLabel.anchor.set(0.5, 0.5);
     this.resLabel.position.set(width / 2, 0);
@@ -186,7 +186,7 @@ export class SettingsScene extends Scene {
 
     const t = new Text({
       text: glyph,
-      style: { fontFamily: FONT.display, fontSize: 34, fontWeight: '700', fill: ART.wood },
+      style: { fontFamily: FONT.display, fontSize: 34, fill: ART.wood },
     });
     t.anchor.set(0.5);
 

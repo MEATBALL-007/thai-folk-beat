@@ -12,10 +12,19 @@ export const C = {
   paper: 0xfff8e7, // panels
 } as const;
 
-/** Kanit for display/headings, Sarabun for body copy. Both bundled via @fontsource. */
+/**
+ * One family for the whole game (designer brief, 2026-08-31): MN Steak Mu
+ * Phrikthai Dam. Display and body differ by size, not by family, because the
+ * face ships Regular and Italic only.
+ *
+ * Coverage was verified against every Thai string the game renders before the
+ * swap — the cmap was parsed directly rather than trusted. Thai is complete;
+ * eight decorative characters are NOT in the face and are drawn as Graphics
+ * instead (src/ui/glyphs.ts).
+ */
 export const FONT = {
-  display: 'Kanit',
-  body: 'Sarabun',
+  display: 'Phrikthai Dam',
+  body: 'Phrikthai Dam',
 } as const;
 
 /**
