@@ -11,6 +11,9 @@ import { ScoreSystem, FAIL_CONSECUTIVE_MISSES } from '../src/game/ScoreSystem';
 import { buildChart, songDuration, type ChartNote } from '../src/game/Chart';
 import { renderPluck } from '../src/audio/pluck';
 import { HIT_GAIN, MASTER_HEADROOM, RECORDING_PEAK } from '../src/audio/AudioEngine';
+import { MOLAM } from '../src/audio/songs/molam';
+import { SOENG } from '../src/audio/songs/soeng';
+import { DIFFICULTIES } from '../src/game/Difficulty';
 import type { Lane, SongDef } from '../src/audio/types';
 
 let passed = 0;
@@ -231,6 +234,35 @@ console.log('[levels] master headroom');
   check('recording + 4 simultaneous hits stays under unity', worst <= 1.0, true);
   check('GOOD is quieter than PERFECT', HIT_GAIN.GOOD < HIT_GAIN.PERFECT, true);
   check('headroom leaves the music audible', MASTER_HEADROOM > 0.3, true);
+}
+
+
+console.log('');
+console.log('[chart-audio alignment] design doc section 8');
+{
+  // The sync guarantee is now structural: notes are defined in terms of the
+  // recording's own grid, so they cannot drift from it. This asserts the
+  // property directly — a note that is not on the grid cannot be in sync with
+  // the music, whatever it sounds like.
+  const FILE_LENGTH_S: Record<string, number> = { molam: 90.65, soeng: 101.1 };
+
+  for (const song of [MOLAM, SOENG]) {
+    const step = 15 / song.bpm;
+    let worstOffGrid = 0;
+    let last = 0;
+
+    for (const difficulty of DIFFICULTIES) {
+      for (const n of buildChart(song, difficulty)) {
+        const k = Math.round((n.time - song.gridOffsetS) / step);
+        worstOffGrid = Math.max(worstOffGrid, Math.abs(n.time - (song.gridOffsetS + k * step)));
+        last = Math.max(last, n.time);
+      }
+    }
+
+    check(`${song.id}: every note sits on the 16th grid`, worstOffGrid < 0.001, true);
+    check(`${song.id}: last note is inside the recording`, last <= FILE_LENGTH_S[song.id]!, true);
+    check(`${song.id}: plays the recording, not the synth`, song.audioUrl !== undefined, true);
+  }
 }
 
 console.log(`\n${passed} passed, ${failed} failed\n`);
