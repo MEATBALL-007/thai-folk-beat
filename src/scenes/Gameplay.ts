@@ -90,13 +90,10 @@ export class GameplayScene extends Scene {
   private finished = false;
   private duration = 0;
 
-  private comboText!: Text;
-  private multText!: Text;
   private scoreText!: Text;
   private accBar!: Graphics;
   private accLabel!: Text;
   private verdictText!: Text;
-  private titleText!: Text;
   private progressBar!: Graphics;
   private startOverlay!: Container;
 
@@ -107,7 +104,6 @@ export class GameplayScene extends Scene {
   private readonly laneLitLife = [0, 0, 0, 0];
   private performers!: Performers;
 
-  private comboPunch = 0;
   private verdictLife = 0;
   private shake = 0;
 
@@ -193,57 +189,17 @@ export class GameplayScene extends Scene {
 
   // ---------------------------------------------------------------- ui build
 
-  /** A wooden plaque in the style of the menu panels. */
-  private plaque(cx: number, cy: number, w: number, h: number): Graphics {
-    return new Graphics()
-      .roundRect(cx - w / 2 + 5, cy - h / 2 + 6, w, h, 22)
-      .fill({ color: ART.wood, alpha: 0.16 })
-      .roundRect(cx - w / 2, cy - h / 2, w, h, 22)
-      .fill(ART.woodFill)
-      .roundRect(cx - w / 2, cy - h / 2, w, h, 22)
-      .stroke({ width: 7, color: ART.wood, alignment: 0 });
-  }
-
   /**
-   * HUD lives in the two side gutters left empty by the note board, on wooden
-   * plaques matching the menus. Nothing overlaps the lanes, so the playfield
-   * stays readable at speed.
+   * What is left of the HUD after the plaques came off: the score, which sits
+   * inside the คะแนน plaque the stage art already paints, plus the accuracy bar
+   * and the verdict popup. Nothing covers the stage.
    */
   private buildHud(): void {
-    const LEFT = 322;
 
-    // ---- song name -------------------------------------------------------
-    const titlePlate = this.plaque(LEFT, 168, 350, 104);
-    this.titleText = new Text({
-      text: this.def.titleTh,
-      style: { fontFamily: FONT.display, fontSize: 52, fill: ART.tealDark },
-    });
-    this.titleText.anchor.set(0.5);
-    this.titleText.position.set(LEFT, 168);
-
-    // ---- combo + multiplier ---------------------------------------------
-    const comboPlate = this.plaque(LEFT, 420, 350, 250);
-
-    const comboLabel = new Text({
-      text: 'COMBO',
-      style: { fontFamily: FONT.display, fontSize: 28, fill: ART.wood },
-    });
-    comboLabel.anchor.set(0.5, 0);
-    comboLabel.position.set(LEFT, 326);
-
-    this.comboText = new Text({
-      text: '0',
-      style: { fontFamily: FONT.display, fontSize: 96, fill: ART.wood },
-    });
-    this.comboText.anchor.set(0.5);
-    this.comboText.position.set(LEFT, 412);
-
-    this.multText = new Text({
-      text: 'x1',
-      style: { fontFamily: FONT.display, fontSize: 46, fill: ART.tealDark },
-    });
-    this.multText.anchor.set(0.5);
-    this.multText.position.set(LEFT, 496);
+    // The song name and combo panels used to live here on wooden plaques. They
+    // were removed at the designer's request: they sat on top of the stage art
+    // and read as pasted on, which is what a HUD designed against a plain field
+    // looks like once real artwork arrives behind it.
 
     // ---- score ------------------------------------------------------------
     // The stage art already paints a คะแนน plaque in the top-right corner, so
@@ -256,16 +212,19 @@ export class GameplayScene extends Scene {
     this.scoreText.anchor.set(0.5);
     this.scoreText.position.set(SCORE_PLAQUE_X, SCORE_PLAQUE_Y);
 
-    // ---- accuracy, under the combo plaque ---------------------------------
+    // ---- accuracy, tucked under the painted คะแนน plaque -------------------
+    // It used to hang off the combo panel; with that gone it would have floated
+    // in the middle of the stage. Keeping it with the score puts every number
+    // in one corner instead of scattering them over the artwork.
     this.accBar = new Graphics();
-    this.accBar.position.set(LEFT - 130, 580);
+    this.accBar.position.set(SCORE_PLAQUE_X - 130, 168);
 
     this.accLabel = new Text({
       text: '100%',
       style: { fontFamily: FONT.body, fontSize: 26, fill: ART.pale },
     });
     this.accLabel.anchor.set(0.5, 0);
-    this.accLabel.position.set(LEFT, 606);
+    this.accLabel.position.set(SCORE_PLAQUE_X, 194);
 
     // ---- verdict + progress ---------------------------------------------
     this.verdictText = new Text({
@@ -280,12 +239,6 @@ export class GameplayScene extends Scene {
     this.progressBar.position.set(HIGHWAY_X, 88);
 
     this.container.addChild(
-      titlePlate,
-      this.titleText,
-      comboPlate,
-      comboLabel,
-      this.comboText,
-      this.multText,
       this.scoreText,
       this.accBar,
       this.accLabel,
@@ -391,7 +344,6 @@ export class GameplayScene extends Scene {
       audio.playHit(event.note.voice, event.note.midi, event.verdict);
       this.laneLitLife[event.note.lane] = 1;
       this.highway.flashReceptor(event.note.lane, 1);
-      this.comboPunch = 1;
 
       // Spec §8: burst on PERFECT only, so it stays a reward rather than noise.
       if (event.verdict === 'PERFECT') {
@@ -481,9 +433,6 @@ export class GameplayScene extends Scene {
   }
 
   private updateHud(songTime: number, _dtMS: number): void {
-    this.comboText.text = String(this.score.combo);
-    this.multText.text = `x${this.score.multiplier}`;
-    this.multText.style.fill = this.score.multiplier >= 8 ? C.green : ART.tealDark;
     this.scoreText.text = this.score.score.toLocaleString('en-US');
 
     const acc = this.score.accuracy;
@@ -503,12 +452,6 @@ export class GameplayScene extends Scene {
   }
 
   private updateEffects(dtMS: number): void {
-    if (this.comboPunch > 0) {
-      this.comboPunch = Math.max(0, this.comboPunch - dtMS / 160);
-      this.comboText.scale.set(1 + 0.35 * this.comboPunch);
-    } else {
-      this.comboText.scale.set(1);
-    }
 
     if (this.verdictLife > 0) {
       this.verdictLife = Math.max(0, this.verdictLife - dtMS / 420);
