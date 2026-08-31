@@ -177,18 +177,55 @@ export class AudioEngine {
    * Spec §3.4 swap-in path. With no audioUrl this only builds the chart; with
    * one it also decodes the file, and play() takes the buffer branch instead.
    */
-  async load(def: SongDef, difficulty: Difficulty): Promise<LoadedSong> {
+  async load(
+    def: SongDef,
+    difficulty: Difficulty,
+    onProgress?: (fraction: number) => void,
+  ): Promise<LoadedSong> {
     this.buildHitBank();
     let buffer: AudioBuffer | null = null;
 
     if (def.audioUrl) {
       try {
         const res = await fetch(def.audioUrl);
-        buffer = await this.ctx.decodeAudioData(await res.arrayBuffer());
+        // Read the body as a stream so the loading bar can report real
+        // progress. Without this the bar has nothing to measure: the decode is
+        // one opaque await, and the screen just sits at 0 and then jumps.
+        const total = Number(res.headers.get('content-length')) || 0;
+        const reader = res.body?.getReader();
+
+        let bytes: Uint8Array;
+        if (reader && total > 0) {
+          const chunks: Uint8Array[] = [];
+          let received = 0;
+          for (;;) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            chunks.push(value);
+            received += value.length;
+            // Leave the last 15% for the decode, which is not instant.
+            onProgress?.(Math.min(0.85, (received / total) * 0.85));
+          }
+          bytes = new Uint8Array(received);
+          let at = 0;
+          for (const c of chunks) {
+            bytes.set(c, at);
+            at += c.length;
+          }
+        } else {
+          bytes = new Uint8Array(await res.arrayBuffer());
+        }
+
+        onProgress?.(0.85);
+        buffer = await this.ctx.decodeAudioData(bytes.buffer as ArrayBuffer);
+        onProgress?.(1);
       } catch (err) {
         console.warn(`[audio] "${def.audioUrl}" failed to load, falling back to synth`, err);
         buffer = null;
+        onProgress?.(1);
       }
+    } else {
+      onProgress?.(1);
     }
 
     const song: LoadedSong = { def, chart: buildChart(def, difficulty), buffer };

@@ -50,10 +50,11 @@ export function goComic(scenes: SceneManager, song: SongDef): void {
 export function goLoading(scenes: SceneManager, song: SongDef): void {
   void scenes.replace(
     new LoadingScene({
+      detail: song.titleTh,
+      // Real progress: the recording is a couple of megabytes, so the bar now
+      // tracks an actual download and decode rather than two guessed steps.
       task: async (report) => {
-        report(0.15);
-        await audio.load(song, settings.difficulty);
-        report(1);
+        await audio.load(song, settings.difficulty, report);
       },
       onDone: () => goGameplay(scenes, song),
     }),

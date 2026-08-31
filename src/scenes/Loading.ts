@@ -1,14 +1,26 @@
-import { Graphics, Text } from 'pixi.js';
+import { Graphics, Sprite, Text } from 'pixi.js';
 import { Scene } from '../core/Scene';
-import { DESIGN_H, DESIGN_W } from '../core/Layout';
+import { DESIGN_W } from '../core/Layout';
 import { ART, C, FONT } from '../ui/theme';
 import { layerSprite } from '../ui/artLayer';
 
 /** Spec §5.6: never flash — hold the screen for at least this long. */
 const MIN_DISPLAY_MS = 1200;
 
-/** Lane colours, reused so the loader reads as part of the same game. */
-const DOT_COLOURS = [C.green, C.gold, C.green, C.gold];
+/** Instrument icons, cycled while the bar fills. */
+const ICON_KEYS = ['load.icon0', 'load.icon1', 'load.icon2', 'load.icon3'] as const;
+/** ms each icon is shown. */
+const ICON_MS = 320;
+
+/**
+ * The progress bar's inner area, measured from the delivered bar frame's alpha
+ * bounds (load.bar: centre 931,605.5, size 484x167). The frame is a thick
+ * hand-drawn outline, so the fill is inset well inside it.
+ */
+const BAR_X = 931 - 484 / 2 + 34;
+const BAR_Y = 605.5 - 22;
+const BAR_W = 484 - 68;
+const BAR_H = 44;
 
 export interface LoadingOptions {
   /** The real work. Call `report(0..1)` as it progresses. */
@@ -34,7 +46,7 @@ export class LoadingScene extends Scene {
   private readonly opts: LoadingOptions;
 
   private bar!: Graphics;
-  private dots!: Graphics;
+  private icons: Sprite[] = [];
   private percentText!: Text;
   private ellipsis!: Text;
 
@@ -59,70 +71,63 @@ export class LoadingScene extends Scene {
   override onEnter(): void {
     this.startedAt = performance.now();
 
-    const field = new Graphics().rect(0, 0, DESIGN_W, DESIGN_H).fill(ART.field);
-    this.container.addChild(field, layerSprite('bg.menuFrame'));
-
-    // ---- wooden panel ----------------------------------------------------
-    const pw = 900;
-    const ph = 430;
-    const px = (DESIGN_W - pw) / 2;
-    const py = (DESIGN_H - ph) / 2;
-
-    const panel = new Graphics()
-      .roundRect(px + 6, py + 8, pw, ph, 28)
-      .fill({ color: ART.wood, alpha: 0.16 })
-      .roundRect(px, py, pw, ph, 28)
-      .fill(ART.woodFill)
-      .roundRect(px, py, pw, ph, 28)
-      .stroke({ width: 8, color: ART.wood, alignment: 0 });
+    // The delivered loading art carries the whole background: orange field,
+    // teal rule and corner flourishes, and the faint instrument watermarks.
+    this.container.addChild(layerSprite('load.bg'));
 
     // ---- heading ---------------------------------------------------------
     const heading = new Text({
       text: 'กำลังโหลด',
-      style: { fontFamily: FONT.display, fontSize: 66, fill: ART.tealDark },
+      style: { fontFamily: FONT.display, fontSize: 62, fill: ART.tealDark },
     });
     heading.anchor.set(0.5);
-    heading.position.set(DESIGN_W / 2 - 26, py + 76);
+    heading.position.set(DESIGN_W / 2 - 24, 745);
 
     // Kept separate so the heading does not jitter as dots are added —
     // centring a growing string would shift the whole word.
     this.ellipsis = new Text({
       text: '',
-      style: { fontFamily: FONT.display, fontSize: 66, fill: ART.tealDark },
+      style: { fontFamily: FONT.display, fontSize: 62, fill: ART.tealDark },
     });
     this.ellipsis.anchor.set(0, 0.5);
-    this.ellipsis.position.set(DESIGN_W / 2 + 136, py + 76);
+    this.ellipsis.position.set(DESIGN_W / 2 + 128, 745);
 
-    // ---- bouncing lane discs --------------------------------------------
-    this.dots = new Graphics();
-    this.dots.position.set(DESIGN_W / 2, py + 186);
+    // ---- instrument icons -------------------------------------------------
+    // One sprite per icon, all stacked; only the active one is visible. Cycling
+    // the alpha avoids re-uploading a texture every frame.
+    this.icons = ICON_KEYS.map((key) => {
+      const sprite = layerSprite(key);
+      sprite.alpha = 0;
+      this.container.addChild(sprite);
+      return sprite;
+    });
 
     // ---- progress bar ----------------------------------------------------
+    // Drawn beneath the delivered frame, so the hand-drawn outline stays on top
+    // of the fill rather than being covered by it.
     this.bar = new Graphics();
-    this.bar.position.set(px + 100, py + 262);
+    this.container.addChild(heading, this.ellipsis, this.bar, layerSprite('load.bar'));
 
     this.percentText = new Text({
       text: '0%',
-      style: { fontFamily: FONT.display, fontSize: 32, fill: ART.wood },
+      style: { fontFamily: FONT.display, fontSize: 30, fill: ART.wood },
     });
     this.percentText.anchor.set(0.5, 0);
-    this.percentText.position.set(DESIGN_W / 2, py + 310);
-
-    this.container.addChild(panel, heading, this.ellipsis, this.dots, this.bar, this.percentText);
+    this.percentText.position.set(931, 660);
+    this.container.addChild(this.percentText);
 
     if (this.opts.detail) {
       const detail = new Text({
         text: this.opts.detail,
-        style: { fontFamily: FONT.body, fontSize: 32, fill: ART.wood },
+        style: { fontFamily: FONT.body, fontSize: 30, fill: ART.wood },
       });
       detail.anchor.set(0.5, 0);
       detail.alpha = 0.85;
-      detail.position.set(DESIGN_W / 2, py + 358);
+      detail.position.set(931, 700);
       this.container.addChild(detail);
     }
 
     this.drawBar();
-    this.drawDots();
 
     void this.opts
       .task((f) => {
@@ -146,7 +151,7 @@ export class LoadingScene extends Scene {
     if (this.taskDone && this.elapsed >= MIN_DISPLAY_MS) this.shown = 1;
 
     this.drawBar();
-    this.drawDots();
+    this.cycleIcons();
     this.percentText.text = `${Math.round(this.shown * 100)}%`;
 
     const count = 1 + (Math.floor(this.elapsed / 320) % 3);
@@ -163,37 +168,26 @@ export class LoadingScene extends Scene {
     }
   }
 
-  /** Four discs bouncing in sequence — the game's four lanes, keeping time. */
-  private drawDots(): void {
-    this.dots.clear();
-    const gap = 92;
-    const x0 = -((DOT_COLOURS.length - 1) * gap) / 2;
-
-    for (let i = 0; i < DOT_COLOURS.length; i++) {
-      // Each disc lags the one before it, so the row reads left to right.
-      const phase = this.elapsed / 300 - i * 0.55;
-      const lift = Math.max(0, Math.sin(phase)) ** 2;
-      const x = x0 + i * gap;
-      const y = -lift * 26;
-      const r = 22 + lift * 5;
-
-      this.dots.circle(x, 12, 19).fill({ color: ART.wood, alpha: 0.18 * (1 - lift) + 0.05 });
-      this.dots.circle(x, y, r).fill(DOT_COLOURS[i] ?? C.green);
-      this.dots.circle(x, y, r).stroke({ width: 4, color: ART.pale, alignment: 0 });
+  /** Step through the four instruments while the bar fills. */
+  private cycleIcons(): void {
+    const active = Math.floor(this.elapsed / ICON_MS) % this.icons.length;
+    for (let i = 0; i < this.icons.length; i++) {
+      const sprite = this.icons[i];
+      if (sprite) sprite.alpha = i === active ? 1 : 0;
     }
   }
 
+  /** Fill only — the delivered frame is a separate layer drawn on top. */
   private drawBar(): void {
-    const w = 700;
-    const h = 34;
     this.bar.clear();
-    this.bar.roundRect(0, 0, w, h, 17).fill(C.paper);
+    this.bar.roundRect(BAR_X, BAR_Y, BAR_W, BAR_H, BAR_H / 2).fill(C.paper);
     if (this.shown > 0) {
-      const fill = Math.max(h, w * this.shown);
-      this.bar.roundRect(0, 0, fill, h, 17).fill(ART.teal);
+      const fill = Math.max(BAR_H, BAR_W * this.shown);
+      this.bar.roundRect(BAR_X, BAR_Y, fill, BAR_H, BAR_H / 2).fill(ART.teal);
       // Soft top highlight, so the fill reads as rounded rather than flat.
-      this.bar.roundRect(7, 7, fill - 14, 9, 5).fill({ color: ART.pale, alpha: 0.3 });
+      this.bar
+        .roundRect(BAR_X + 8, BAR_Y + 8, fill - 16, 11, 6)
+        .fill({ color: ART.pale, alpha: 0.3 });
     }
-    this.bar.roundRect(0, 0, w, h, 17).stroke({ width: 6, color: ART.wood, alignment: 0 });
   }
 }
