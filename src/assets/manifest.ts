@@ -74,15 +74,6 @@ export const MANIFEST: readonly AssetSpec[] = [
     layer: true,
     purpose: 'Frame + instrument silhouettes with the panel and heading removed — shared backdrop for Settings / SongSelect / Result (derived from bg/region.png)',
   },
-  {
-    key: 'bg.gameplay',
-    path: 'assets/gameplay/stage.png',
-    kind: 'bg',
-    w: 1920,
-    h: 1080,
-    layer: true,
-    purpose: 'The stage: proscenium, curtains, wooden floor, red apron',
-  },
 
   // ---- characters ------------------------------------------------------
   {
@@ -231,72 +222,134 @@ export const MANIFEST: readonly AssetSpec[] = [
     },
   ]),
 
-  // ---- gameplay -----------------------------------------------------------
-  // Delivered 2026-08-31 as full-canvas layers. Boxes measured from the alpha
-  // channel by scripts/measure-sprites.mjs.
+  // ---- gameplay: one stage set per song ----------------------------------
+  // Each song has its own backdrop, panel and receptors (delivered 2026-09-14).
+  // The panel has its instrument names printed INTO the art, and they differ by
+  // song — หมอลำ names a เบส and a กลองชุด where เซิ้ง names a ซอ and a กลองกิ่ง — so
+  // the scene must never draw names of its own over them.
   //
-  // The four lane discs shipped numbered right-to-left; they were renamed on
-  // install so lane0 is the LEFTMOST disc, matching lane 0 being the leftmost
-  // key. Their measured centres are what the note highway lines up with, so the
-  // notes land on the painted targets rather than near them.
+  // The four lane files are byte-identical to the regions of the combined idle
+  // row they replace: they are the row split up, NOT lit variants. The hit
+  // highlight is therefore produced in code, not by swapping to another image.
+  //
+  // Boxes measured from the alpha channel by scripts/measure-sprites.mjs.
+
   {
-    key: 'gp.panel',
-    path: 'assets/gameplay/panel.png',
+    key: 'gp.molam.stage',
+    path: 'assets/gameplay/molam/stage.png',
+    kind: 'bg',
+    w: 1920,
+    h: 1080,
+    layer: true,
+    purpose: 'molam stage backdrop',
+  },
+  {
+    key: 'gp.molam.panel',
+    path: 'assets/gameplay/molam/panel.png',
     kind: 'ui',
     w: 1920,
     h: 1080,
     layer: true,
-    purpose: 'Wooden base the lane receptors sit on',
+    purpose: 'molam receptor panel, instrument names printed in (แคน / พิณ / เบส / กลองชุด)',
     hit: box(956.5, 922.5, 913, 315),
   },
   {
-    key: 'gp.receptors',
-    path: 'assets/gameplay/receptors.png',
+    key: 'gp.molam.lane0',
+    path: 'assets/gameplay/molam/lane0.png',
     kind: 'ui',
     w: 1920,
     h: 1080,
     layer: true,
-    purpose: 'All four lane receptors in their idle state',
-    hit: box(958, 946.5, 730, 159),
-  },
-  {
-    key: 'gp.lane0',
-    path: 'assets/gameplay/lane0.png',
-    kind: 'ui',
-    w: 1920,
-    h: 1080,
-    layer: true,
-    purpose: 'Lane 0 กลอง receptor, lit state',
+    purpose: 'molam lane 0 receptor (แคน)',
     hit: box(671.5, 946, 157, 158),
   },
   {
-    key: 'gp.lane1',
-    path: 'assets/gameplay/lane1.png',
+    key: 'gp.molam.lane1',
+    path: 'assets/gameplay/molam/lane1.png',
     kind: 'ui',
     w: 1920,
     h: 1080,
     layer: true,
-    purpose: 'Lane 1 โปงลาง receptor, lit state',
+    purpose: 'molam lane 1 receptor (พิณ)',
     hit: box(863.5, 947, 157, 158),
   },
   {
-    key: 'gp.lane2',
-    path: 'assets/gameplay/lane2.png',
+    key: 'gp.molam.lane2',
+    path: 'assets/gameplay/molam/lane2.png',
     kind: 'ui',
     w: 1920,
     h: 1080,
     layer: true,
-    purpose: 'Lane 2 พิณ receptor, lit state',
+    purpose: 'molam lane 2 receptor (เบส)',
     hit: box(1054.5, 947, 157, 158),
   },
   {
-    key: 'gp.lane3',
-    path: 'assets/gameplay/lane3.png',
+    key: 'gp.molam.lane3',
+    path: 'assets/gameplay/molam/lane3.png',
     kind: 'ui',
     w: 1920,
     h: 1080,
     layer: true,
-    purpose: 'Lane 3 แคน receptor, lit state',
+    purpose: 'molam lane 3 receptor (กลองชุด)',
+    hit: box(1244.5, 946, 157, 158),
+  },
+  {
+    key: 'gp.soeng.stage',
+    path: 'assets/gameplay/soeng/stage.png',
+    kind: 'bg',
+    w: 1920,
+    h: 1080,
+    layer: true,
+    purpose: 'soeng stage backdrop',
+  },
+  {
+    key: 'gp.soeng.panel',
+    path: 'assets/gameplay/soeng/panel.png',
+    kind: 'ui',
+    w: 1920,
+    h: 1080,
+    layer: true,
+    purpose: 'soeng receptor panel, instrument names printed in (แคน / พิณ / ซอ / กลองกิ่ง)',
+    hit: box(956.5, 922.5, 913, 315),
+  },
+  {
+    key: 'gp.soeng.lane0',
+    path: 'assets/gameplay/soeng/lane0.png',
+    kind: 'ui',
+    w: 1920,
+    h: 1080,
+    layer: true,
+    purpose: 'soeng lane 0 receptor (แคน)',
+    hit: box(671.5, 946, 157, 158),
+  },
+  {
+    key: 'gp.soeng.lane1',
+    path: 'assets/gameplay/soeng/lane1.png',
+    kind: 'ui',
+    w: 1920,
+    h: 1080,
+    layer: true,
+    purpose: 'soeng lane 1 receptor (พิณ)',
+    hit: box(863.5, 947, 157, 158),
+  },
+  {
+    key: 'gp.soeng.lane2',
+    path: 'assets/gameplay/soeng/lane2.png',
+    kind: 'ui',
+    w: 1920,
+    h: 1080,
+    layer: true,
+    purpose: 'soeng lane 2 receptor (ซอ)',
+    hit: box(1054.5, 947, 157, 158),
+  },
+  {
+    key: 'gp.soeng.lane3',
+    path: 'assets/gameplay/soeng/lane3.png',
+    kind: 'ui',
+    w: 1920,
+    h: 1080,
+    layer: true,
+    purpose: 'soeng lane 3 receptor (กลองกิ่ง)',
     hit: box(1244.5, 946, 157, 158),
   },
   {
@@ -306,12 +359,11 @@ export const MANIFEST: readonly AssetSpec[] = [
     w: 1920,
     h: 1080,
     layer: true,
-    purpose: 'Sun ornament, top-left of the stage',
+    purpose: 'Gear ornament, top-left — opens Settings',
     hit: box(132, 85, 104, 106),
   },
-
   {
-    key: 'gp.dancer',
+    key: 'gp.molam.dancer',
     path: 'assets/gameplay/dancer_strip.png',
     kind: 'character',
     w: 2140,
@@ -319,12 +371,20 @@ export const MANIFEST: readonly AssetSpec[] = [
     purpose: '10-frame dancer loop as a horizontal strip, sliced at runtime',
   },
   {
-    key: 'gp.couple',
+    key: 'gp.molam.couple',
     path: 'assets/gameplay/couple_strip.png',
     kind: 'character',
     w: 3168,
     h: 383,
-    purpose: '8-frame dancing-couple loop; delivered but not yet placed',
+    purpose: '8-frame singing-couple loop as a horizontal strip',
+  },
+  {
+    key: 'gp.soeng.cast',
+    path: 'assets/gameplay/soeng/cast_strip.png',
+    kind: 'character',
+    w: 2274,
+    h: 354,
+    purpose: 'เซิ้ง troupe, already composed as a row; two poses alternating on the beat',
   },
 
   // ---- loading ------------------------------------------------------------

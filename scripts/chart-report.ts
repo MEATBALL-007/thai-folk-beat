@@ -82,7 +82,9 @@ function report(song: SongDef): void {
     console.log(`  notes           ${chart.length}   (${rate.toFixed(2)}/s)`);
     console.log(`  first / last    ${first.toFixed(2)}s / ${last.toFixed(2)}s`);
     console.log(
-      `  per lane        กลอง ${perLane[0]}  โปงลาง ${perLane[1]}  พิณ ${perLane[2]}  แคน ${perLane[3]}`,
+      // Lane order follows the delivered panels, which read left to right as
+      // แคน, พิณ, then the mid and low instruments — NOT ascending pitch.
+      `  per lane        แคน ${perLane[0]}  พิณ ${perLane[1]}  เบส/ซอ ${perLane[2]}  กลอง ${perLane[3]}`,
     );
     console.log(`  tightest gap    ${(worstLaneGap * 1000).toFixed(0)}ms  (${worstAt})`);
     console.log(`  longest silence ${worstGap.toFixed(2)}s  (from ${worstGapAt.toFixed(1)}s)`);

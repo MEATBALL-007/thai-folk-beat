@@ -5,7 +5,7 @@ import { ART, C, FONT } from '../ui/theme';
 import { Input } from '../core/Input';
 import { Particles } from '../ui/Particles';
 import { BULLET, arrowKeyRow } from '../ui/glyphs';
-import { layerSprite, signButton } from '../ui/artLayer';
+import { layerHit, layerSprite, signButton } from '../ui/artLayer';
 import { Performers } from './gameplay/Performers';
 import { settings } from '../core/Settings';
 import { audio } from '../audio/engine';
@@ -121,13 +121,11 @@ export class GameplayScene extends Scene {
     this.highway = new NoteHighway(this.loaded.chart);
     this.judge = new Judge(this.loaded.chart);
 
-    // The delivered stage, in layer order: backdrop, the wooden base the
-    // receptors stand on, then the receptors in their idle state. The note
-    // highway draws on top of all of it.
-    this.container.addChild(
-      layerSprite('bg.gameplay'),
-      layerSprite('gp.panel'),
-    );
+    // Each song has its own stage set. Layer order: backdrop, the panel the
+    // receptors stand on, the performers, then the receptors themselves. The
+    // note highway draws on top of all of it.
+    const art = `gp.${this.def.id}`;
+    this.container.addChild(layerSprite(`${art}.stage`), layerSprite(`${art}.panel`));
     // The gear ornament in the stage's top-left corner is a settings button —
     // the designer marked it as one. signButton gives the group its own
     // hitArea, without which this full-canvas layer would swallow every click
@@ -138,19 +136,21 @@ export class GameplayScene extends Scene {
         goSettings(this.ctx.scenes, 'songs');
       }),
     );
-    this.performers = new Performers();
+    this.performers = new Performers(this.def);
     this.container.addChild(this.performers);
-    this.container.addChild(layerSprite('gp.receptors'));
-    this.container.addChild(this.highway.container, this.particles.container);
 
-    // One lit sprite per lane, revealed for a moment on a hit. The designer
-    // supplied them separately for exactly this.
+    // The four lane sprites ARE the idle receptors — they are the delivered row
+    // split into four files, not lit variants of it, so they are drawn fully
+    // opaque. The hit highlight is a tint-and-swell applied to the same sprite;
+    // cross-fading to a second image would have shown nothing at all, since the
+    // two images are byte-identical.
     this.laneLit = ([0, 1, 2, 3] as Lane[]).map((lane) => {
-      const s = layerSprite(`gp.lane${lane}`);
-      s.alpha = 0;
+      const s = layerSprite(`${art}.lane${lane}`);
       this.container.addChild(s);
       return s;
     });
+
+    this.container.addChild(this.highway.container, this.particles.container);
 
     this.buildHud();
     this.bindPointer();
@@ -215,6 +215,26 @@ export class GameplayScene extends Scene {
     // The stage art already paints a คะแนน plaque in the top-right corner, so
     // the score goes INSIDE it. Drawing a second plaque over the top was the
     // clearest sign the HUD had been designed against different artwork.
+    // หมอลำ's backdrop paints a คะแนน plaque in this corner; เซิ้ง's does not, and
+    // the score would sit unreadable on its patterned curtain. Supply one only
+    // when the artwork has not.
+    if (this.def.id !== 'molam') {
+      this.container.addChild(
+        new Graphics()
+          .roundRect(SCORE_PLAQUE_X - 176, 34, 352, 116, 20)
+          .fill(ART.woodFill)
+          .roundRect(SCORE_PLAQUE_X - 176, 34, 352, 116, 20)
+          .stroke({ width: 6, color: ART.wood, alignment: 0 }),
+      );
+      const label = new Text({
+        text: 'คะแนน',
+        style: { fontFamily: FONT.display, fontSize: 30, fill: ART.tealDark },
+      });
+      label.anchor.set(0.5, 0);
+      label.position.set(SCORE_PLAQUE_X, 44);
+      this.container.addChild(label);
+    }
+
     this.scoreText = new Text({
       text: '0',
       style: { fontFamily: FONT.display, fontSize: 52, fill: ART.wood },
@@ -436,15 +456,34 @@ export class GameplayScene extends Scene {
     };
   }
 
-  /** The painted lit receptor, faded out over ~140ms after a hit. */
+  /**
+   * Hit highlight on a receptor: a brief white tint and swell, decaying over
+   * ~140ms. Done in code because the delivered "lit" files turned out to be
+   * byte-identical to the idle ones — fading between them showed nothing.
+   */
   private updateLaneLights(dtMS: number): void {
     for (let i = 0; i < this.laneLit.length; i++) {
       const life = this.laneLitLife[i] ?? 0;
-      if (life <= 0) continue;
+      const s = this.laneLit[i];
+      if (!s || life <= 0) continue;
+
       const next = Math.max(0, life - dtMS / 140);
       this.laneLitLife[i] = next;
-      const s = this.laneLit[i];
-      if (s) s.alpha = next;
+
+      // Lighten toward white, and swell about the receptor's own centre.
+      const k = Math.round(255 * (1 - 0.45 * next));
+      s.tint = (255 << 16) | (k << 8) | k;
+      const grow = 1 + 0.07 * next;
+      s.scale.set(grow);
+      // layerSprite draws at (0,0) full-canvas, so scaling about the origin
+      // would slide the whole layer; re-anchor the growth on the disc itself.
+      const hit = layerHit(`gp.${this.def.id}.lane${i}`);
+      if (hit) {
+        s.position.set(
+          -(hit.x + hit.w / 2) * (grow - 1),
+          -(hit.y + hit.h / 2) * (grow - 1),
+        );
+      }
     }
   }
 

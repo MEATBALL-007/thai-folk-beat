@@ -26,12 +26,20 @@ const SR = 22050;
 const HOP = 110; // 5 ms
 const WIN = 441; // 20 ms
 
-/** One band per lane. Ranges follow each instrument's register. */
+/**
+ * One band per lane. Ranges follow each instrument's register.
+ *
+ * Lane order is dictated by the ARTWORK, not by frequency: both delivered
+ * panels print their instrument names left to right as แคน, พิณ, เบส/ซอ,
+ * กลองชุด/กลองกิ่ง. So lane 0 is the highest band and lane 3 the lowest, which
+ * is the reverse of the obvious arrangement. Getting this backwards means a
+ * drum hit lights the lane labelled "แคน".
+ */
 const BANDS = [
-  { lane: 0, voice: 'klong', filter: 'lowpass=f=180' },
-  { lane: 1, voice: 'ponglang', filter: 'highpass=f=250,lowpass=f=900' },
-  { lane: 2, voice: 'phin', filter: 'highpass=f=900,lowpass=f=2500' },
-  { lane: 3, voice: 'khaen', filter: 'highpass=f=2500' },
+  { lane: 3, voice: 'klong', filter: 'lowpass=f=180' },
+  { lane: 2, voice: 'ponglang', filter: 'highpass=f=250,lowpass=f=900' },
+  { lane: 1, voice: 'phin', filter: 'highpass=f=900,lowpass=f=2500' },
+  { lane: 0, voice: 'khaen', filter: 'highpass=f=2500' },
 ];
 
 /** Must stay in step with DIFFICULTY_DENSITY in src/game/Difficulty.ts. */

@@ -11,7 +11,7 @@ change needed.
 Sizes are the **4K authoring size**; the game downscales at runtime, so export
 at these dimensions from the vector source.
 
-Total assets: **41**
+Total assets: **47**
 
 ## UI
 
@@ -27,13 +27,17 @@ Total assets: **41**
 | `ui/btn_exit.png` | 1920 x 1080 | `ui.btn.exit` | ออกเกม sign (Title, bottom) |
 | `ui/btn_back.png` | 1920 x 1080 | `ui.btn.back` | Wooden BACK sign, bottom-left |
 | `ui/btn_next.png` | 1920 x 1080 | `ui.btn.next` | Wooden NEXT sign, bottom-right |
-| `gameplay/panel.png` | 1920 x 1080 | `gp.panel` | Wooden base the lane receptors sit on |
-| `gameplay/receptors.png` | 1920 x 1080 | `gp.receptors` | All four lane receptors in their idle state |
-| `gameplay/lane0.png` | 1920 x 1080 | `gp.lane0` | Lane 0 กลอง receptor, lit state |
-| `gameplay/lane1.png` | 1920 x 1080 | `gp.lane1` | Lane 1 โปงลาง receptor, lit state |
-| `gameplay/lane2.png` | 1920 x 1080 | `gp.lane2` | Lane 2 พิณ receptor, lit state |
-| `gameplay/lane3.png` | 1920 x 1080 | `gp.lane3` | Lane 3 แคน receptor, lit state |
-| `gameplay/sun.png` | 1920 x 1080 | `gp.sun` | Sun ornament, top-left of the stage |
+| `gameplay/molam/panel.png` | 1920 x 1080 | `gp.molam.panel` | molam receptor panel, instrument names printed in (แคน / พิณ / เบส / กลองชุด) |
+| `gameplay/molam/lane0.png` | 1920 x 1080 | `gp.molam.lane0` | molam lane 0 receptor (แคน) |
+| `gameplay/molam/lane1.png` | 1920 x 1080 | `gp.molam.lane1` | molam lane 1 receptor (พิณ) |
+| `gameplay/molam/lane2.png` | 1920 x 1080 | `gp.molam.lane2` | molam lane 2 receptor (เบส) |
+| `gameplay/molam/lane3.png` | 1920 x 1080 | `gp.molam.lane3` | molam lane 3 receptor (กลองชุด) |
+| `gameplay/soeng/panel.png` | 1920 x 1080 | `gp.soeng.panel` | soeng receptor panel, instrument names printed in (แคน / พิณ / ซอ / กลองกิ่ง) |
+| `gameplay/soeng/lane0.png` | 1920 x 1080 | `gp.soeng.lane0` | soeng lane 0 receptor (แคน) |
+| `gameplay/soeng/lane1.png` | 1920 x 1080 | `gp.soeng.lane1` | soeng lane 1 receptor (พิณ) |
+| `gameplay/soeng/lane2.png` | 1920 x 1080 | `gp.soeng.lane2` | soeng lane 2 receptor (ซอ) |
+| `gameplay/soeng/lane3.png` | 1920 x 1080 | `gp.soeng.lane3` | soeng lane 3 receptor (กลองกิ่ง) |
+| `gameplay/sun.png` | 1920 x 1080 | `gp.sun` | Gear ornament, top-left — opens Settings |
 | `loading/bar.png` | 1920 x 1080 | `load.bar` | Progress bar frame; the fill is drawn inside this box |
 | `loading/icon0.png` | 1920 x 1080 | `load.icon0` | Loading spinner frame 1 — กลอง |
 | `loading/icon1.png` | 1920 x 1080 | `load.icon1` | Loading spinner frame 2 — โหม่ง |
@@ -51,7 +55,8 @@ Total assets: **41**
 | `bg/menu.png` | 1920 x 1080 | `bg.menu` | Title backdrop — orange field, teal frame, corner ornaments, instrument silhouettes and the THAI FOLK BEAT logo, all baked in |
 | `bg/region.png` | 1920 x 1080 | `bg.region` | Region-select backdrop — same frame plus the wooden panel and the เลือกภูมิภาค heading, baked in |
 | `bg/menu_frame.png` | 1920 x 1080 | `bg.menuFrame` | Frame + instrument silhouettes with the panel and heading removed — shared backdrop for Settings / SongSelect / Result (derived from bg/region.png) |
-| `gameplay/stage.png` | 1920 x 1080 | `bg.gameplay` | The stage: proscenium, curtains, wooden floor, red apron |
+| `gameplay/molam/stage.png` | 1920 x 1080 | `gp.molam.stage` | molam stage backdrop |
+| `gameplay/soeng/stage.png` | 1920 x 1080 | `gp.soeng.stage` | soeng stage backdrop |
 | `loading/bg.png` | 1920 x 1080 | `load.bg` | Loading backdrop: orange field, teal rule and corner flourishes |
 
 ## Characters
@@ -60,18 +65,19 @@ Total assets: **41**
 |---|---|---|---|
 | `characters/performer_idle.png` | 1400 x 2400 | `char.performer.idle` | Performer standing, for the Title bob/sway loop (not yet delivered) |
 | `characters/performer_play.png` | 1400 x 2400 | `char.performer.play` | Performer mid-play, behind the lanes during gameplay (not yet delivered) |
+| `gameplay/dancer_strip.png` | 2140 x 331 | `gp.molam.dancer` | 10-frame dancer loop as a horizontal strip, sliced at runtime |
+| `gameplay/couple_strip.png` | 3168 x 383 | `gp.molam.couple` | 8-frame singing-couple loop as a horizontal strip |
+| `gameplay/soeng/cast_strip.png` | 2274 x 354 | `gp.soeng.cast` | เซิ้ง troupe, already composed as a row; two poses alternating on the beat |
 
 ## Comic panels
 
 | File | Size (px) | Key | Purpose |
 |---|---|---|---|
-| `comic/molam_1.png` | 2560 x 1440 | `comic.molam.1` | หมอลำ origin comic, panel 1 of 4 (not yet delivered) |
+| `comic/molam_1.png` | 2560 x 1440 | `comic.molam.1` | หมอลำ origin comic, panel 1 of 2 (not yet delivered) |
+| `comic/molam_2.png` | 2560 x 1440 | `comic.molam.2` | หมอลำ origin comic, panel 2 of 2 (not yet delivered) |
 | `comic/soeng_1.png` | 2560 x 1440 | `comic.soeng.1` | เซิ้ง origin comic, panel 1 of 4 (not yet delivered) |
-| `comic/molam_2.png` | 2560 x 1440 | `comic.molam.2` | หมอลำ origin comic, panel 2 of 4 (not yet delivered) |
 | `comic/soeng_2.png` | 2560 x 1440 | `comic.soeng.2` | เซิ้ง origin comic, panel 2 of 4 (not yet delivered) |
-| `comic/molam_3.png` | 2560 x 1440 | `comic.molam.3` | หมอลำ origin comic, panel 3 of 4 (not yet delivered) |
 | `comic/soeng_3.png` | 2560 x 1440 | `comic.soeng.3` | เซิ้ง origin comic, panel 3 of 4 (not yet delivered) |
-| `comic/molam_4.png` | 2560 x 1440 | `comic.molam.4` | หมอลำ origin comic, panel 4 of 4 (not yet delivered) |
 | `comic/soeng_4.png` | 2560 x 1440 | `comic.soeng.4` | เซิ้ง origin comic, panel 4 of 4 (not yet delivered) |
 
 ## Notes
