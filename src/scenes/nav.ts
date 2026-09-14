@@ -27,8 +27,8 @@ export function goTitle(scenes: SceneManager): void {
   void scenes.replace(new TitleScene());
 }
 
-export function goSettings(scenes: SceneManager): void {
-  void scenes.replace(new SettingsScene());
+export function goSettings(scenes: SceneManager, backTo: 'title' | 'songs' = 'title'): void {
+  void scenes.replace(new SettingsScene(backTo));
 }
 
 export function goRegionSelect(scenes: SceneManager): void {

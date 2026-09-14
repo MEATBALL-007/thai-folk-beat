@@ -1,5 +1,5 @@
-import { Container, Graphics, Text } from 'pixi.js';
-import { ART, C, FONT } from '../ui/theme';
+import { Container, Graphics } from 'pixi.js';
+import { ART, C } from '../ui/theme';
 import type { Lane } from '../audio/types';
 import type { ChartNote } from './Chart';
 
@@ -27,9 +27,6 @@ const LANE_TOP = 96;
 
 /** Notes enter from above the top edge so they never "pop" into view. */
 const SPAWN_Y = -NOTE_R * 2;
-
-/** Spec §3.2 lane -> instrument. Shown under each receptor. */
-const LANE_INSTRUMENT: readonly string[] = ['กลอง', 'โปงลาง', 'พิณ', 'แคน'];
 
 export function laneCenterX(lane: Lane): number {
   return LANE_CENTERS[lane];
@@ -92,7 +89,6 @@ export class NoteHighway {
     this.buildHitLine();
     this.buildReceptors();
     this.buildNotes();
-    this.buildInstrumentLabels();
     this.buildProgressTrack();
   }
 
@@ -160,25 +156,9 @@ export class NoteHighway {
     this.container.addChild(g);
   }
 
-  /** Thai instrument name under each lane — the game is about these four. */
-  private buildInstrumentLabels(): void {
-    for (let i = 0; i < LANE_COUNT; i++) {
-      const lane = i as Lane;
-      const name = LANE_INSTRUMENT[i] ?? '';
-
-      const cx = laneCenterX(lane);
-      const cy = RECEPTOR_Y + 84;
-
-      const text = new Text({
-        text: name,
-        style: { fontFamily: FONT.body, fontSize: 26, fill: ART.pale },
-      });
-      text.anchor.set(0.5);
-      text.position.set(cx, cy);
-
-      this.container.addChild(text);
-    }
-  }
+  // The Thai instrument names used to sit under each receptor. Removed at the
+  // designer's request: the receptor art already carries an icon per
+  // instrument, and the words were printed on top of their panel.
 
   private buildNotes(): void {
     // Clip to the board interior: notes spawn above the top edge, and without a

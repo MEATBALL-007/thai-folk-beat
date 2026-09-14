@@ -17,7 +17,7 @@ import {
   SCROLL_MIN,
   settings,
 } from '../core/Settings';
-import { goTitle } from './nav';
+import { goSongSelect, goTitle } from './nav';
 
 /** Don't retrigger the preview note on every pixel of a drag. */
 const PREVIEW_THROTTLE_MS = 140;
@@ -32,6 +32,23 @@ const PREVIEW_THROTTLE_MS = 140;
  * audibly or visibly do something).
  */
 export class SettingsScene extends Scene {
+  /**
+   * Where BACK goes. Defaults to the title screen, but the gameplay screen's
+   * gear sends the player back to song select instead — dropping them at the
+   * very start of the menu chain after a settings tweak is worse than useless.
+   */
+  private readonly onBack: 'title' | 'songs';
+
+  constructor(onBack: 'title' | 'songs' = 'title') {
+    super();
+    this.onBack = onBack;
+  }
+
+  private back(): void {
+    if (this.onBack === 'songs') goSongSelect(this.ctx.scenes);
+    else goTitle(this.ctx.scenes);
+  }
+
   private lastPreview = 0;
   private resLabel!: Text;
 
@@ -141,7 +158,7 @@ export class SettingsScene extends Scene {
       height: 92,
       fontSize: 40,
       variant: 'wood',
-      onClick: () => goTitle(this.ctx.scenes),
+      onClick: () => this.back(),
     });
     back.position.set((DESIGN_W - 380) / 2, 906);
     this.container.addChild(back);

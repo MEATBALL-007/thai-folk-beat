@@ -20,10 +20,11 @@ const SCALE = 0.72;
  * is what stops six copies of one sprite reading as a row of clones.
  *
  * `y` is where the feet land; sprites are anchored bottom-centre so they stand
- * on that line rather than straddling it.
+ * on that line rather than straddling it. The whole cast was moved 55px further
+ * downstage on 2026-09-14 at the designer's request.
  */
-const APRON_Y = 575;
-const FLOOR_Y = 440;
+const APRON_Y = 630;
+const FLOOR_Y = 495;
 
 const DANCER_SPOTS: { x: number; y: number }[] = [
   { x: 405, y: APRON_Y },
@@ -35,7 +36,7 @@ const DANCER_SPOTS: { x: number; y: number }[] = [
 ];
 
 /** The singers: centre stage, downstage of everyone, and the same size. */
-const COUPLE_SPOT = { x: 960, y: 580 };
+const COUPLE_SPOT = { x: 960, y: 635 };
 
 /** Wraps negative song time (the lead-in) back into the loop. */
 function frameAt(songTime: number, fps: number, count: number, phase: number): number {

@@ -5,7 +5,7 @@ import { ART, C, FONT } from '../ui/theme';
 import { Input } from '../core/Input';
 import { Particles } from '../ui/Particles';
 import { BULLET, arrowKeyRow } from '../ui/glyphs';
-import { layerSprite } from '../ui/artLayer';
+import { layerSprite, signButton } from '../ui/artLayer';
 import { Performers } from './gameplay/Performers';
 import { settings } from '../core/Settings';
 import { audio } from '../audio/engine';
@@ -13,6 +13,7 @@ import type { LoadedSong } from '../audio/AudioEngine';
 import type { Lane, SongDef } from '../audio/types';
 import { songDuration } from '../game/Chart';
 import { Judge, type JudgeEvent, type Verdict } from '../game/Judge';
+import { goSettings } from './nav';
 import { ScoreSystem, type GameResult } from '../game/ScoreSystem';
 import {
   HIGHWAY_W,
@@ -126,7 +127,16 @@ export class GameplayScene extends Scene {
     this.container.addChild(
       layerSprite('bg.gameplay'),
       layerSprite('gp.panel'),
-      layerSprite('gp.sun'),
+    );
+    // The gear ornament in the stage's top-left corner is a settings button —
+    // the designer marked it as one. signButton gives the group its own
+    // hitArea, without which this full-canvas layer would swallow every click
+    // meant for the layers under it (NOTES D33).
+    this.container.addChild(
+      signButton('gp.sun', () => {
+        audio.stop();
+        goSettings(this.ctx.scenes, 'songs');
+      }),
     );
     this.performers = new Performers();
     this.container.addChild(this.performers);
