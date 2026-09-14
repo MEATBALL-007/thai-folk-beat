@@ -176,6 +176,24 @@ export class AudioEngine {
    * Idempotent — every menu scene calls it on entry, so returning from a song
    * or arriving via a dev deep link both pick the music back up.
    */
+  /**
+   * Fetches and decodes the menu theme without playing it.
+   *
+   * Called during boot, because the decode is the slow part: main.mp3 is 143
+   * seconds of audio, and decoding it only when the player first clicks left
+   * the title screen silent for several seconds. The boot loader already exists
+   * and already waits — this is real work for it to report.
+   */
+  async prepareMenuMusic(url = 'assets/audio/main.mp3'): Promise<void> {
+    if (this.menuBuffer) return;
+    try {
+      const res = await fetch(url);
+      this.menuBuffer = await this.ctx.decodeAudioData(await res.arrayBuffer());
+    } catch (err) {
+      console.warn('[audio] menu theme failed to load', err);
+    }
+  }
+
   async startMenuMusic(url = 'assets/audio/main.mp3'): Promise<void> {
     // Only the idempotence guard. There used to be a `ctx.state === 'running'`
     // check here and it was wrong: a caller can legitimately reach this while
@@ -185,10 +203,8 @@ export class AudioEngine {
     if (this.menuSource) return;
 
     try {
-      if (!this.menuBuffer) {
-        const res = await fetch(url);
-        this.menuBuffer = await this.ctx.decodeAudioData(await res.arrayBuffer());
-      }
+      if (!this.menuBuffer) await this.prepareMenuMusic(url);
+      if (!this.menuBuffer) return;
       // A second call may have won the race while that was decoding.
       if (this.menuSource) return;
 

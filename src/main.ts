@@ -38,7 +38,14 @@ async function main(): Promise<void> {
       new LoadingScene({
         detail: 'THAI FOLK BEAT',
         task: async (report) => {
-          const result = await assetLoader.loadAll((p) => report(p.loaded / p.total));
+          // Art first, then the menu theme. Decoding 143 s of audio is the
+          // slowest thing in boot; doing it here means the title screen has
+          // music the instant the player touches anything, instead of several
+          // seconds later.
+          const result = await assetLoader.loadAll((p) => report((p.loaded / p.total) * 0.7));
+          report(0.72);
+          await audio.prepareMenuMusic();
+          report(1);
           if (result.missing.length) {
             console.info(
               `[boot] ${result.missing.length} placeholder asset(s) in use — see public/assets/README.md`,
