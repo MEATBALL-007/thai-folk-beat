@@ -10,16 +10,9 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
   "easy": [
     {
       "bar": 2,
-      "beat": 0.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 2,
       "beat": 1.25,
-      "lane": 2,
-      "voice": "phin",
+      "lane": 0,
+      "voice": "klong",
       "midi": 64
     },
     {
@@ -42,13 +35,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 3,
       "voice": "khaen",
       "midi": 60
-    },
-    {
-      "bar": 2,
-      "beat": 3.75,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 64
     },
     {
       "bar": 3,
@@ -86,20 +72,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "midi": 60
     },
     {
-      "bar": 4,
-      "beat": 3.25,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 4,
-      "beat": 3.75,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 69
-    },
-    {
       "bar": 5,
       "beat": 0.25,
       "lane": 2,
@@ -108,30 +80,9 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 5,
-      "beat": 0.75,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 67
-    },
-    {
-      "bar": 5,
       "beat": 1.25,
       "lane": 0,
       "voice": "klong",
-      "midi": 60
-    },
-    {
-      "bar": 5,
-      "beat": 2.75,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 62
-    },
-    {
-      "bar": 5,
-      "beat": 3.75,
-      "lane": 1,
-      "voice": "ponglang",
       "midi": 60
     },
     {
@@ -140,13 +91,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 3,
       "voice": "khaen",
       "midi": 69
-    },
-    {
-      "bar": 6,
-      "beat": 1.25,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 62
     },
     {
       "bar": 6,
@@ -161,13 +105,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 0,
       "voice": "klong",
       "midi": 60
-    },
-    {
-      "bar": 6,
-      "beat": 2.75,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 64
     },
     {
       "bar": 6,
@@ -178,13 +115,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 7,
-      "beat": 1.25,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 64
-    },
-    {
-      "bar": 7,
       "beat": 1.75,
       "lane": 2,
       "voice": "phin",
@@ -193,8 +123,8 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 7,
       "beat": 2.25,
-      "lane": 3,
-      "voice": "khaen",
+      "lane": 0,
+      "voice": "klong",
       "midi": 62
     },
     {
@@ -206,6 +136,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 8,
+      "beat": 0.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 62
+    },
+    {
+      "bar": 8,
       "beat": 2.25,
       "lane": 0,
       "voice": "klong",
@@ -213,35 +150,119 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 8,
+      "beat": 3.75,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
+    },
+    {
+      "bar": 9,
+      "beat": 0.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 64
+    },
+    {
+      "bar": 9,
+      "beat": 1.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 62
+    },
+    {
+      "bar": 9,
+      "beat": 3.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
+    },
+    {
+      "bar": 10,
+      "beat": 0.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 10,
+      "beat": 1.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 60
+    },
+    {
+      "bar": 10,
+      "beat": 2.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 60
+    },
+    {
+      "bar": 10,
+      "beat": 3.25,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
+    },
+    {
+      "bar": 11,
+      "beat": 0.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
+    },
+    {
+      "bar": 11,
+      "beat": 1,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 60
+    },
+    {
+      "bar": 11,
+      "beat": 2,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 69
+    },
+    {
+      "bar": 11,
+      "beat": 3.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 12,
+      "beat": 0.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 12,
+      "beat": 0.75,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 60
+    },
+    {
+      "bar": 12,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 67
+    },
+    {
+      "bar": 12,
       "beat": 3.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 9,
-      "beat": 0.75,
       "lane": 1,
       "voice": "ponglang",
-      "midi": 64
+      "midi": 62
     },
     {
-      "bar": 9,
-      "beat": 3.25,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 64
-    },
-    {
-      "bar": 10,
-      "beat": 0.75,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 10,
-      "beat": 3.25,
+      "bar": 13,
+      "beat": 0,
       "lane": 2,
       "voice": "phin",
       "midi": 67
@@ -254,11 +275,32 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "midi": 69
     },
     {
+      "bar": 13,
+      "beat": 2,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 62
+    },
+    {
+      "bar": 13,
+      "beat": 3.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
       "bar": 14,
       "beat": 0.75,
-      "lane": 0,
-      "voice": "klong",
+      "lane": 1,
+      "voice": "ponglang",
       "midi": 64
+    },
+    {
+      "bar": 14,
+      "beat": 1.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
     },
     {
       "bar": 14,
@@ -266,6 +308,48 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 0,
       "voice": "klong",
       "midi": 67
+    },
+    {
+      "bar": 15,
+      "beat": 0.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 15,
+      "beat": 0.75,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 15,
+      "beat": 2,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
+    },
+    {
+      "bar": 15,
+      "beat": 3,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 16,
+      "beat": 0.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 64
+    },
+    {
+      "bar": 16,
+      "beat": 1.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
     },
     {
       "bar": 16,
@@ -276,16 +360,9 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 17,
-      "beat": 0.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 17,
       "beat": 1,
-      "lane": 0,
-      "voice": "klong",
+      "lane": 1,
+      "voice": "ponglang",
       "midi": 62
     },
     {
@@ -297,17 +374,17 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 17,
-      "beat": 3.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 60
-    },
-    {
-      "bar": 17,
       "beat": 3.5,
       "lane": 0,
       "voice": "klong",
       "midi": 62
+    },
+    {
+      "bar": 18,
+      "beat": 0.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
     },
     {
       "bar": 18,
@@ -322,13 +399,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 2,
       "voice": "phin",
       "midi": 69
-    },
-    {
-      "bar": 18,
-      "beat": 2.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
     },
     {
       "bar": 18,
@@ -338,20 +408,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "midi": 69
     },
     {
-      "bar": 18,
-      "beat": 3.5,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
-    },
-    {
-      "bar": 19,
-      "beat": 0,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
       "bar": 19,
       "beat": 0,
       "lane": 1,
@@ -360,17 +416,10 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 19,
-      "beat": 0.5,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 62
-    },
-    {
-      "bar": 19,
-      "beat": 1,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 69
     },
     {
       "bar": 19,
@@ -380,20 +429,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "midi": 60
     },
     {
-      "bar": 19,
-      "beat": 3,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 19,
-      "beat": 3.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 67
-    },
-    {
       "bar": 20,
       "beat": 0,
       "lane": 1,
@@ -402,30 +437,9 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 20,
-      "beat": 0,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 60
-    },
-    {
-      "bar": 20,
-      "beat": 0.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 20,
-      "beat": 1,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 69
-    },
-    {
-      "bar": 20,
       "beat": 1.5,
-      "lane": 0,
-      "voice": "klong",
+      "lane": 2,
+      "voice": "phin",
       "midi": 62
     },
     {
@@ -437,13 +451,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 20,
-      "beat": 2.5,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 60
-    },
-    {
-      "bar": 20,
       "beat": 3.5,
       "lane": 0,
       "voice": "klong",
@@ -451,20 +458,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 21,
-      "beat": 0,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 62
-    },
-    {
-      "bar": 21,
-      "beat": 0,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 62
-    },
-    {
-      "bar": 21,
       "beat": 0.5,
       "lane": 1,
       "voice": "ponglang",
@@ -479,59 +472,17 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 21,
-      "beat": 1.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 21,
-      "beat": 1.75,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 21,
       "beat": 2.5,
       "lane": 0,
       "voice": "klong",
       "midi": 62
     },
     {
-      "bar": 21,
-      "beat": 3,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 67
-    },
-    {
-      "bar": 21,
-      "beat": 3.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 69
-    },
-    {
       "bar": 22,
       "beat": 0,
       "lane": 3,
       "voice": "khaen",
       "midi": 64
-    },
-    {
-      "bar": 22,
-      "beat": 0,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 64
-    },
-    {
-      "bar": 22,
-      "beat": 0.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
     },
     {
       "bar": 22,
@@ -542,177 +493,93 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 22,
-      "beat": 1.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 67
-    },
-    {
-      "bar": 22,
       "beat": 2.5,
       "lane": 0,
       "voice": "klong",
       "midi": 64
     },
     {
-      "bar": 22,
-      "beat": 3,
-      "lane": 1,
-      "voice": "ponglang",
+      "bar": 23,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
+    },
+    {
+      "bar": 23,
+      "beat": 0,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 23,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
       "midi": 69
     },
     {
-      "bar": 22,
+      "bar": 23,
+      "beat": 3,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 60
+    },
+    {
+      "bar": 24,
+      "beat": 1,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 24,
+      "beat": 1.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 24,
+      "beat": 2.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 24,
       "beat": 3.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 23,
-      "beat": 0,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 23,
-      "beat": 0,
       "lane": 2,
       "voice": "phin",
       "midi": 67
     },
     {
-      "bar": 23,
-      "beat": 0.5,
+      "bar": 25,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 60
+    },
+    {
+      "bar": 25,
+      "beat": 0,
       "lane": 3,
       "voice": "khaen",
       "midi": 60
     },
     {
-      "bar": 23,
-      "beat": 1,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 23,
-      "beat": 1.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 23,
+      "bar": 25,
       "beat": 2,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 62
-    },
-    {
-      "bar": 23,
-      "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 67
-    },
-    {
-      "bar": 23,
-      "beat": 3,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 60
-    },
-    {
-      "bar": 23,
-      "beat": 3.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 24,
-      "beat": 0.75,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
-    },
-    {
-      "bar": 24,
-      "beat": 1,
       "lane": 1,
       "voice": "ponglang",
       "midi": 67
-    },
-    {
-      "bar": 24,
-      "beat": 1.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 60
-    },
-    {
-      "bar": 24,
-      "beat": 2.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 24,
-      "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 24,
-      "beat": 3.5,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 25,
-      "beat": 0,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 60
-    },
-    {
-      "bar": 25,
-      "beat": 1.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 60
-    },
-    {
-      "bar": 25,
-      "beat": 1.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
     },
     {
       "bar": 25,
       "beat": 2.5,
       "lane": 0,
       "voice": "klong",
-      "midi": 60
-    },
-    {
-      "bar": 26,
-      "beat": 0.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 67
-    },
-    {
-      "bar": 26,
-      "beat": 1,
-      "lane": 1,
-      "voice": "ponglang",
       "midi": 60
     },
     {
@@ -731,38 +598,10 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 26,
-      "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 26,
       "beat": 3,
       "lane": 3,
       "voice": "khaen",
       "midi": 67
-    },
-    {
-      "bar": 26,
-      "beat": 3.5,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 60
-    },
-    {
-      "bar": 27,
-      "beat": 0,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
-    },
-    {
-      "bar": 27,
-      "beat": 0,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 64
     },
     {
       "bar": 27,
@@ -780,38 +619,10 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 27,
-      "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 27,
       "beat": 3,
       "lane": 1,
       "voice": "ponglang",
       "midi": 69
-    },
-    {
-      "bar": 27,
-      "beat": 3.25,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 60
-    },
-    {
-      "bar": 27,
-      "beat": 3.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 28,
-      "beat": 0,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 67
     },
     {
       "bar": 28,
@@ -836,38 +647,10 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 28,
-      "beat": 1,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 28,
-      "beat": 1.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 28,
-      "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 67
-    },
-    {
-      "bar": 28,
       "beat": 3,
       "lane": 1,
       "voice": "ponglang",
       "midi": 60
-    },
-    {
-      "bar": 28,
-      "beat": 3.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
     },
     {
       "bar": 29,
@@ -879,169 +662,99 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 29,
       "beat": 0.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 29,
-      "beat": 1,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 67
-    },
-    {
-      "bar": 29,
-      "beat": 1.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 60
-    },
-    {
-      "bar": 29,
-      "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 29,
-      "beat": 3.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 67
-    },
-    {
-      "bar": 30,
-      "beat": 0.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 30,
-      "beat": 1,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 30,
-      "beat": 1.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 30,
-      "beat": 3.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 31,
-      "beat": 0,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 62
-    },
-    {
-      "bar": 31,
-      "beat": 1,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 60
-    },
-    {
-      "bar": 31,
-      "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 31,
-      "beat": 3,
       "lane": 3,
       "voice": "khaen",
-      "midi": 67
+      "midi": 62
     },
     {
-      "bar": 31,
-      "beat": 3.5,
+      "bar": 29,
+      "beat": 1.5,
       "lane": 0,
       "voice": "klong",
       "midi": 60
     },
     {
-      "bar": 32,
-      "beat": 0,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 64
-    },
-    {
-      "bar": 32,
-      "beat": 0.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 32,
+      "bar": 30,
       "beat": 1,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 62
-    },
-    {
-      "bar": 32,
-      "beat": 1.5,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 67
-    },
-    {
-      "bar": 33,
-      "beat": 1.5,
       "lane": 0,
       "voice": "klong",
       "midi": 69
     },
     {
-      "bar": 33,
+      "bar": 30,
       "beat": 2,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 31,
+      "beat": 2.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 32,
+      "beat": 0.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 32,
+      "beat": 1,
       "lane": 1,
       "voice": "ponglang",
       "midi": 62
     },
     {
-      "bar": 33,
-      "beat": 3,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 60
-    },
-    {
-      "bar": 34,
+      "bar": 32,
       "beat": 1.5,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 60
-    },
-    {
-      "bar": 34,
-      "beat": 2.5,
       "lane": 2,
       "voice": "phin",
+      "midi": 67
+    },
+    {
+      "bar": 32,
+      "beat": 3.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 62
+    },
+    {
+      "bar": 33,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 33,
+      "beat": 2.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 33,
+      "beat": 3,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 60
+    },
+    {
+      "bar": 34,
+      "beat": 0,
+      "lane": 1,
+      "voice": "ponglang",
       "midi": 69
     },
     {
       "bar": 34,
-      "beat": 3,
-      "lane": 3,
-      "voice": "khaen",
+      "beat": 0.5,
+      "lane": 0,
+      "voice": "klong",
       "midi": 62
     },
     {
@@ -1073,18 +786,53 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "midi": 69
     },
     {
+      "bar": 35,
+      "beat": 2.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 60
+    },
+    {
+      "bar": 36,
+      "beat": 1,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 36,
+      "beat": 1.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 67
+    },
+    {
+      "bar": 36,
+      "beat": 2.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 60
+    },
+    {
+      "bar": 36,
+      "beat": 2.5,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
+    },
+    {
+      "bar": 37,
+      "beat": 1,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 62
+    },
+    {
       "bar": 37,
       "beat": 1.75,
       "lane": 3,
       "voice": "khaen",
       "midi": 69
-    },
-    {
-      "bar": 37,
-      "beat": 2.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 62
     },
     {
       "bar": 38,
@@ -1094,11 +842,46 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "midi": 69
     },
     {
+      "bar": 38,
+      "beat": 1,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
+    },
+    {
+      "bar": 38,
+      "beat": 1.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 60
+    },
+    {
+      "bar": 38,
+      "beat": 2,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
+    },
+    {
+      "bar": 39,
+      "beat": 0.25,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 60
+    },
+    {
       "bar": 39,
       "beat": 1,
       "lane": 0,
       "voice": "klong",
       "midi": 67
+    },
+    {
+      "bar": 39,
+      "beat": 2.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
     },
     {
       "bar": 40,
@@ -1115,8 +898,92 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "midi": 60
     },
     {
+      "bar": 40,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 41,
+      "beat": 1,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 60
+    },
+    {
       "bar": 41,
       "beat": 3.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 62
+    },
+    {
+      "bar": 42,
+      "beat": 1,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
+    },
+    {
+      "bar": 42,
+      "beat": 1.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
+    },
+    {
+      "bar": 43,
+      "beat": 0.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 43,
+      "beat": 2.5,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
+    },
+    {
+      "bar": 43,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 64
+    },
+    {
+      "bar": 44,
+      "beat": 0.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 62
+    },
+    {
+      "bar": 44,
+      "beat": 2.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 44,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 67
+    },
+    {
+      "bar": 44,
+      "beat": 3.75,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 69
+    },
+    {
+      "bar": 45,
+      "beat": 2.75,
       "lane": 3,
       "voice": "khaen",
       "midi": 62
@@ -1130,13 +997,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 46,
-      "beat": 0.75,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 69
-    },
-    {
-      "bar": 46,
       "beat": 1.25,
       "lane": 2,
       "voice": "phin",
@@ -1144,10 +1004,45 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 46,
-      "beat": 2.25,
+      "beat": 1.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 46,
+      "beat": 3.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 47,
+      "beat": 1.25,
       "lane": 2,
       "voice": "phin",
-      "midi": 60
+      "midi": 64
+    },
+    {
+      "bar": 47,
+      "beat": 1.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 47,
+      "beat": 2.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 47,
+      "beat": 3,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
     }
   ],
   "normal": [
@@ -1174,13 +1069,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 2,
-      "beat": 2.25,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 62
-    },
-    {
-      "bar": 2,
       "beat": 2.75,
       "lane": 2,
       "voice": "phin",
@@ -1194,11 +1082,11 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "midi": 60
     },
     {
-      "bar": 2,
-      "beat": 3.75,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 64
+      "bar": 3,
+      "beat": 0.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
     },
     {
       "bar": 3,
@@ -1248,13 +1136,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 0,
       "voice": "klong",
       "midi": 60
-    },
-    {
-      "bar": 4,
-      "beat": 1.25,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
     },
     {
       "bar": 4,
@@ -1315,8 +1196,8 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 5,
       "beat": 2.25,
-      "lane": 1,
-      "voice": "ponglang",
+      "lane": 3,
+      "voice": "khaen",
       "midi": 69
     },
     {
@@ -1391,13 +1272,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 7,
-      "beat": 0,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 64
-    },
-    {
-      "bar": 7,
       "beat": 0.25,
       "lane": 0,
       "voice": "klong",
@@ -1440,9 +1314,37 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 8,
+      "beat": 0.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 8,
       "beat": 0.75,
       "lane": 0,
       "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 8,
+      "beat": 1.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
+    },
+    {
+      "bar": 8,
+      "beat": 1.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 8,
+      "beat": 2,
+      "lane": 2,
+      "voice": "phin",
       "midi": 62
     },
     {
@@ -1451,6 +1353,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 0,
       "voice": "klong",
       "midi": 64
+    },
+    {
+      "bar": 8,
+      "beat": 2.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
     },
     {
       "bar": 8,
@@ -1479,6 +1388,34 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 0,
       "voice": "klong",
       "midi": 69
+    },
+    {
+      "bar": 9,
+      "beat": 1.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 62
+    },
+    {
+      "bar": 9,
+      "beat": 2.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 9,
+      "beat": 2.5,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 69
+    },
+    {
+      "bar": 9,
+      "beat": 2.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
     },
     {
       "bar": 9,
@@ -1544,11 +1481,32 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "midi": 67
     },
     {
+      "bar": 10,
+      "beat": 3.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 11,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
+    },
+    {
       "bar": 11,
       "beat": 0.25,
       "lane": 1,
       "voice": "ponglang",
       "midi": 64
+    },
+    {
+      "bar": 11,
+      "beat": 0.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
     },
     {
       "bar": 11,
@@ -1559,9 +1517,30 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 11,
+      "beat": 1.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 62
+    },
+    {
+      "bar": 11,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 64
+    },
+    {
+      "bar": 11,
+      "beat": 1.75,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 11,
       "beat": 2,
-      "lane": 2,
-      "voice": "phin",
+      "lane": 3,
+      "voice": "khaen",
       "midi": 69
     },
     {
@@ -1573,10 +1552,24 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 11,
+      "beat": 3,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
+    },
+    {
+      "bar": 11,
       "beat": 3.25,
       "lane": 3,
       "voice": "khaen",
       "midi": 69
+    },
+    {
+      "bar": 11,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 60
     },
     {
       "bar": 12,
@@ -1608,10 +1601,38 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 12,
+      "beat": 2.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 12,
+      "beat": 3,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
+    },
+    {
+      "bar": 12,
       "beat": 3.5,
       "lane": 1,
       "voice": "ponglang",
       "midi": 62
+    },
+    {
+      "bar": 12,
+      "beat": 3.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 13,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
     },
     {
       "bar": 13,
@@ -1622,10 +1643,24 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 13,
+      "beat": 0.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 60
+    },
+    {
+      "bar": 13,
       "beat": 1.5,
       "lane": 0,
       "voice": "klong",
       "midi": 69
+    },
+    {
+      "bar": 13,
+      "beat": 1.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
     },
     {
       "bar": 13,
@@ -1640,6 +1675,27 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 0,
       "voice": "klong",
       "midi": 60
+    },
+    {
+      "bar": 13,
+      "beat": 3.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 62
+    },
+    {
+      "bar": 13,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 64
+    },
+    {
+      "bar": 13,
+      "beat": 3.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
     },
     {
       "bar": 14,
@@ -1650,10 +1706,122 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 14,
+      "beat": 1,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 14,
+      "beat": 1.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 14,
+      "beat": 2.75,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 60
+    },
+    {
+      "bar": 14,
+      "beat": 3,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
+    },
+    {
+      "bar": 14,
       "beat": 3.5,
       "lane": 0,
       "voice": "klong",
       "midi": 67
+    },
+    {
+      "bar": 14,
+      "beat": 3.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 15,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 60
+    },
+    {
+      "bar": 15,
+      "beat": 0.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 15,
+      "beat": 0.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 15,
+      "beat": 0.75,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 15,
+      "beat": 1.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 15,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 15,
+      "beat": 2,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
+    },
+    {
+      "bar": 15,
+      "beat": 2.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 15,
+      "beat": 3,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 15,
+      "beat": 3.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 15,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
     },
     {
       "bar": 16,
@@ -1735,16 +1903,9 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 17,
       "beat": 2,
-      "lane": 3,
-      "voice": "khaen",
+      "lane": 1,
+      "voice": "ponglang",
       "midi": 60
-    },
-    {
-      "bar": 17,
-      "beat": 2.5,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
     },
     {
       "bar": 17,
@@ -1762,24 +1923,10 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 18,
-      "beat": 0,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 67
-    },
-    {
-      "bar": 18,
       "beat": 0.5,
       "lane": 0,
       "voice": "klong",
       "midi": 60
-    },
-    {
-      "bar": 18,
-      "beat": 1,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
     },
     {
       "bar": 18,
@@ -1847,8 +1994,8 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 19,
       "beat": 0.5,
-      "lane": 0,
-      "voice": "klong",
+      "lane": 1,
+      "voice": "ponglang",
       "midi": 62
     },
     {
@@ -1874,20 +2021,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 19,
-      "beat": 2.25,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 67
-    },
-    {
-      "bar": 19,
-      "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 19,
       "beat": 3,
       "lane": 0,
       "voice": "klong",
@@ -1910,15 +2043,15 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 20,
       "beat": 0,
-      "lane": 3,
-      "voice": "khaen",
+      "lane": 1,
+      "voice": "ponglang",
       "midi": 60
     },
     {
       "bar": 20,
       "beat": 0,
-      "lane": 2,
-      "voice": "phin",
+      "lane": 3,
+      "voice": "khaen",
       "midi": 60
     },
     {
@@ -1927,13 +2060,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 0,
       "voice": "klong",
       "midi": 64
-    },
-    {
-      "bar": 20,
-      "beat": 0.75,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 67
     },
     {
       "bar": 20,
@@ -1962,13 +2088,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 0,
       "voice": "klong",
       "midi": 60
-    },
-    {
-      "bar": 20,
-      "beat": 3.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
     },
     {
       "bar": 20,
@@ -2028,13 +2147,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 21,
-      "beat": 2.75,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
-    },
-    {
-      "bar": 21,
       "beat": 3,
       "lane": 1,
       "voice": "ponglang",
@@ -2067,13 +2179,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 2,
       "voice": "phin",
       "midi": 64
-    },
-    {
-      "bar": 22,
-      "beat": 0.25,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 67
     },
     {
       "bar": 22,
@@ -2112,13 +2217,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 22,
-      "beat": 2.75,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 22,
       "beat": 3,
       "lane": 1,
       "voice": "ponglang",
@@ -2144,13 +2242,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 2,
       "voice": "phin",
       "midi": 67
-    },
-    {
-      "bar": 23,
-      "beat": 0.25,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
     },
     {
       "bar": 23,
@@ -2189,13 +2280,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 23,
-      "beat": 2.75,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 69
-    },
-    {
-      "bar": 23,
       "beat": 3,
       "lane": 1,
       "voice": "ponglang",
@@ -2203,24 +2287,10 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 23,
-      "beat": 3.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 62
-    },
-    {
-      "bar": 23,
       "beat": 3.5,
       "lane": 0,
       "voice": "klong",
       "midi": 64
-    },
-    {
-      "bar": 24,
-      "beat": 0.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
     },
     {
       "bar": 24,
@@ -2238,13 +2308,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 24,
-      "beat": 1.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 69
-    },
-    {
-      "bar": 24,
       "beat": 1.5,
       "lane": 0,
       "voice": "klong",
@@ -2252,10 +2315,10 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 24,
-      "beat": 1.75,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 62
+      "beat": 2,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
     },
     {
       "bar": 24,
@@ -2301,6 +2364,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 25,
+      "beat": 0.5,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 64
+    },
+    {
+      "bar": 25,
       "beat": 1,
       "lane": 0,
       "voice": "klong",
@@ -2323,8 +2393,8 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 25,
       "beat": 2,
-      "lane": 0,
-      "voice": "klong",
+      "lane": 1,
+      "voice": "ponglang",
       "midi": 67
     },
     {
@@ -2340,6 +2410,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 1,
       "voice": "ponglang",
       "midi": 64
+    },
+    {
+      "bar": 25,
+      "beat": 3.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
     },
     {
       "bar": 26,
@@ -2368,6 +2445,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 1,
       "voice": "ponglang",
       "midi": 69
+    },
+    {
+      "bar": 26,
+      "beat": 2.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
     },
     {
       "bar": 26,
@@ -2400,8 +2484,8 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 27,
       "beat": 0,
-      "lane": 1,
-      "voice": "ponglang",
+      "lane": 2,
+      "voice": "phin",
       "midi": 64
     },
     {
@@ -2424,13 +2508,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 0,
       "voice": "klong",
       "midi": 67
-    },
-    {
-      "bar": 27,
-      "beat": 2,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 60
     },
     {
       "bar": 27,
@@ -2483,24 +2560,10 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 28,
-      "beat": 1,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 28,
       "beat": 1.5,
       "lane": 0,
       "voice": "klong",
       "midi": 69
-    },
-    {
-      "bar": 28,
-      "beat": 2,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 62
     },
     {
       "bar": 28,
@@ -2540,8 +2603,8 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 29,
       "beat": 0.5,
-      "lane": 0,
-      "voice": "klong",
+      "lane": 3,
+      "voice": "khaen",
       "midi": 62
     },
     {
@@ -2564,6 +2627,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 0,
       "voice": "klong",
       "midi": 69
+    },
+    {
+      "bar": 29,
+      "beat": 3,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 62
     },
     {
       "bar": 29,
@@ -2603,15 +2673,15 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 30,
       "beat": 2,
-      "lane": 0,
-      "voice": "klong",
+      "lane": 3,
+      "voice": "khaen",
       "midi": 67
     },
     {
       "bar": 30,
       "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
+      "lane": 3,
+      "voice": "khaen",
       "midi": 60
     },
     {
@@ -2620,13 +2690,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 0,
       "voice": "klong",
       "midi": 69
-    },
-    {
-      "bar": 31,
-      "beat": 0,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
     },
     {
       "bar": 31,
@@ -2693,6 +2756,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 32,
+      "beat": 0,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 32,
       "beat": 0.5,
       "lane": 0,
       "voice": "klong",
@@ -2714,13 +2784,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 32,
-      "beat": 2,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 60
-    },
-    {
-      "bar": 32,
       "beat": 2.5,
       "lane": 0,
       "voice": "klong",
@@ -2732,6 +2795,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 1,
       "voice": "ponglang",
       "midi": 69
+    },
+    {
+      "bar": 32,
+      "beat": 3.25,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 60
     },
     {
       "bar": 32,
@@ -2799,8 +2869,8 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 34,
       "beat": 0,
-      "lane": 3,
-      "voice": "khaen",
+      "lane": 1,
+      "voice": "ponglang",
       "midi": 69
     },
     {
@@ -2820,8 +2890,8 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 34,
       "beat": 1,
-      "lane": 3,
-      "voice": "khaen",
+      "lane": 1,
+      "voice": "ponglang",
       "midi": 67
     },
     {
@@ -2833,17 +2903,10 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 34,
-      "beat": 1.75,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 62
-    },
-    {
-      "bar": 34,
-      "beat": 2.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
+      "beat": 2,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
     },
     {
       "bar": 34,
@@ -2889,10 +2952,24 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 35,
+      "beat": 0.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 35,
       "beat": 1,
       "lane": 1,
       "voice": "ponglang",
       "midi": 69
+    },
+    {
+      "bar": 35,
+      "beat": 1.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 62
     },
     {
       "bar": 35,
@@ -2910,10 +2987,94 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 36,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
+    },
+    {
+      "bar": 36,
+      "beat": 0,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 62
+    },
+    {
+      "bar": 36,
+      "beat": 0.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
+    },
+    {
+      "bar": 36,
+      "beat": 0.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 36,
       "beat": 1,
       "lane": 3,
       "voice": "khaen",
       "midi": 60
+    },
+    {
+      "bar": 36,
+      "beat": 1.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
+    },
+    {
+      "bar": 36,
+      "beat": 1.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 67
+    },
+    {
+      "bar": 36,
+      "beat": 2.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 60
+    },
+    {
+      "bar": 36,
+      "beat": 2.5,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
+    },
+    {
+      "bar": 36,
+      "beat": 2.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 64
+    },
+    {
+      "bar": 36,
+      "beat": 3.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 37,
+      "beat": 0.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
+    },
+    {
+      "bar": 37,
+      "beat": 1,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 62
     },
     {
       "bar": 37,
@@ -2932,6 +3093,27 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 37,
       "beat": 2.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 37,
+      "beat": 3,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
+    },
+    {
+      "bar": 37,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 38,
+      "beat": 0,
       "lane": 2,
       "voice": "phin",
       "midi": 67
@@ -2945,6 +3127,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 38,
+      "beat": 0.75,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
+    },
+    {
+      "bar": 38,
       "beat": 1,
       "lane": 0,
       "voice": "klong",
@@ -2955,6 +3144,62 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "beat": 1.75,
       "lane": 0,
       "voice": "klong",
+      "midi": 60
+    },
+    {
+      "bar": 38,
+      "beat": 2,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
+    },
+    {
+      "bar": 38,
+      "beat": 2.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 38,
+      "beat": 2.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 38,
+      "beat": 2.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 38,
+      "beat": 3,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 60
+    },
+    {
+      "bar": 38,
+      "beat": 3.75,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 39,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 69
+    },
+    {
+      "bar": 39,
+      "beat": 0.25,
+      "lane": 3,
+      "voice": "khaen",
       "midi": 60
     },
     {
@@ -2973,10 +3218,66 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 39,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 60
+    },
+    {
+      "bar": 39,
       "beat": 2.75,
       "lane": 3,
       "voice": "khaen",
       "midi": 60
+    },
+    {
+      "bar": 39,
+      "beat": 3.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 39,
+      "beat": 3.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 40,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 60
+    },
+    {
+      "bar": 40,
+      "beat": 0,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 40,
+      "beat": 0.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 40,
+      "beat": 0.5,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 64
+    },
+    {
+      "bar": 40,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
     },
     {
       "bar": 40,
@@ -2987,6 +3288,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 40,
+      "beat": 2,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 40,
       "beat": 2.5,
       "lane": 3,
       "voice": "khaen",
@@ -2994,10 +3302,24 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 40,
+      "beat": 3,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
+    },
+    {
+      "bar": 40,
       "beat": 3.25,
       "lane": 3,
       "voice": "khaen",
       "midi": 67
+    },
+    {
+      "bar": 40,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
     },
     {
       "bar": 41,
@@ -3057,6 +3379,20 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 42,
+      "beat": 0.25,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
+    },
+    {
+      "bar": 42,
+      "beat": 0.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 60
+    },
+    {
+      "bar": 42,
       "beat": 1,
       "lane": 2,
       "voice": "phin",
@@ -3070,11 +3406,102 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "midi": 64
     },
     {
+      "bar": 42,
+      "beat": 2.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 62
+    },
+    {
+      "bar": 42,
+      "beat": 2.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
+    },
+    {
+      "bar": 42,
+      "beat": 2.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 42,
+      "beat": 3,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 69
+    },
+    {
+      "bar": 42,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 43,
+      "beat": 0,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 43,
+      "beat": 0.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 43,
+      "beat": 0.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 43,
+      "beat": 1.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 60
+    },
+    {
+      "bar": 43,
+      "beat": 2.5,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
+    },
+    {
+      "bar": 43,
+      "beat": 2.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
       "bar": 43,
       "beat": 3.5,
       "lane": 0,
       "voice": "klong",
       "midi": 64
+    },
+    {
+      "bar": 43,
+      "beat": 3.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 44,
+      "beat": 0.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
     },
     {
       "bar": 44,
@@ -3085,10 +3512,66 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 44,
+      "beat": 1.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 44,
+      "beat": 2.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
+    },
+    {
+      "bar": 44,
       "beat": 2.75,
       "lane": 3,
       "voice": "khaen",
       "midi": 60
+    },
+    {
+      "bar": 44,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 67
+    },
+    {
+      "bar": 44,
+      "beat": 3.75,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 69
+    },
+    {
+      "bar": 45,
+      "beat": 0,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 60
+    },
+    {
+      "bar": 45,
+      "beat": 0.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 45,
+      "beat": 0.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
+    },
+    {
+      "bar": 45,
+      "beat": 1.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 64
     },
     {
       "bar": 45,
@@ -3096,6 +3579,27 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 3,
       "voice": "khaen",
       "midi": 62
+    },
+    {
+      "bar": 45,
+      "beat": 3,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 64
+    },
+    {
+      "bar": 45,
+      "beat": 3.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 45,
+      "beat": 3.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
     },
     {
       "bar": 45,
@@ -3107,8 +3611,8 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 46,
       "beat": 0.25,
-      "lane": 2,
-      "voice": "phin",
+      "lane": 1,
+      "voice": "ponglang",
       "midi": 64
     },
     {
@@ -3162,10 +3666,66 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 47,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 64
+    },
+    {
+      "bar": 47,
+      "beat": 0,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 47,
+      "beat": 0.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 47,
+      "beat": 0.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 47,
+      "beat": 0.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 60
+    },
+    {
+      "bar": 47,
+      "beat": 1.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 47,
+      "beat": 1.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 47,
       "beat": 2.25,
       "lane": 0,
       "voice": "klong",
       "midi": 62
+    },
+    {
+      "bar": 47,
+      "beat": 2.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
     },
     {
       "bar": 47,
@@ -3227,6 +3787,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 3,
+      "beat": 0.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 3,
       "beat": 0.75,
       "lane": 2,
       "voice": "phin",
@@ -3241,10 +3808,24 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 3,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 3,
       "beat": 1.75,
       "lane": 3,
       "voice": "khaen",
       "midi": 60
+    },
+    {
+      "bar": 3,
+      "beat": 2,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
     },
     {
       "bar": 3,
@@ -3255,6 +3836,20 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 3,
+      "beat": 2.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 3,
+      "beat": 3,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 60
+    },
+    {
+      "bar": 3,
       "beat": 3.25,
       "lane": 0,
       "voice": "klong",
@@ -3339,10 +3934,10 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 5,
-      "beat": 1.75,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 64
+      "beat": 1.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 62
     },
     {
       "bar": 5,
@@ -3500,10 +4095,24 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 8,
+      "beat": 1.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 67
+    },
+    {
+      "bar": 8,
       "beat": 1.5,
       "lane": 1,
       "voice": "ponglang",
       "midi": 69
+    },
+    {
+      "bar": 8,
+      "beat": 1.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
     },
     {
       "bar": 8,
@@ -3570,6 +4179,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 9,
+      "beat": 2.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 9,
       "beat": 3.25,
       "lane": 1,
       "voice": "ponglang",
@@ -3612,6 +4228,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 10,
+      "beat": 1.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 10,
       "beat": 2.25,
       "lane": 1,
       "voice": "ponglang",
@@ -3717,13 +4340,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 11,
-      "beat": 3,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 67
-    },
-    {
-      "bar": 11,
       "beat": 3.25,
       "lane": 3,
       "voice": "khaen",
@@ -3738,6 +4354,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 12,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 64
+    },
+    {
+      "bar": 12,
       "beat": 0.25,
       "lane": 3,
       "voice": "khaen",
@@ -3759,6 +4382,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 12,
+      "beat": 2.25,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
+    },
+    {
+      "bar": 12,
       "beat": 2.5,
       "lane": 0,
       "voice": "klong",
@@ -3766,10 +4396,24 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 12,
+      "beat": 2.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 12,
       "beat": 3,
       "lane": 1,
       "voice": "ponglang",
       "midi": 69
+    },
+    {
+      "bar": 12,
+      "beat": 3.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
     },
     {
       "bar": 12,
@@ -3781,9 +4425,23 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 12,
       "beat": 3.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 13,
+      "beat": 0,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 13,
+      "beat": 0,
       "lane": 2,
       "voice": "phin",
-      "midi": 64
+      "midi": 67
     },
     {
       "bar": 13,
@@ -3819,6 +4477,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 1,
       "voice": "ponglang",
       "midi": 62
+    },
+    {
+      "bar": 13,
+      "beat": 2.5,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
     },
     {
       "bar": 13,
@@ -3892,689 +4557,675 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 14,
-      "beat": 3.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 67
-    },
-    {
-      "bar": 15,
-      "beat": 0.25,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 15,
-      "beat": 0.5,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
-    },
-    {
-      "bar": 15,
-      "beat": 0.75,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 67
-    },
-    {
-      "bar": 15,
-      "beat": 1.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 15,
-      "beat": 2,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 67
-    },
-    {
-      "bar": 15,
-      "beat": 2.25,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 15,
-      "beat": 3,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
-    },
-    {
-      "bar": 15,
-      "beat": 3.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 16,
-      "beat": 0.25,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 16,
-      "beat": 0.5,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 67
-    },
-    {
-      "bar": 16,
-      "beat": 0.75,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 16,
-      "beat": 1.5,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
-    },
-    {
-      "bar": 16,
-      "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 16,
-      "beat": 3,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 67
-    },
-    {
-      "bar": 16,
       "beat": 3.25,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 16,
-      "beat": 3.5,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 60
-    },
-    {
-      "bar": 17,
-      "beat": 0,
       "lane": 1,
       "voice": "ponglang",
       "midi": 64
     },
     {
-      "bar": 17,
-      "beat": 0.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 17,
-      "beat": 0.75,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 60
-    },
-    {
-      "bar": 17,
-      "beat": 1,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 17,
-      "beat": 1.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
-    },
-    {
-      "bar": 17,
-      "beat": 1.75,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 69
-    },
-    {
-      "bar": 17,
-      "beat": 2,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 60
-    },
-    {
-      "bar": 17,
-      "beat": 2.5,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
-    },
-    {
-      "bar": 17,
-      "beat": 3.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 60
-    },
-    {
-      "bar": 17,
-      "beat": 3.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 18,
-      "beat": 0,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 18,
-      "beat": 0,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 67
-    },
-    {
-      "bar": 18,
-      "beat": 0.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 60
-    },
-    {
-      "bar": 18,
-      "beat": 1,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
-    },
-    {
-      "bar": 18,
-      "beat": 1.5,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 69
-    },
-    {
-      "bar": 18,
-      "beat": 2,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 62
-    },
-    {
-      "bar": 18,
-      "beat": 2.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
-    },
-    {
-      "bar": 18,
-      "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 67
-    },
-    {
-      "bar": 18,
-      "beat": 2.75,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 69
-    },
-    {
-      "bar": 18,
-      "beat": 3.25,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 62
-    },
-    {
-      "bar": 18,
-      "beat": 3.5,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
-    },
-    {
-      "bar": 19,
-      "beat": 0,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 19,
-      "beat": 0,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 69
-    },
-    {
-      "bar": 19,
-      "beat": 0.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 60
-    },
-    {
-      "bar": 19,
-      "beat": 0.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 19,
-      "beat": 1,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 19,
-      "beat": 1.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 60
-    },
-    {
-      "bar": 19,
-      "beat": 2,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 64
-    },
-    {
-      "bar": 19,
-      "beat": 2.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 19,
-      "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 19,
-      "beat": 3,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 19,
-      "beat": 3.25,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 64
-    },
-    {
-      "bar": 19,
+      "bar": 14,
       "beat": 3.5,
       "lane": 0,
       "voice": "klong",
       "midi": 67
     },
     {
-      "bar": 20,
-      "beat": 0,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 60
-    },
-    {
-      "bar": 20,
-      "beat": 0,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 60
-    },
-    {
-      "bar": 20,
-      "beat": 0.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 20,
-      "beat": 0.75,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 67
-    },
-    {
-      "bar": 20,
-      "beat": 1,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 69
-    },
-    {
-      "bar": 20,
-      "beat": 1.25,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 60
-    },
-    {
-      "bar": 20,
-      "beat": 1.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 20,
-      "beat": 2.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 69
-    },
-    {
-      "bar": 20,
-      "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 60
-    },
-    {
-      "bar": 20,
-      "beat": 3,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 20,
-      "beat": 3.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 20,
-      "beat": 3.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 21,
-      "beat": 0,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 62
-    },
-    {
-      "bar": 21,
-      "beat": 0,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 62
-    },
-    {
-      "bar": 21,
-      "beat": 0.5,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 67
-    },
-    {
-      "bar": 21,
-      "beat": 1,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 60
-    },
-    {
-      "bar": 21,
-      "beat": 1.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 21,
-      "beat": 1.75,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 21,
-      "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 21,
-      "beat": 2.75,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
-    },
-    {
-      "bar": 21,
-      "beat": 3,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 67
-    },
-    {
-      "bar": 21,
-      "beat": 3.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 69
-    },
-    {
-      "bar": 21,
-      "beat": 3.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 60
-    },
-    {
-      "bar": 22,
-      "beat": 0,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 64
-    },
-    {
-      "bar": 22,
-      "beat": 0,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 64
-    },
-    {
-      "bar": 22,
-      "beat": 0.25,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 67
-    },
-    {
-      "bar": 22,
-      "beat": 0.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 22,
-      "beat": 1,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 62
-    },
-    {
-      "bar": 22,
-      "beat": 1.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 67
-    },
-    {
-      "bar": 22,
-      "beat": 2,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 60
-    },
-    {
-      "bar": 22,
-      "beat": 2.25,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 62
-    },
-    {
-      "bar": 22,
-      "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 22,
-      "beat": 2.75,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 22,
-      "beat": 3,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 69
-    },
-    {
-      "bar": 22,
-      "beat": 3.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 62
-    },
-    {
-      "bar": 23,
-      "beat": 0,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 67
-    },
-    {
-      "bar": 23,
-      "beat": 0,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 67
-    },
-    {
-      "bar": 23,
-      "beat": 0.25,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 23,
-      "beat": 0.5,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 60
-    },
-    {
-      "bar": 23,
-      "beat": 1,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 23,
-      "beat": 1.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 69
-    },
-    {
-      "bar": 23,
-      "beat": 2,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 62
-    },
-    {
-      "bar": 23,
-      "beat": 2.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 67
-    },
-    {
-      "bar": 23,
-      "beat": 2.75,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 69
-    },
-    {
-      "bar": 23,
-      "beat": 3,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 60
-    },
-    {
-      "bar": 23,
-      "beat": 3.25,
-      "lane": 3,
-      "voice": "khaen",
-      "midi": 62
-    },
-    {
-      "bar": 23,
-      "beat": 3.5,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
-      "bar": 23,
+      "bar": 14,
       "beat": 3.75,
       "lane": 3,
       "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 15,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 60
+    },
+    {
+      "bar": 15,
+      "beat": 0.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 15,
+      "beat": 0.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 15,
+      "beat": 0.75,
+      "lane": 1,
+      "voice": "ponglang",
       "midi": 67
+    },
+    {
+      "bar": 15,
+      "beat": 1.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 15,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 15,
+      "beat": 2,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
+    },
+    {
+      "bar": 15,
+      "beat": 2.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 15,
+      "beat": 2.75,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 62
+    },
+    {
+      "bar": 15,
+      "beat": 3,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 15,
+      "beat": 3.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 15,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 16,
+      "beat": 0.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 64
+    },
+    {
+      "bar": 16,
+      "beat": 0.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 16,
+      "beat": 0.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 16,
+      "beat": 1.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 16,
+      "beat": 2.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 16,
+      "beat": 3,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 16,
+      "beat": 3.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 16,
+      "beat": 3.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 60
+    },
+    {
+      "bar": 17,
+      "beat": 0,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
+    },
+    {
+      "bar": 17,
+      "beat": 0.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 17,
+      "beat": 1,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 17,
+      "beat": 1.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 17,
+      "beat": 1.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 17,
+      "beat": 2,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 17,
+      "beat": 2.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 17,
+      "beat": 3.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 17,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 18,
+      "beat": 0,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 18,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
+    },
+    {
+      "bar": 18,
+      "beat": 0.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 60
+    },
+    {
+      "bar": 18,
+      "beat": 1,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 18,
+      "beat": 1.5,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 69
+    },
+    {
+      "bar": 18,
+      "beat": 2,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 62
+    },
+    {
+      "bar": 18,
+      "beat": 2.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 18,
+      "beat": 2.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 67
+    },
+    {
+      "bar": 18,
+      "beat": 2.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 18,
+      "beat": 3.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 19,
+      "beat": 0,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 19,
+      "beat": 0,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
+    },
+    {
+      "bar": 19,
+      "beat": 0.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 19,
+      "beat": 0.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 19,
+      "beat": 1,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 19,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 60
+    },
+    {
+      "bar": 19,
+      "beat": 2,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
+    },
+    {
+      "bar": 19,
+      "beat": 2.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 19,
+      "beat": 3,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 19,
+      "beat": 3.25,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 64
+    },
+    {
+      "bar": 19,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 67
+    },
+    {
+      "bar": 20,
+      "beat": 0,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 20,
+      "beat": 0,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 60
+    },
+    {
+      "bar": 20,
+      "beat": 0.25,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
+    },
+    {
+      "bar": 20,
+      "beat": 0.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 64
+    },
+    {
+      "bar": 20,
+      "beat": 1,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 20,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 20,
+      "beat": 2,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 20,
+      "beat": 2.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 20,
+      "beat": 2.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 60
+    },
+    {
+      "bar": 20,
+      "beat": 3,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 64
+    },
+    {
+      "bar": 20,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 21,
+      "beat": 0,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 62
+    },
+    {
+      "bar": 21,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
+    },
+    {
+      "bar": 21,
+      "beat": 0.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 21,
+      "beat": 1,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 21,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 64
+    },
+    {
+      "bar": 21,
+      "beat": 1.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 21,
+      "beat": 2,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
+    },
+    {
+      "bar": 21,
+      "beat": 2.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 21,
+      "beat": 3,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 21,
+      "beat": 3.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 21,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 60
+    },
+    {
+      "bar": 22,
+      "beat": 0,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 22,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 64
+    },
+    {
+      "bar": 22,
+      "beat": 0.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 22,
+      "beat": 1,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 62
+    },
+    {
+      "bar": 22,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 67
+    },
+    {
+      "bar": 22,
+      "beat": 2,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 22,
+      "beat": 2.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 64
+    },
+    {
+      "bar": 22,
+      "beat": 2.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 22,
+      "beat": 3,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
+    },
+    {
+      "bar": 22,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 23,
+      "beat": 0,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 23,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
+    },
+    {
+      "bar": 23,
+      "beat": 0.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 23,
+      "beat": 0.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 23,
+      "beat": 1,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 64
+    },
+    {
+      "bar": 23,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 23,
+      "beat": 2,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 62
+    },
+    {
+      "bar": 23,
+      "beat": 2.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 67
+    },
+    {
+      "bar": 23,
+      "beat": 3,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 60
+    },
+    {
+      "bar": 23,
+      "beat": 3.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 64
+    },
+    {
+      "bar": 24,
+      "beat": 0.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 60
     },
     {
       "bar": 24,
@@ -4620,6 +5271,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 24,
+      "beat": 2,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
+    },
+    {
+      "bar": 24,
       "beat": 2.25,
       "lane": 3,
       "voice": "khaen",
@@ -4635,8 +5293,8 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 24,
       "beat": 3,
-      "lane": 3,
-      "voice": "khaen",
+      "lane": 1,
+      "voice": "ponglang",
       "midi": 62
     },
     {
@@ -4719,8 +5377,8 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 26,
       "beat": 0.25,
-      "lane": 1,
-      "voice": "ponglang",
+      "lane": 2,
+      "voice": "phin",
       "midi": 64
     },
     {
@@ -4806,13 +5464,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 3,
       "voice": "khaen",
       "midi": 62
-    },
-    {
-      "bar": 27,
-      "beat": 1.25,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 64
     },
     {
       "bar": 27,
@@ -4977,10 +5628,24 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 29,
+      "beat": 2.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 29,
       "beat": 3,
       "lane": 1,
       "voice": "ponglang",
       "midi": 62
+    },
+    {
+      "bar": 29,
+      "beat": 3.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
     },
     {
       "bar": 29,
@@ -5041,8 +5706,8 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 30,
       "beat": 3,
-      "lane": 1,
-      "voice": "ponglang",
+      "lane": 3,
+      "voice": "khaen",
       "midi": 64
     },
     {
@@ -5079,13 +5744,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 0,
       "voice": "klong",
       "midi": 60
-    },
-    {
-      "bar": 31,
-      "beat": 1.25,
-      "lane": 1,
-      "voice": "ponglang",
-      "midi": 62
     },
     {
       "bar": 31,
@@ -5200,13 +5858,6 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "midi": 62
     },
     {
-      "bar": 32,
-      "beat": 3.75,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 64
-    },
-    {
       "bar": 33,
       "beat": 0,
       "lane": 1,
@@ -5293,8 +5944,8 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 34,
       "beat": 1,
-      "lane": 3,
-      "voice": "khaen",
+      "lane": 1,
+      "voice": "ponglang",
       "midi": 67
     },
     {
@@ -5313,9 +5964,16 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 34,
+      "beat": 2,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
+    },
+    {
+      "bar": 34,
       "beat": 2.25,
-      "lane": 3,
-      "voice": "khaen",
+      "lane": 2,
+      "voice": "phin",
       "midi": 67
     },
     {
@@ -5376,6 +6034,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 35,
+      "beat": 1.25,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 60
+    },
+    {
+      "bar": 35,
       "beat": 1.5,
       "lane": 1,
       "voice": "ponglang",
@@ -5394,6 +6059,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 0,
       "voice": "klong",
       "midi": 60
+    },
+    {
+      "bar": 35,
+      "beat": 3.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
     },
     {
       "bar": 35,
@@ -5404,6 +6076,27 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 36,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
+    },
+    {
+      "bar": 36,
+      "beat": 0,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 62
+    },
+    {
+      "bar": 36,
+      "beat": 0.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
+    },
+    {
+      "bar": 36,
       "beat": 1,
       "lane": 3,
       "voice": "khaen",
@@ -5411,10 +6104,24 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 36,
+      "beat": 1.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
+    },
+    {
+      "bar": 36,
       "beat": 1.75,
       "lane": 0,
       "voice": "klong",
       "midi": 67
+    },
+    {
+      "bar": 36,
+      "beat": 2.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 60
     },
     {
       "bar": 36,
@@ -5425,6 +6132,20 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 36,
+      "beat": 2.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 64
+    },
+    {
+      "bar": 36,
+      "beat": 3,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
+    },
+    {
+      "bar": 36,
       "beat": 3.75,
       "lane": 0,
       "voice": "klong",
@@ -5432,10 +6153,38 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 37,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 64
+    },
+    {
+      "bar": 37,
+      "beat": 0,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 37,
+      "beat": 0.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
+    },
+    {
+      "bar": 37,
       "beat": 1,
       "lane": 3,
       "voice": "khaen",
       "midi": 62
+    },
+    {
+      "bar": 37,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 67
     },
     {
       "bar": 37,
@@ -5460,10 +6209,24 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 37,
+      "beat": 3,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
+    },
+    {
+      "bar": 37,
       "beat": 3.5,
       "lane": 0,
       "voice": "klong",
       "midi": 62
+    },
+    {
+      "bar": 38,
+      "beat": 0,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
     },
     {
       "bar": 38,
@@ -5474,10 +6237,24 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 38,
+      "beat": 0.75,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
+    },
+    {
+      "bar": 38,
       "beat": 1,
       "lane": 0,
       "voice": "klong",
       "midi": 64
+    },
+    {
+      "bar": 38,
+      "beat": 1.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
     },
     {
       "bar": 38,
@@ -5495,16 +6272,51 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 38,
+      "beat": 2.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 38,
       "beat": 2.75,
       "lane": 0,
       "voice": "klong",
       "midi": 69
     },
     {
+      "bar": 38,
+      "beat": 3,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
+      "bar": 38,
+      "beat": 3.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 67
+    },
+    {
       "bar": 39,
-      "beat": 0.25,
+      "beat": 0,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
+    },
+    {
+      "bar": 39,
+      "beat": 0,
       "lane": 2,
       "voice": "phin",
+      "midi": 69
+    },
+    {
+      "bar": 39,
+      "beat": 0.25,
+      "lane": 3,
+      "voice": "khaen",
       "midi": 60
     },
     {
@@ -5523,10 +6335,24 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 39,
+      "beat": 1.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
+    },
+    {
+      "bar": 39,
       "beat": 1.5,
       "lane": 0,
       "voice": "klong",
       "midi": 60
+    },
+    {
+      "bar": 39,
+      "beat": 2,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 64
     },
     {
       "bar": 39,
@@ -5543,6 +6369,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "midi": 60
     },
     {
+      "bar": 39,
+      "beat": 3.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
       "bar": 40,
       "beat": 0,
       "lane": 2,
@@ -5555,6 +6388,20 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 3,
       "voice": "khaen",
       "midi": 60
+    },
+    {
+      "bar": 40,
+      "beat": 0.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 40,
+      "beat": 0.5,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 64
     },
     {
       "bar": 40,
@@ -5565,6 +6412,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 40,
+      "beat": 1.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 40,
       "beat": 1.75,
       "lane": 2,
       "voice": "phin",
@@ -5572,10 +6426,31 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 40,
+      "beat": 2.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 40,
       "beat": 2.5,
       "lane": 3,
       "voice": "khaen",
       "midi": 60
+    },
+    {
+      "bar": 40,
+      "beat": 2.75,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 62
+    },
+    {
+      "bar": 40,
+      "beat": 3,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
     },
     {
       "bar": 40,
@@ -5592,6 +6467,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "midi": 69
     },
     {
+      "bar": 40,
+      "beat": 3.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 60
+    },
+    {
       "bar": 41,
       "beat": 0,
       "lane": 1,
@@ -5642,10 +6524,10 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 41,
-      "beat": 3,
-      "lane": 0,
-      "voice": "klong",
-      "midi": 67
+      "beat": 3.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
     },
     {
       "bar": 41,
@@ -5671,8 +6553,8 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 42,
       "beat": 0.75,
-      "lane": 1,
-      "voice": "ponglang",
+      "lane": 0,
+      "voice": "klong",
       "midi": 60
     },
     {
@@ -5691,10 +6573,31 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 42,
+      "beat": 1.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
+    },
+    {
+      "bar": 42,
+      "beat": 2.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 62
+    },
+    {
+      "bar": 42,
       "beat": 2.5,
       "lane": 1,
       "voice": "ponglang",
       "midi": 64
+    },
+    {
+      "bar": 42,
+      "beat": 2.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 67
     },
     {
       "bar": 42,
@@ -5719,6 +6622,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 43,
+      "beat": 0.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
+    },
+    {
+      "bar": 43,
       "beat": 0.5,
       "lane": 3,
       "voice": "khaen",
@@ -5726,10 +6636,38 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 43,
+      "beat": 0.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 43,
+      "beat": 1,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 43,
+      "beat": 1.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
+    },
+    {
+      "bar": 43,
       "beat": 1.75,
       "lane": 0,
       "voice": "klong",
       "midi": 60
+    },
+    {
+      "bar": 43,
+      "beat": 2,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 62
     },
     {
       "bar": 43,
@@ -5775,6 +6713,27 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 44,
+      "beat": 1.75,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 62
+    },
+    {
+      "bar": 44,
+      "beat": 2.25,
+      "lane": 2,
+      "voice": "phin",
+      "midi": 67
+    },
+    {
+      "bar": 44,
+      "beat": 2.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
+    },
+    {
+      "bar": 44,
       "beat": 2.75,
       "lane": 3,
       "voice": "khaen",
@@ -5790,9 +6749,37 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 44,
       "beat": 3.75,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 45,
+      "beat": 0,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 60
+    },
+    {
+      "bar": 45,
+      "beat": 0.25,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 62
+    },
+    {
+      "bar": 45,
+      "beat": 0.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
+    },
+    {
+      "bar": 45,
+      "beat": 1.25,
       "lane": 2,
       "voice": "phin",
-      "midi": 69
+      "midi": 60
     },
     {
       "bar": 45,
@@ -5800,6 +6787,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 0,
       "voice": "klong",
       "midi": 64
+    },
+    {
+      "bar": 45,
+      "beat": 2.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 69
     },
     {
       "bar": 45,
@@ -5824,6 +6818,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 45,
+      "beat": 3.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
+    },
+    {
+      "bar": 45,
       "beat": 3.75,
       "lane": 0,
       "voice": "klong",
@@ -5835,6 +6836,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 2,
       "voice": "phin",
       "midi": 64
+    },
+    {
+      "bar": 46,
+      "beat": 0.5,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 67
     },
     {
       "bar": 46,
@@ -5867,8 +6875,8 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 46,
       "beat": 1.75,
-      "lane": 2,
-      "voice": "phin",
+      "lane": 1,
+      "voice": "ponglang",
       "midi": 67
     },
     {
@@ -5880,10 +6888,10 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     },
     {
       "bar": 46,
-      "beat": 3,
-      "lane": 2,
-      "voice": "phin",
-      "midi": 67
+      "beat": 3.25,
+      "lane": 0,
+      "voice": "klong",
+      "midi": 69
     },
     {
       "bar": 46,
@@ -5902,9 +6910,30 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 47,
       "beat": 0,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 64
+    },
+    {
+      "bar": 47,
+      "beat": 0,
       "lane": 2,
       "voice": "phin",
       "midi": 64
+    },
+    {
+      "bar": 47,
+      "beat": 0.25,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
+    },
+    {
+      "bar": 47,
+      "beat": 0.5,
+      "lane": 3,
+      "voice": "khaen",
+      "midi": 69
     },
     {
       "bar": 47,
@@ -5916,9 +6945,16 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
     {
       "bar": 47,
       "beat": 1.25,
-      "lane": 0,
-      "voice": "klong",
+      "lane": 3,
+      "voice": "khaen",
       "midi": 64
+    },
+    {
+      "bar": 47,
+      "beat": 1.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 67
     },
     {
       "bar": 47,
@@ -5933,6 +6969,13 @@ export const charts: Record<Difficulty, PatternEvent[]> = {
       "lane": 0,
       "voice": "klong",
       "midi": 62
+    },
+    {
+      "bar": 47,
+      "beat": 2.5,
+      "lane": 1,
+      "voice": "ponglang",
+      "midi": 64
     },
     {
       "bar": 47,

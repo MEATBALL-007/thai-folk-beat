@@ -208,16 +208,19 @@ export const MANIFEST: readonly AssetSpec[] = [
     purpose: 'Wooden NEXT sign, bottom-right',
   },
 
-  // ---- comic panels: 4 per song (spec §5.5) ----------------------------
+  // ---- comic panels (spec §5.5) ----------------------------------------
+  // หมอลำ was cut to two panels on 2026-09-14, so only two are declared; asking
+  // for four would log two "missing asset" warnings for panels that no longer
+  // exist. Keep this in step with COMICS in src/game/comicContent.ts.
+  ...([1, 2] as const).map((n) => ({
+    key: `comic.molam.${n}`,
+    path: `assets/comic/molam_${n}.png`,
+    kind: 'comic' as const,
+    w: 2560,
+    h: 1440,
+    purpose: `หมอลำ origin comic, panel ${n} of 2 (not yet delivered)`,
+  })),
   ...([1, 2, 3, 4] as const).flatMap((n) => [
-    {
-      key: `comic.molam.${n}`,
-      path: `assets/comic/molam_${n}.png`,
-      kind: 'comic' as const,
-      w: 2560,
-      h: 1440,
-      purpose: `หมอลำ origin comic, panel ${n} of 4 (not yet delivered)`,
-    },
     {
       key: `comic.soeng.${n}`,
       path: `assets/comic/soeng_${n}.png`,

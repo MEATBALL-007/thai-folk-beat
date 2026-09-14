@@ -35,6 +35,8 @@ export class ScoreSystem {
   good = 0;
   miss = 0;
   consecutiveMisses = 0;
+  /** Presses that matched no note. Diagnostic, and shown on the result screen. */
+  strays = 0;
   failed = false;
 
   /**
@@ -56,6 +58,21 @@ export class ScoreSystem {
     const total = this.judgedCount;
     if (total === 0) return 1;
     return (this.perfect + this.good * 0.5) / total;
+  }
+
+  /**
+   * A press that matched no note at all.
+   *
+   * Spec §4.2 originally ignored these outright, which made mashing all four
+   * keys strictly better than playing: every note got hit and the combo never
+   * broke. Breaking the combo makes spam self-defeating without making the game
+   * unfair — it costs the multiplier, but it does NOT count as a miss, so it
+   * cannot trigger the four-consecutive-miss fail. A beginner flailing at the
+   * start loses points, not the run.
+   */
+  applyStray(): void {
+    this.combo = 0;
+    this.strays++;
   }
 
   apply(verdict: Verdict): void {

@@ -17,6 +17,6 @@ export const DIFFICULTY_LABELS_TH: Record<Difficulty, string> = {
 /** Fraction of 16th-note slots the derivation keeps, per difficulty. */
 export const DIFFICULTY_DENSITY: Record<Difficulty, number> = {
   easy: 0.08,
-  normal: 0.2,
-  hard: 0.32,
+  normal: 0.22,
+  hard: 0.36,
 };

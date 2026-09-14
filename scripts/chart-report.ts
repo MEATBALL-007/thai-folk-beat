@@ -11,12 +11,23 @@
 import { MOLAM } from '../src/audio/songs/molam';
 import { SOENG } from '../src/audio/songs/soeng';
 import { buildChart, secondsPerBar, songDuration } from '../src/game/Chart';
-import { DIFFICULTIES } from '../src/game/Difficulty';
+import { DIFFICULTIES, type Difficulty } from '../src/game/Difficulty';
 import type { SongDef } from '../src/audio/types';
 
 const GOOD_WINDOW_MS = 90;
 /** Above this a chart stops being readable at a glance. */
 const MAX_NOTES_PER_SEC = 6;
+/**
+ * Longest silence allowed anywhere in a chart. The designer's note was "rythym
+ * มันค้างนานไปหน่อย" — before per-bar selection, หมอลำ on easy had a 16.25-SECOND
+ * hole, because ranking slots across the whole song left quiet passages with
+ * nothing in the global top N%.
+ *
+ * Easy gets a looser ceiling on purpose: it is meant to breathe, and at one
+ * note per bar per instrument it is already at its coverage floor. Tightening
+ * it further would mean adding notes the difficulty exists to leave out.
+ */
+const MAX_GAP_S: Record<Difficulty, number> = { easy: 3.2, normal: 2.5, hard: 2.5 };
 
 let problemCount = 0;
 
@@ -51,6 +62,17 @@ function report(song: SongDef): void {
       }
     }
 
+    // Longest silence between consecutive notes, anywhere in the chart.
+    let worstGap = 0;
+    let worstGapAt = 0;
+    for (let i = 1; i < chart.length; i++) {
+      const gap = chart[i]!.time - chart[i - 1]!.time;
+      if (gap > worstGap) {
+        worstGap = gap;
+        worstGapAt = chart[i - 1]!.time;
+      }
+    }
+
     const first = chart.length ? chart[0]!.time : 0;
     const last = chart.length ? chart[chart.length - 1]!.time : 0;
     const rate = chart.length / dur;
@@ -63,6 +85,7 @@ function report(song: SongDef): void {
       `  per lane        กลอง ${perLane[0]}  โปงลาง ${perLane[1]}  พิณ ${perLane[2]}  แคน ${perLane[3]}`,
     );
     console.log(`  tightest gap    ${(worstLaneGap * 1000).toFixed(0)}ms  (${worstAt})`);
+    console.log(`  longest silence ${worstGap.toFixed(2)}s  (from ${worstGapAt.toFixed(1)}s)`);
 
     const problems: string[] = [];
     if (maxBar >= song.bars) {
@@ -75,6 +98,12 @@ function report(song: SongDef): void {
     }
     if (rate > MAX_NOTES_PER_SEC) {
       problems.push(`${rate.toFixed(2)} notes/s exceeds the ${MAX_NOTES_PER_SEC}/s readability ceiling`);
+    }
+    const gapCeiling = MAX_GAP_S[difficulty];
+    if (worstGap > gapCeiling) {
+      problems.push(
+        `${worstGap.toFixed(2)}s silence at ${worstGapAt.toFixed(1)}s exceeds the ${gapCeiling}s ceiling`,
+      );
     }
     if (perLane.some((n) => n === 0)) {
       problems.push('a lane has no notes at all — the band split found nothing there');

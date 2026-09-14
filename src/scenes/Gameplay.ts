@@ -325,8 +325,14 @@ export class GameplayScene extends Scene {
     const songTime = audio.conductor.ctxTimeToSongTime(ctxTime);
     const event = this.judge.press(lane, songTime);
 
-    // Spec §4.2: a press with no note in range is ignored outright.
-    if (!event) return;
+    // A press with no note in range no longer costs nothing: it breaks the
+    // combo. Ignoring it entirely made mashing all four keys the optimal
+    // strategy, which is what "มันโกงไปหน่อย" was describing.
+    if (!event) {
+      this.score.applyStray();
+      this.shake = 0.45;
+      return;
+    }
 
     this.dbgPressJudged++;
     this.applyJudgement(event);

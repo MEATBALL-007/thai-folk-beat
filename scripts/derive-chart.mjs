@@ -35,7 +35,20 @@ const BANDS = [
 ];
 
 /** Must stay in step with DIFFICULTY_DENSITY in src/game/Difficulty.ts. */
-const DENSITY = { easy: 0.08, normal: 0.2, hard: 0.32 };
+const DENSITY = { easy: 0.08, normal: 0.22, hard: 0.36 };
+
+/**
+ * Slots per selection window -- 16 is one bar.
+ *
+ * Selection is made WITHIN each window rather than across the whole song, and
+ * this matters more than the density number does. Ranking globally means a
+ * quiet passage contributes no slots to the top N% at all, so it charts as
+ * silence: หมอลำ on easy had a 16.25-SECOND hole from 19.2s, which is what the
+ * designer meant by "rythym มันค้างนานไปหน่อย". Per-bar selection guarantees the
+ * chart follows the music everywhere, and quiet sections get their own local
+ * accents instead of being dropped.
+ */
+const WINDOW_SLOTS = 16;
 
 /**
  * Two notes in the SAME lane closer than twice the GOOD window (2 x 90ms) are
@@ -114,15 +127,28 @@ function derive(file, bpm, offsetS, durationS) {
      * deliberate accents rather than as the default texture.
      */
     const claimed = new Map();
-    const keep = Math.floor(slots * take);
     const firstSlot = LEAD_IN_BARS * 16;
 
+    // At least one per window per band, so no bar can come out empty.
+    const perWindow = Math.max(1, Math.round(WINDOW_SLOTS * take));
+
+    const picked = [];
     for (const band of perBand) {
-      const order = [...band.strength.keys()]
-        .filter((n) => n >= firstSlot)
-        .sort((a, b) => band.strength[b] - band.strength[a]);
-      for (const n of order.slice(0, keep)) {
-        if (band.strength[n] <= 0) continue;
+      for (let w = firstSlot; w < slots; w += WINDOW_SLOTS) {
+        const inWindow = [];
+        for (let n = w; n < Math.min(w + WINDOW_SLOTS, slots); n++) {
+          if (band.strength[n] > 0) inWindow.push(n);
+        }
+        inWindow.sort((a, b) => band.strength[b] - band.strength[a]);
+        for (const n of inWindow.slice(0, perWindow)) picked.push({ band, n });
+      }
+    }
+
+    // Slot order, so the "louder lane wins this slot" comparison is
+    // deterministic rather than depending on which band was scanned first.
+    picked.sort((a, b) => a.n - b.n);
+    {
+      for (const { band, n } of picked) {
         const prev = claimed.get(n);
         if (!prev) {
           claimed.set(n, [{ band, v: band.strength[n] }]);

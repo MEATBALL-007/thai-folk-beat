@@ -11,16 +11,19 @@ import type { SongDef } from '../audio/types';
 import { goLoading } from './nav';
 
 /** 16:9 picture, hung inside the frame like a framed panel. */
-const ART_W = 1172;
-const ART_H = 659;
+const ART_W = 986;
+const ART_H = 555;
 const ART_X = (DESIGN_W - ART_W) / 2;
 const ART_Y = 100; // clear of the frame's top rule (~y 58)
 const MAT = 12; // cream mat between picture and wood
 const WOOD = 22; // wooden outer frame
 
-const CAPTION_Y = 800;
-const CAPTION_H = 104;
+const CAPTION_Y = 700;
+const CAPTION_H = 196;
 const ROW_Y = 952;
+
+/** Caption type sizes tried largest-first until the text fits the plaque. */
+const CAPTION_SIZES = [32, 30, 28, 26, 24, 22];
 
 /**
  * Origin comic (spec §5.5).
@@ -125,11 +128,11 @@ export class ComicScene extends Scene {
       text: '',
       style: {
         fontFamily: FONT.body,
-        fontSize: 32,
+        fontSize: CAPTION_SIZES[0] ?? 32,
         fill: ART.wood,
         wordWrap: true,
-        wordWrapWidth: ART_W - 40,
-        lineHeight: 44,
+        wordWrapWidth: ART_W + WOOD * 2 - 56,
+        lineHeight: 42,
         align: 'center',
       },
     });
@@ -178,12 +181,29 @@ export class ComicScene extends Scene {
 
     this.index = i;
     this.art.texture = assetLoader.get(panel.image);
-    this.caption.text = panel.captionTh;
+    this.setCaption(panel.captionTh);
     this.counter.text = `${this.song.titleTh}  •  ${i + 1} / ${this.panels.length}`;
     this.turn = 1;
 
     this.drawDots();
     this.playVoice(panel);
+  }
+
+  /**
+   * Sets the caption, shrinking the type until it fits the plaque.
+   *
+   * The captions used to be one line each; the rewritten หมอลำ text is four
+   * times longer and overflowed the plaque at a fixed size. Fitting beats
+   * picking a size that happens to suit today's longest string, because the
+   * next rewrite would silently break it again.
+   */
+  private setCaption(text: string): void {
+    this.caption.text = text;
+    for (const size of CAPTION_SIZES) {
+      this.caption.style.fontSize = size;
+      this.caption.style.lineHeight = Math.round(size * 1.32);
+      if (this.caption.height <= CAPTION_H - 24) break;
+    }
   }
 
   /** Page markers as small discs, the active one filled in the lane green. */

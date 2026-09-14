@@ -46,4 +46,12 @@ export const ART = {
   woodFill: 0xffd08a, // sign face, a touch lighter than the field
   discFill: 0xffdda8, // region button disc
   discRing: 0xf16436, // region button ring + mask ink
+  /**
+   * The two lane colours, sampled straight out of the delivered receptor art
+   * (gp.lane0..3) rather than chosen. Notes must read as belonging to the
+   * target they fall onto — the old green/gold pair was picked before any
+   * gameplay art existed.
+   */
+  laneOrange: 0xf37c4e,
+  laneTeal: 0x7de0b0,
 } as const;

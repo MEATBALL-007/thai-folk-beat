@@ -47,8 +47,15 @@ export function laneLeft(lane: Lane): number {
  * red = MISS) and changing them would desync the notes from the verdict popups.
  * Only the surrounding field was restyled. See NOTES.md D24.
  */
+/**
+ * Lanes 0/2 orange, lanes 1/3 teal — sampled from the receptor art so a falling
+ * note is the same colour as the target it is heading for.
+ *
+ * This is NOT the verdict palette: PERFECT stays green, GOOD gold, MISS red.
+ * Those are semantic and independent of which lane a note was in.
+ */
 export function laneColor(lane: Lane): number {
-  return lane % 2 === 0 ? C.green : C.gold;
+  return lane % 2 === 0 ? ART.laneOrange : ART.laneTeal;
 }
 
 /**
