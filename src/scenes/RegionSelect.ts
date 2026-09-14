@@ -1,5 +1,6 @@
 import { Container, Graphics, Sprite, Text } from 'pixi.js';
 import { Scene } from '../core/Scene';
+import { audio } from '../audio/engine';
 import { DESIGN_H, DESIGN_W } from '../core/Layout';
 import { ART, FONT } from '../ui/theme';
 import { hitTarget, layerCenter, layerSprite, signButton } from '../ui/artLayer';
@@ -45,6 +46,7 @@ export class RegionSelectScene extends Scene {
   private readonly selectedLayers = new Map<string, Sprite>();
 
   override onEnter(): void {
+    void audio.resume().then(() => audio.startMenuMusic());
     const field = new Graphics().rect(0, 0, DESIGN_W, DESIGN_H).fill(ART.field);
     // Backdrop already carries the panel and the heading.
     this.container.addChild(field, layerSprite('bg.region'));

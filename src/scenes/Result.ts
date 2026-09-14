@@ -1,5 +1,6 @@
 import { Container, Graphics, Text } from 'pixi.js';
 import { Scene } from '../core/Scene';
+import { audio } from '../audio/engine';
 import { DESIGN_H, DESIGN_W } from '../core/Layout';
 import { ART, C, FONT } from '../ui/theme';
 import { layerSprite, signButton } from '../ui/artLayer';
@@ -42,6 +43,7 @@ export class ResultScene extends Scene {
   }
 
   override onEnter(): void {
+    void audio.resume().then(() => audio.startMenuMusic());
     this.isNewRecord = submitBest(this.result.songId, this.result.score);
     this.best = getBest(this.result.songId);
 
@@ -95,18 +97,19 @@ export class ResultScene extends Scene {
       ['PERFECT', this.result.perfect, C.green],
       ['GOOD', this.result.good, C.gold],
       ['MISS', this.result.miss, C.red],
+      ['กดลม', this.result.strays, ART.wood],
     ];
 
-    const colW = panelW / 4;
+    // MAX COMBO is part of the same row rather than a special case pinned to
+    // the last column — adding a fifth tally to a hard-coded four-column grid
+    // put it straight on top of MAX COMBO.
+    tallies.push(['MAX COMBO', this.result.maxCombo, ART.wood]);
+
+    const colW = panelW / tallies.length;
     tallies.forEach(([label, value, color], i) => {
       const cx = panelX + colW * (i + 0.5);
       this.container.addChild(this.tallyColumn(cx, panelY + 476, label, value, color));
     });
-
-    const comboCx = panelX + colW * 3.5;
-    this.container.addChild(
-      this.tallyColumn(comboCx, panelY + 476, 'MAX COMBO', this.result.maxCombo, ART.wood),
-    );
 
     // ---- new record ------------------------------------------------------
     if (this.isNewRecord) {
@@ -152,14 +155,14 @@ export class ResultScene extends Scene {
 
     const l = new Text({
       text: label,
-      style: { fontFamily: FONT.body, fontSize: 26, fill: ART.wood },
+      style: { fontFamily: FONT.body, fontSize: 24, fill: ART.wood },
     });
     l.anchor.set(0.5, 0);
     l.position.set(cx, y);
 
     const v = new Text({
       text: String(value),
-      style: { fontFamily: FONT.display, fontSize: 60, fill: color },
+      style: { fontFamily: FONT.display, fontSize: 52, fill: color },
     });
     v.anchor.set(0.5, 0);
     v.position.set(cx, y + 30);

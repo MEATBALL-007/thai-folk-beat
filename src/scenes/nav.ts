@@ -48,6 +48,10 @@ export function goComic(scenes: SceneManager, song: SongDef): void {
  * progress bar reflects real work and gameplay starts with everything ready.
  */
 export function goLoading(scenes: SceneManager, song: SongDef): void {
+  // The menu theme must be gone before the song's own recording starts — both
+  // sit on musicBus and would otherwise play over each other.
+  audio.stopMenuMusic();
+
   void scenes.replace(
     new LoadingScene({
       detail: song.titleTh,
@@ -136,6 +140,7 @@ export function goDevScene(scenes: SceneManager, name: string): boolean {
         perfect: 118,
         good: 24,
         miss: 8,
+        strays: 11,
         accuracy: 0.87,
       });
       return true;

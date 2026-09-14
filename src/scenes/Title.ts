@@ -41,7 +41,7 @@ export class TitleScene extends Scene {
     // Any first interaction counts as the gesture.
     this.container.eventMode = 'static';
     this.container.hitArea = { contains: () => true };
-    this.container.on('pointerdown', () => void audio.resume());
+    this.container.on('pointerdown', () => void audio.resume().then(() => audio.startMenuMusic()));
     window.addEventListener('keydown', this.onKey);
   }
 
@@ -50,7 +50,7 @@ export class TitleScene extends Scene {
   }
 
   private onKey = (): void => {
-    void audio.resume();
+    void audio.resume().then(() => audio.startMenuMusic());
   };
 
   private buildBest(): void {
@@ -95,11 +95,11 @@ export class TitleScene extends Scene {
   private buildSigns(): void {
     this.container.addChild(
       signButton('ui.btn.play', () => {
-        void audio.resume();
+        void audio.resume().then(() => audio.startMenuMusic());
         goRegionSelect(this.ctx.scenes);
       }),
       signButton('ui.btn.setting', () => {
-        void audio.resume();
+        void audio.resume().then(() => audio.startMenuMusic());
         goSettings(this.ctx.scenes);
       }),
       signButton('ui.btn.exit', () => void this.handleExit()),

@@ -18,7 +18,8 @@
     "deploy": "npm run build && node scripts/deploy-pages.mjs",
     "derive": "node scripts/derive-chart.mjs",
     "playthrough": "node scripts/playthrough.mjs",
-    "shots": "node scripts/shots.mjs"
+    "shots": "node scripts/shots.mjs",
+    "spam-check": "node scripts/spam-check.mjs"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.11.1",

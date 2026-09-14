@@ -10,6 +10,23 @@ export const BASE_POINTS: Record<Verdict, number> = {
 /** Spec §4.4. */
 export const FAIL_CONSECUTIVE_MISSES = 4;
 
+/**
+ * How far stray presses may outrun real hits before the run fails.
+ *
+ * This is the rule that makes mashing lose. Breaking the combo was not enough:
+ * a masher still hit every note, so the result screen showed 100% accuracy and
+ * a clear, and only the multiplier suffered — which nobody reads.
+ *
+ * The margin is a DEBT, not a streak, because a masher hits notes constantly
+ * (that is the whole point of mashing) and so would keep resetting any streak.
+ * Debt works because hits are capped by the chart while strays are not: at
+ * ~3.4 notes/s, someone mashing four keys at 8 Hz runs up ~28 debt per second
+ * and fails in about a second, while a player pressing roughly once per note
+ * can never get here — if they were missing that often, the four-consecutive-
+ * miss rule would have ended the run long before.
+ */
+export const FAIL_STRAY_DEBT = 30;
+
 export type RunState = 'PLAYING' | 'CLEARED' | 'FAILED';
 
 export interface GameResult {
@@ -20,7 +37,9 @@ export interface GameResult {
   perfect: number;
   good: number;
   miss: number;
-  /** 0..1, weighting GOOD at half a PERFECT. */
+  /** Presses that matched no note. */
+  strays: number;
+  /** 0..1, weighting GOOD at half a PERFECT, and counting strays against you. */
   accuracy: number;
 }
 
@@ -54,25 +73,37 @@ export class ScoreSystem {
     return this.perfect + this.good + this.miss;
   }
 
+  /**
+   * Accuracy counts stray presses in the denominator.
+   *
+   * Without them a masher scores 100%: they hit every note, so every judged
+   * note was a hit. Counting the wasted presses is what makes the number
+   * describe how well the song was actually played rather than how many notes
+   * happened to be covered.
+   */
   get accuracy(): number {
-    const total = this.judgedCount;
+    const total = this.judgedCount + this.strays;
     if (total === 0) return 1;
     return (this.perfect + this.good * 0.5) / total;
+  }
+
+  /** How far stray presses are ahead of real hits. Negative means comfortable. */
+  get strayDebt(): number {
+    return this.strays - (this.perfect + this.good);
   }
 
   /**
    * A press that matched no note at all.
    *
-   * Spec §4.2 originally ignored these outright, which made mashing all four
-   * keys strictly better than playing: every note got hit and the combo never
-   * broke. Breaking the combo makes spam self-defeating without making the game
-   * unfair — it costs the multiplier, but it does NOT count as a miss, so it
-   * cannot trigger the four-consecutive-miss fail. A beginner flailing at the
-   * start loses points, not the run.
+   * Costs the combo, counts against accuracy, and adds to the stray debt that
+   * ends a run of pure mashing. It is still NOT a miss: it cannot trip the
+   * four-consecutive-miss rule, so one mistimed tap never ends a beginner's
+   * song.
    */
   applyStray(): void {
     this.combo = 0;
     this.strays++;
+    if (this.strayDebt >= FAIL_STRAY_DEBT) this.failed = true;
   }
 
   apply(verdict: Verdict): void {
@@ -105,6 +136,7 @@ export class ScoreSystem {
       perfect: this.perfect,
       good: this.good,
       miss: this.miss,
+      strays: this.strays,
       accuracy: this.accuracy,
     };
   }

@@ -203,13 +203,17 @@ export const MANIFEST: readonly AssetSpec[] = [
   // หมอลำ was cut to two panels on 2026-09-14, so only two are declared; asking
   // for four would log two "missing asset" warnings for panels that no longer
   // exist. Keep this in step with COMICS in src/game/comicContent.ts.
+  // Delivered 2026-09-14 as full-canvas layers with their own orange frame
+  // drawn in, so the scene must not put a frame of its own around them.
   ...([1, 2] as const).map((n) => ({
     key: `comic.molam.${n}`,
     path: `assets/comic/molam_${n}.png`,
     kind: 'comic' as const,
-    w: 2560,
-    h: 1440,
-    purpose: `หมอลำ origin comic, panel ${n} of 2 (not yet delivered)`,
+    w: 1920,
+    h: 1080,
+    layer: true,
+    purpose: `หมอลำ origin comic, panel ${n} of 2`,
+    hit: box(959.5, 409, 1307, 596),
   })),
   ...([1, 2, 3, 4] as const).flatMap((n) => [
     {

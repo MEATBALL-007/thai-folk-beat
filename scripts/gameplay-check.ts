@@ -7,7 +7,7 @@
  * Run: npm run check
  */
 import { Judge, GOOD_MS, PERFECT_MS } from '../src/game/Judge';
-import { ScoreSystem, FAIL_CONSECUTIVE_MISSES } from '../src/game/ScoreSystem';
+import { ScoreSystem, FAIL_CONSECUTIVE_MISSES, FAIL_STRAY_DEBT } from '../src/game/ScoreSystem';
 import { buildChart, songDuration, type ChartNote } from '../src/game/Chart';
 import { renderPluck } from '../src/audio/pluck';
 import { HIT_GAIN, MASTER_HEADROOM, RECORDING_PEAK } from '../src/audio/AudioEngine';
@@ -263,6 +263,57 @@ console.log('[chart-audio alignment] design doc section 8');
     check(`${song.id}: last note is inside the recording`, last <= FILE_LENGTH_S[song.id]!, true);
     check(`${song.id}: plays the recording, not the synth`, song.audioUrl !== undefined, true);
   }
+}
+
+
+console.log('');
+console.log('[stray presses] anti-spam');
+{
+  const s = new ScoreSystem();
+  s.apply('PERFECT');
+  s.apply('PERFECT');
+  check('combo builds on hits', s.combo, 2);
+  s.applyStray();
+  check('a stray breaks the combo', s.combo, 0);
+  check('a stray is not a miss', s.miss, 0);
+  check('a stray does not trip the miss fail', s.consecutiveMisses, 0);
+}
+{
+  // The bug this rule exists for: a masher hits every note, so counting only
+  // judged notes reported 100% for a run that was pure spam.
+  const s = new ScoreSystem();
+  for (let i = 0; i < 10; i++) s.apply('PERFECT');
+  check('10 perfects alone = 100%', Math.round(s.accuracy * 100), 100);
+  for (let i = 0; i < 10; i++) s.applyStray();
+  check('10 perfects + 10 strays = 50%', Math.round(s.accuracy * 100), 50);
+}
+{
+  // Debt, not a streak: a masher keeps hitting notes, so any streak counter
+  // would keep resetting and never fire.
+  //
+  // The ratio here is measured, not invented. A chart runs about 3.4 notes/s;
+  // someone mashing four keys at 8 Hz produces 32 presses/s, of which only the
+  // ~3.4 that coincide with notes land. That is roughly nine strays per hit.
+  const s = new ScoreSystem();
+  let presses = 0;
+  while (!s.failed && presses < 2000) {
+    s.applyStray();
+    if (presses % 9 === 0) s.apply('PERFECT');
+    presses++;
+  }
+  check('sustained mashing fails the run', s.failed, true);
+  // ~34 presses at 32/s is a touch over a second of mashing.
+  check('  and fails within ~1s of mashing (<40 presses)', presses < 40, true);
+}
+{
+  const s = new ScoreSystem();
+  // Someone pressing roughly once per note and landing most of them.
+  for (let i = 0; i < 100; i++) {
+    if (i % 4 === 0) s.applyStray();
+    else s.apply('GOOD');
+  }
+  check('honest play never reaches the stray debt', s.failed, false);
+  check('  (their debt stays negative)', s.strayDebt < 0, true);
 }
 
 console.log(`\n${passed} passed, ${failed} failed\n`);

@@ -42,6 +42,12 @@ const WORST_CASE_SUM = RECORDING_PEAK + 4 * HIT_GAIN.PERFECT;
  */
 export const MASTER_HEADROOM = Math.min(0.5, 1 / WORST_CASE_SUM);
 
+/**
+ * The menu theme sits under the interface rather than in front of it, so it
+ * plays below the level a gameplay track would.
+ */
+const MENU_MUSIC_GAIN = 0.55;
+
 export interface LoadedSong {
   def: SongDef;
   chart: ChartNote[];
@@ -80,6 +86,11 @@ export class AudioEngine {
    * short buffers.
    */
   private readonly hitBank = new Map<string, AudioBuffer>();
+
+  /** The looping menu theme. Decoded once and kept for the session. */
+  private menuBuffer: AudioBuffer | null = null;
+  private menuSource: AudioBufferSourceNode | null = null;
+  private menuGain: GainNode | null = null;
 
   /** Debug/telemetry hook — fires as each note is handed to the hardware. */
   onNoteScheduled: ((note: ChartNote) => void) | null = null;
@@ -152,6 +163,80 @@ export class AudioEngine {
     src.connect(g);
     g.connect(this.sfxBus);
     src.start();
+  }
+
+  /**
+   * The menu theme, looping from the title screen through the comic.
+   *
+   * Deliberately NOT routed through songBus or the Conductor: this is ambience
+   * with no chart behind it, and giving it the song clock would mean a second
+   * thing claiming to be "the song". It joins at musicBus so the music slider
+   * governs it, and gameplay never overlaps because goLoading stops it first.
+   *
+   * Idempotent — every menu scene calls it on entry, so returning from a song
+   * or arriving via a dev deep link both pick the music back up.
+   */
+  async startMenuMusic(url = 'assets/audio/main.mp3'): Promise<void> {
+    // Only the idempotence guard. There used to be a `ctx.state === 'running'`
+    // check here and it was wrong: a caller can legitimately reach this while
+    // the context is still waking, and a buffer source built on a suspended
+    // context simply plays when the context resumes. The guard turned that into
+    // silence — the method ran, returned on its first line, and nothing played.
+    if (this.menuSource) return;
+
+    try {
+      if (!this.menuBuffer) {
+        const res = await fetch(url);
+        this.menuBuffer = await this.ctx.decodeAudioData(await res.arrayBuffer());
+      }
+      // A second call may have won the race while that was decoding.
+      if (this.menuSource) return;
+
+      const gain = this.ctx.createGain();
+      gain.gain.value = 0;
+      gain.connect(this.musicBus);
+
+      const src = this.ctx.createBufferSource();
+      src.buffer = this.menuBuffer;
+      src.loop = true;
+      src.connect(gain);
+      src.start();
+
+      // Fade in, so arriving at the title screen is not a jump cut.
+      gain.gain.setTargetAtTime(MENU_MUSIC_GAIN, this.ctx.currentTime, 0.4);
+
+      this.menuSource = src;
+      this.menuGain = gain;
+    } catch (err) {
+      console.warn('[audio] menu theme failed to load', err);
+    }
+  }
+
+  /** Whether the menu theme is currently running. Used by the headless checks. */
+  get menuMusicPlaying(): boolean {
+    return this.menuSource !== null;
+  }
+
+  /** Fades the menu theme out and drops it. Safe to call when nothing is playing. */
+  stopMenuMusic(fadeS = 0.35): void {
+    const src = this.menuSource;
+    const gain = this.menuGain;
+    this.menuSource = null;
+    this.menuGain = null;
+    if (!src || !gain) return;
+
+    const now = this.ctx.currentTime;
+    gain.gain.cancelScheduledValues(now);
+    gain.gain.setValueAtTime(gain.gain.value, now);
+    gain.gain.linearRampToValueAtTime(0, now + fadeS);
+    window.setTimeout(() => {
+      try {
+        src.stop();
+      } catch {
+        /* already stopped */
+      }
+      gain.disconnect();
+    }, fadeS * 1000 + 120);
   }
 
   /** Browsers block audio until a gesture — call from the first Title click (§5.1). */

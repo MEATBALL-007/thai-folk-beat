@@ -1,5 +1,6 @@
 import { Container, Graphics, Text } from 'pixi.js';
 import { Scene } from '../core/Scene';
+import { audio } from '../audio/engine';
 import { DESIGN_H, DESIGN_W } from '../core/Layout';
 import { ART, C, FONT } from '../ui/theme';
 import { type Dir, triangle } from '../ui/glyphs';
@@ -30,6 +31,7 @@ export class SongSelectScene extends Scene {
   private readonly noteCounts: Text[] = [];
 
   override onEnter(): void {
+    void audio.resume().then(() => audio.startMenuMusic());
     const bg = new Graphics().rect(0, 0, DESIGN_W, DESIGN_H).fill(ART.field);
     const frame = layerSprite('bg.menuFrame');
 

@@ -12,7 +12,7 @@ import { audio } from '../audio/engine';
 import type { LoadedSong } from '../audio/AudioEngine';
 import type { Lane, SongDef } from '../audio/types';
 import { songDuration } from '../game/Chart';
-import { Judge, type JudgeEvent, type Verdict } from '../game/Judge';
+import { GOOD_MS, Judge, type JudgeEvent, type Verdict } from '../game/Judge';
 import { goSettings } from './nav';
 import { ScoreSystem, type GameResult } from '../game/ScoreSystem';
 import {
@@ -98,6 +98,7 @@ export class GameplayScene extends Scene {
   private progressBar!: Graphics;
   private startOverlay!: Container;
 
+  private firstNoteTime = 0;
   private dbgPressIn = 0;
   private dbgPressJudged = 0;
 
@@ -120,22 +121,13 @@ export class GameplayScene extends Scene {
     this.loaded = await audio.load(this.def, settings.difficulty);
     this.highway = new NoteHighway(this.loaded.chart);
     this.judge = new Judge(this.loaded.chart);
+    this.firstNoteTime = this.loaded.chart[0]?.time ?? 0;
 
     // Each song has its own stage set. Layer order: backdrop, the panel the
     // receptors stand on, the performers, then the receptors themselves. The
     // note highway draws on top of all of it.
     const art = `gp.${this.def.id}`;
     this.container.addChild(layerSprite(`${art}.stage`), layerSprite(`${art}.panel`));
-    // The gear ornament in the stage's top-left corner is a settings button —
-    // the designer marked it as one. signButton gives the group its own
-    // hitArea, without which this full-canvas layer would swallow every click
-    // meant for the layers under it (NOTES D33).
-    this.container.addChild(
-      signButton('gp.sun', () => {
-        audio.stop();
-        goSettings(this.ctx.scenes, 'songs');
-      }),
-    );
     this.performers = new Performers(this.def);
     this.container.addChild(this.performers);
 
@@ -166,6 +158,19 @@ export class GameplayScene extends Scene {
     this.startOverlay = this.buildStartOverlay();
     this.container.addChild(this.startOverlay);
 
+    // The gear ornament in the stage's top-left corner is a settings button.
+    // Added LAST so it is the topmost hit-test candidate — as the bottom-most
+    // child it was covered by the start overlay before the song begins, and by
+    // the lane layers after. signButton gives the group its own hitArea,
+    // without which this full-canvas layer would in turn swallow every click
+    // meant for the layers beneath it (NOTES D33).
+    this.container.addChild(
+      signButton('gp.sun', () => {
+        audio.stop();
+        goSettings(this.ctx.scenes, 'songs');
+      }),
+    );
+
     audio.setMusicVolume(settings.music);
     audio.setSfxVolume(settings.sound);
     audio.conductor.userOffsetMs = settings.offsetMs;
@@ -186,6 +191,9 @@ export class GameplayScene extends Scene {
         perfect: this.score.perfect,
         good: this.score.good,
         miss: this.score.miss,
+        strays: this.score.strays,
+        strayDebt: this.score.strayDebt,
+        consecutiveMisses: this.score.consecutiveMisses,
       });
     }
   }
@@ -344,7 +352,11 @@ export class GameplayScene extends Scene {
     await audio.resume();
     audio.play(this.loaded);
 
+    // `visible = false` alone is not enough: the overlay is the last child and
+    // therefore the topmost hit-test candidate, and it covers the whole screen.
+    // Leaving it interactive swallowed every click meant for the gear.
     this.startOverlay.visible = false;
+    this.startOverlay.eventMode = 'none';
     this.running = true;
   }
 
@@ -359,8 +371,14 @@ export class GameplayScene extends Scene {
     // combo. Ignoring it entirely made mashing all four keys the optimal
     // strategy, which is what "มันโกงไปหน่อย" was describing.
     if (!event) {
-      this.score.applyStray();
-      this.shake = 0.45;
+      // Before the first note there is nothing to be early for, so taps during
+      // the lead-in are free. A nervous player warming up must not build a
+      // stray debt against a song that has not started asking for anything.
+      if (songTime >= this.firstNoteTime - GOOD_MS / 1000) {
+        this.score.applyStray();
+        this.shake = 0.45;
+        if (this.score.failed) this.finish('FAILED');
+      }
       return;
     }
 

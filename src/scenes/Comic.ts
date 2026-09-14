@@ -10,16 +10,18 @@ import { panelsFor, type ComicPanel } from '../game/comicContent';
 import type { SongDef } from '../audio/types';
 import { goLoading } from './nav';
 
-/** 16:9 picture, hung inside the frame like a framed panel. */
-const ART_W = 986;
-const ART_H = 555;
+/**
+ * The delivered panel's painted area, measured from its alpha channel: a
+ * 1307x596 picture centred at (959.5, 409) on an otherwise transparent
+ * 1920x1080 canvas. The caption plaque is sized and placed against this rather
+ * than against a picture box of the scene's own choosing.
+ */
+const ART_W = 1307;
 const ART_X = (DESIGN_W - ART_W) / 2;
-const ART_Y = 100; // clear of the frame's top rule (~y 58)
-const MAT = 12; // cream mat between picture and wood
-const WOOD = 22; // wooden outer frame
+const WOOD = 22; // plaque border weight, kept for the caption
 
-const CAPTION_Y = 700;
-const CAPTION_H = 196;
+const CAPTION_Y = 736;
+const CAPTION_H = 182;
 const ROW_Y = 952;
 
 /** Caption type sizes tried largest-first until the text fits the plaque. */
@@ -96,22 +98,15 @@ export class ComicScene extends Scene {
     }
   };
 
-  /** Wooden picture frame with a cream mat, then the art inside it. */
+  /**
+   * The panel itself. The delivered art is a full-canvas layer that already
+   * includes its own orange frame, so the wooden frame and cream mat this
+   * scene used to draw are gone — they would have framed a frame, and scaling
+   * a 1920x1080 canvas down to a picture box would have shrunk the artwork
+   * along with its transparent margins.
+   */
   private buildFrame(): void {
-    const frame = new Graphics()
-      .roundRect(ART_X - WOOD + 6, ART_Y - WOOD + 9, ART_W + WOOD * 2, ART_H + WOOD * 2, 22)
-      .fill({ color: ART.wood, alpha: 0.2 })
-      .roundRect(ART_X - WOOD, ART_Y - WOOD, ART_W + WOOD * 2, ART_H + WOOD * 2, 22)
-      .fill(ART.wood)
-      .roundRect(ART_X - MAT, ART_Y - MAT, ART_W + MAT * 2, ART_H + MAT * 2, 10)
-      .fill(C.paper);
-
-    this.art = new Sprite(assetLoader.get(this.panels[0]?.image ?? ''));
-    this.art.width = ART_W;
-    this.art.height = ART_H;
-    this.art.position.set(ART_X, ART_Y);
-
-    this.container.addChild(frame);
+    this.art = layerSprite(this.panels[0]?.image ?? '');
     this.page.addChild(this.art);
   }
 
@@ -251,7 +246,7 @@ export class ComicScene extends Scene {
   }
 
   private advance(): void {
-    void audio.resume();
+    void audio.resume().then(() => audio.startMenuMusic());
     if (this.index + 1 >= this.panels.length) {
       this.skip();
       return;
@@ -260,7 +255,7 @@ export class ComicScene extends Scene {
   }
 
   private skip(): void {
-    void audio.resume();
+    void audio.resume().then(() => audio.startMenuMusic());
     goLoading(this.ctx.scenes, this.song);
   }
 
