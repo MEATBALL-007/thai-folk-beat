@@ -2,6 +2,7 @@ import { Circle, Container, Rectangle, Sprite } from 'pixi.js';
 import { assetLoader } from '../core/AssetLoader';
 import { specOf, type HitBox } from '../assets/manifest';
 import { DESIGN_H, DESIGN_W } from '../core/Layout';
+import { audio } from '../audio/engine';
 
 /**
  * Helpers for the designer's full-canvas layer exports.
@@ -62,7 +63,12 @@ export function hitTarget(
   if (enabled) {
     target.eventMode = 'static';
     target.cursor = 'pointer';
-    target.on('pointertap', onTap);
+    target.on('pointertap', () => {
+      // Every art button clicks. Centralised here rather than at each call
+      // site, so a new sign cannot be added without its sound.
+      audio.playUi();
+      onTap();
+    });
   }
 
   return target;

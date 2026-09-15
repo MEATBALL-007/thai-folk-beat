@@ -20,15 +20,30 @@ const START_DELAY_S = 0.15;
  */
 export const RECORDING_PEAK = 1.022;
 
-/** Hit-feedback gain per verdict. GOOD is quieter so the sound carries information. */
-export const HIT_GAIN = { PERFECT: 0.35, GOOD: 0.22 } as const;
+/**
+ * Hit-feedback gain per verdict. GOOD is quieter so the sound carries
+ * information about how well the note was hit, not just that it was.
+ *
+ * Raised on 2026-09-15 after measuring the live graph: the delivered samples
+ * arrived at wildly different levels (bass peaked at 0.16 where the drum hit
+ * 1.00, a six-fold difference) and the quiet ones were inaudible under the
+ * song. The files are now normalised to a common 0.9 peak, and this sits the
+ * feedback alongside the music instead of 20 dB beneath it.
+ */
+export const HIT_GAIN = { PERFECT: 0.5, GOOD: 0.34 } as const;
+
+/** Every delivered one-shot is normalised to this peak. */
+export const SFX_PEAK = 0.9;
+
+/** UI clicks are confirmation, not performance — well under a played note. */
+const UI_GAIN = 0.3;
 
 /**
  * Worst case the master bus must survive: the loudest sample of the recording
  * landing on the same sample as four simultaneous PERFECT hits, with both
  * volume sliders at 100.
  */
-const WORST_CASE_SUM = RECORDING_PEAK + 4 * HIT_GAIN.PERFECT;
+const WORST_CASE_SUM = RECORDING_PEAK + 4 * SFX_PEAK * HIT_GAIN.PERFECT;
 
 /**
  * Master headroom. NOT a guess, and re-derived on 2026-08-31.
@@ -40,7 +55,9 @@ const WORST_CASE_SUM = RECORDING_PEAK + 4 * HIT_GAIN.PERFECT;
  *
  * See NOTES.md D14 (superseded) and D36.
  */
-export const MASTER_HEADROOM = Math.min(0.5, 1 / WORST_CASE_SUM);
+// 0.98 rather than 1.0: landing exactly on unity leaves nothing for the
+// inter-sample peaks an mp3 decoder can produce above its own stated maximum.
+export const MASTER_HEADROOM = Math.min(0.5, 0.98 / WORST_CASE_SUM);
 
 /**
  * The menu theme sits under the interface rather than in front of it, so it
@@ -150,6 +167,28 @@ export class AudioEngine {
   }
 
   /**
+   * A short click for pressing something in the interface.
+   *
+   * Uses the sixth delivered one-shot, which is not one of the four lane
+   * instruments. Quieter than a hit, and hard-cut at 0.2s so rattling through a
+   * menu does not stack into a drone.
+   */
+  playUi(): void {
+    const buf = this.sfx.get('extra');
+    if (!buf) return;
+
+    const src = this.ctx.createBufferSource();
+    src.buffer = buf;
+
+    const g = this.ctx.createGain();
+    g.gain.value = UI_GAIN;
+
+    src.connect(g);
+    g.connect(this.sfxBus);
+    src.start();
+  }
+
+  /**
    * Feedback for a successful hit. Routed through sfxBus, so the player's SFX
    * slider governs it and it is mixed independently of the recording.
    *
@@ -189,17 +228,15 @@ export class AudioEngine {
     const g = this.ctx.createGain();
     g.gain.value = HIT_GAIN[verdict];
 
-    // The sustained samples run for three seconds; at a few notes per second
-    // that would pile into a drone, so they are cut short with a quick fade.
-    const now = this.ctx.currentTime;
-    const hold = 0.45;
-    g.gain.setValueAtTime(HIT_GAIN[verdict], now + hold);
-    g.gain.linearRampToValueAtTime(0, now + hold + 0.18);
-
+    // No envelope here: the delivered sustains ran three seconds and would have
+    // piled into a drone at a few notes per second, so they are trimmed to
+    // ~0.55s with a fade at source — and crucially normalised AFTER that trim.
+    // Normalising the whole file first put the loudest moment in the part that
+    // never played, leaving the audible attack five times quieter than the
+    // level that had been set for it.
     src.connect(g);
     g.connect(this.sfxBus);
-    src.start(now);
-    src.stop(now + hold + 0.2);
+    src.start();
   }
 
   /**
@@ -222,7 +259,7 @@ export class AudioEngine {
    * nothing, which is the failure the whole feature exists to avoid.
    */
   async prepareSfx(): Promise<void> {
-    const names = ['khaen', 'phin', 'bass', 'saw', 'drum'];
+    const names = ['khaen', 'phin', 'bass', 'saw', 'drum', 'extra'];
     await Promise.all(
       names.map(async (name) => {
         if (this.sfx.has(name)) return;

@@ -10,7 +10,7 @@ import { Judge, GOOD_MS, PERFECT_MS } from '../src/game/Judge';
 import { ScoreSystem, FAIL_CONSECUTIVE_MISSES, FAIL_STRAY_DEBT } from '../src/game/ScoreSystem';
 import { buildChart, songDuration, type ChartNote } from '../src/game/Chart';
 import { renderPluck } from '../src/audio/pluck';
-import { HIT_GAIN, MASTER_HEADROOM, RECORDING_PEAK } from '../src/audio/AudioEngine';
+import { HIT_GAIN, MASTER_HEADROOM, RECORDING_PEAK, SFX_PEAK } from '../src/audio/AudioEngine';
 import { MOLAM } from '../src/audio/songs/molam';
 import { SOENG } from '../src/audio/songs/soeng';
 import { DIFFICULTIES } from '../src/game/Difficulty';
@@ -230,7 +230,7 @@ console.log('[levels] master headroom');
   // The headroom protects a specific worst case. Assert that case explicitly,
   // so a later change to the hit gain or a louder recording fails here rather
   // than as distortion someone has to notice by ear.
-  const worst = (RECORDING_PEAK + 4 * HIT_GAIN.PERFECT) * MASTER_HEADROOM;
+  const worst = (RECORDING_PEAK + 4 * SFX_PEAK * HIT_GAIN.PERFECT) * MASTER_HEADROOM;
   check('recording + 4 simultaneous hits stays under unity', worst <= 1.0, true);
   check('GOOD is quieter than PERFECT', HIT_GAIN.GOOD < HIT_GAIN.PERFECT, true);
   check('headroom leaves the music audible', MASTER_HEADROOM > 0.3, true);

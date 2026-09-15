@@ -1,5 +1,6 @@
 import { Container, Graphics, Text } from 'pixi.js';
 import { ART, C, FONT } from './theme';
+import { audio } from '../audio/engine';
 
 export type ButtonVariant = 'primary' | 'ghost' | 'danger' | 'wood';
 
@@ -123,6 +124,7 @@ export class Button extends Container {
     });
     this.on('pointertap', () => {
       if (this._disabled) return;
+      audio.playUi();
       opts.onClick();
     });
 
