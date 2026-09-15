@@ -21,8 +21,19 @@ async function loadFonts(): Promise<void> {
   const specs = ['400 64px "Phrikthai Dam"', 'italic 400 64px "Phrikthai Dam"'];
   const samples = ['ก', 'เร็วๆ นี้', 'A0'];
 
+  // Each load is caught individually. document.fonts.load() REJECTS when a
+  // face cannot be fetched, and an unhandled rejection here took the whole of
+  // main() down with it — the game did not start at all, over a font. A missing
+  // typeface should cost typography, not the program.
   await Promise.all(
-    specs.flatMap((spec) => samples.map((s) => document.fonts.load(spec, s))),
+    specs.flatMap((spec) =>
+      samples.map((s) =>
+        document.fonts.load(spec, s).catch((err: unknown) => {
+          console.warn('[fonts] could not load', spec, err);
+          return [];
+        }),
+      ),
+    ),
   );
   await document.fonts.ready;
 }

@@ -14,3 +14,4 @@ src-tauri/gen/
 
 # regenerable: 1.7MB of base64. Rebuild with `npm run report`.
 report/progress-report.html
+dist-offline/

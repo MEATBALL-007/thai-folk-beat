@@ -1,6 +1,7 @@
 import { Assets, Container, Graphics, Text, Texture, type Renderer } from 'pixi.js';
 import { MANIFEST, type AssetSpec } from '../assets/manifest';
 import { C, FONT } from '../ui/theme';
+import { assetUrl } from './assetUrl';
 
 export interface LoadProgress {
   loaded: number;
@@ -52,7 +53,7 @@ export class AssetLoader {
       let texture: Texture | null = null;
 
       try {
-        const result: unknown = await Assets.load(spec.path);
+        const result: unknown = await Assets.load(assetUrl(spec.path));
         if (result instanceof Texture && result.width > 1 && result.height > 1) {
           texture = result;
         }

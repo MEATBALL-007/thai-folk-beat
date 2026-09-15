@@ -5,6 +5,7 @@ import type { SongDef, VoiceName } from './types';
 import { PENTATONIC } from './pattern';
 import type { Difficulty } from '../game/Difficulty';
 import { buildChart, type ChartNote } from '../game/Chart';
+import { assetUrl } from '../core/assetUrl';
 
 /** How far ahead of the playhead notes are handed to Web Audio. */
 const SCHEDULE_AHEAD_S = 0.25;
@@ -264,7 +265,7 @@ export class AudioEngine {
       names.map(async (name) => {
         if (this.sfx.has(name)) return;
         try {
-          const res = await fetch(`assets/sfx/${name}.mp3`);
+          const res = await fetch(assetUrl(`assets/sfx/${name}.mp3`));
           this.sfx.set(name, await this.ctx.decodeAudioData(await res.arrayBuffer()));
         } catch (err) {
           console.warn(`[audio] sfx "${name}" failed to load`, err);
@@ -284,7 +285,7 @@ export class AudioEngine {
   async prepareMenuMusic(url = 'assets/audio/main.mp3'): Promise<void> {
     if (this.menuBuffer) return;
     try {
-      const res = await fetch(url);
+      const res = await fetch(assetUrl(url));
       this.menuBuffer = await this.ctx.decodeAudioData(await res.arrayBuffer());
     } catch (err) {
       console.warn('[audio] menu theme failed to load', err);
@@ -390,7 +391,7 @@ export class AudioEngine {
 
     if (def.audioUrl) {
       try {
-        const res = await fetch(def.audioUrl);
+        const res = await fetch(assetUrl(def.audioUrl));
         // Read the body as a stream so the loading bar can report real
         // progress. Without this the bar has nothing to measure: the decode is
         // one opaque await, and the screen just sits at 0 and then jumps.
