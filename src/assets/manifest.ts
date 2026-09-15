@@ -215,16 +215,18 @@ export const MANIFEST: readonly AssetSpec[] = [
     purpose: `หมอลำ origin comic, panel ${n} of 2`,
     hit: box(959.5, 409, 1307, 596),
   })),
-  ...([1, 2, 3, 4] as const).flatMap((n) => [
-    {
-      key: `comic.soeng.${n}`,
-      path: `assets/comic/soeng_${n}.png`,
-      kind: 'comic' as const,
-      w: 2560,
-      h: 1440,
-      purpose: `เซิ้ง origin comic, panel ${n} of 4 (not yet delivered)`,
-    },
-  ]),
+  // เซิ้ง was cut to two panels on 2026-09-15 to match หมอลำ. Art not yet
+  // delivered; the captions carry the content until it is.
+  ...([1, 2] as const).map((n) => ({
+    key: `comic.soeng.${n}`,
+    path: `assets/comic/soeng_${n}.png`,
+    kind: 'comic' as const,
+    w: 1920,
+    h: 1080,
+    layer: true,
+    purpose: `เซิ้ง origin comic, panel ${n} of 2 (not yet delivered)`,
+    hit: box(959.5, 409, 1307, 596),
+  })),
 
   // ---- gameplay: one stage set per song ----------------------------------
   // Each song has its own backdrop, panel and receptors (delivered 2026-09-14).

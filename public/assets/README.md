@@ -11,7 +11,7 @@ change needed.
 Sizes are the **4K authoring size**; the game downscales at runtime, so export
 at these dimensions from the vector source.
 
-Total assets: **47**
+Total assets: **45**
 
 ## UI
 
@@ -75,10 +75,8 @@ Total assets: **47**
 |---|---|---|---|
 | `comic/molam_1.png` | 1920 x 1080 | `comic.molam.1` | หมอลำ origin comic, panel 1 of 2 |
 | `comic/molam_2.png` | 1920 x 1080 | `comic.molam.2` | หมอลำ origin comic, panel 2 of 2 |
-| `comic/soeng_1.png` | 2560 x 1440 | `comic.soeng.1` | เซิ้ง origin comic, panel 1 of 4 (not yet delivered) |
-| `comic/soeng_2.png` | 2560 x 1440 | `comic.soeng.2` | เซิ้ง origin comic, panel 2 of 4 (not yet delivered) |
-| `comic/soeng_3.png` | 2560 x 1440 | `comic.soeng.3` | เซิ้ง origin comic, panel 3 of 4 (not yet delivered) |
-| `comic/soeng_4.png` | 2560 x 1440 | `comic.soeng.4` | เซิ้ง origin comic, panel 4 of 4 (not yet delivered) |
+| `comic/soeng_1.png` | 1920 x 1080 | `comic.soeng.1` | เซิ้ง origin comic, panel 1 of 2 (not yet delivered) |
+| `comic/soeng_2.png` | 1920 x 1080 | `comic.soeng.2` | เซิ้ง origin comic, panel 2 of 2 (not yet delivered) |
 
 ## Notes
 

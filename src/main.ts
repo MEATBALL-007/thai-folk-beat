@@ -44,7 +44,7 @@ async function main(): Promise<void> {
           // seconds later.
           const result = await assetLoader.loadAll((p) => report((p.loaded / p.total) * 0.7));
           report(0.72);
-          await audio.prepareMenuMusic();
+          await Promise.all([audio.prepareMenuMusic(), audio.prepareSfx()]);
           report(1);
           if (result.missing.length) {
             console.info(

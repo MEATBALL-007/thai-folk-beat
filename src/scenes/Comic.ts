@@ -60,6 +60,13 @@ export class ComicScene extends Scene {
   }
 
   override onEnter(): void {
+    // Arriving is what wants the theme. It used to be started from the click
+    // handlers instead, and the last click both started it and navigated to the
+    // loader that stops it — the start landed after the stop and the menu theme
+    // played over the song. Starting it here removes the race rather than
+    // trying to win it.
+    void audio.resume().then(() => audio.startMenuMusic());
+
     const field = new Graphics().rect(0, 0, DESIGN_W, DESIGN_H).fill(ART.field);
     this.container.addChild(field, layerSprite('bg.menuFrame'));
 
@@ -246,7 +253,7 @@ export class ComicScene extends Scene {
   }
 
   private advance(): void {
-    void audio.resume().then(() => audio.startMenuMusic());
+    void audio.resume();
     if (this.index + 1 >= this.panels.length) {
       this.skip();
       return;
@@ -255,7 +262,7 @@ export class ComicScene extends Scene {
   }
 
   private skip(): void {
-    void audio.resume().then(() => audio.startMenuMusic());
+    void audio.resume();
     goLoading(this.ctx.scenes, this.song);
   }
 

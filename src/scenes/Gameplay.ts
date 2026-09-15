@@ -349,6 +349,9 @@ export class GameplayScene extends Scene {
   private async begin(): Promise<void> {
     if (this.running || this.finished || !this.loaded) return;
 
+    // Whatever route got here, a song starting ends the menu theme. The dev
+    // deep link reaches gameplay without passing through goLoading.
+    audio.stopMenuMusic();
     await audio.resume();
     audio.play(this.loaded);
 
@@ -395,7 +398,7 @@ export class GameplayScene extends Scene {
     } else {
       // Audible confirmation. Fired here rather than on key-down so a press
       // that matched no note stays silent — the sound means "you hit it".
-      audio.playHit(event.note.voice, event.note.midi, event.verdict);
+      audio.playHit(event.note.voice, event.note.midi, event.verdict, this.def.id);
       this.laneLitLife[event.note.lane] = 1;
       this.highway.flashReceptor(event.note.lane, 1);
 

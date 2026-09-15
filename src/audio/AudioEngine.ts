@@ -87,10 +87,21 @@ export class AudioEngine {
    */
   private readonly hitBank = new Map<string, AudioBuffer>();
 
+  /** Real instrument one-shots, decoded once and kept for the session. */
+  private readonly sfx = new Map<string, AudioBuffer>();
+
   /** The looping menu theme. Decoded once and kept for the session. */
   private menuBuffer: AudioBuffer | null = null;
   private menuSource: AudioBufferSourceNode | null = null;
   private menuGain: GainNode | null = null;
+  /**
+   * Whether the menu theme is currently WANTED, as opposed to currently
+   * playing. startMenuMusic has an await in it, so without this a stop issued
+   * while a start is in flight is simply overtaken: the comic's last click both
+   * starts the theme and navigates to the loader that stops it, and the start
+   * lands afterwards. That is the menu and gameplay tracks playing together.
+   */
+  private menuWanted = false;
 
   /** Debug/telemetry hook — fires as each note is handed to the hardware. */
   onNoteScheduled: ((note: ChartNote) => void) | null = null;
@@ -129,6 +140,7 @@ export class AudioEngine {
    */
   private buildHitBank(): void {
     if (this.hitBank.size > 0) return;
+    void this.prepareSfx();
     const kinds: PluckKind[] = ['phin', 'ponglang'];
     for (const kind of kinds) {
       for (const midi of PENTATONIC) {
@@ -144,25 +156,50 @@ export class AudioEngine {
    * GOOD is quieter than PERFECT: the sound carries information about how well
    * the note was hit, not just that it was.
    */
-  playHit(voice: VoiceName, midi: number, verdict: 'PERFECT' | 'GOOD'): void {
-    // The two drum-like lanes borrow the wooden bar, which has a sharper attack
-    // than the string and reads better as a percussive confirmation.
-    const kind: PluckKind = voice === 'phin' ? 'phin' : 'ponglang';
-    const buf = this.hitBank.get(`${kind}:${midi}`);
-    if (!buf) return;
+  playHit(
+    voice: VoiceName,
+    midi: number,
+    verdict: 'PERFECT' | 'GOOD',
+    songId: 'molam' | 'soeng' = 'molam',
+  ): void {
+    // Lane roles follow the panel art, which names a เบส on หมอลำ's stage and a
+    // ซอ on เซิ้ง's in the same position.
+    const byVoice: Record<VoiceName, string> = {
+      khaen: 'khaen',
+      phin: 'phin',
+      ponglang: songId === 'soeng' ? 'saw' : 'bass',
+      klong: 'drum',
+    };
 
+    const real = this.sfx.get(byVoice[voice]);
     const src = this.ctx.createBufferSource();
-    src.buffer = buf;
-    // Slight detune per hit so a run of notes in one lane does not sound like
-    // the same sample retriggering.
-    src.playbackRate.value = voice === 'klong' ? 0.62 : voice === 'khaen' ? 1.18 : 1;
+
+    if (real) {
+      src.buffer = real;
+    } else {
+      // Fallback to the synthesised voice, so a failed download costs fidelity
+      // rather than all feedback.
+      const kind: PluckKind = voice === 'phin' ? 'phin' : 'ponglang';
+      const buf = this.hitBank.get(`${kind}:${midi}`);
+      if (!buf) return;
+      src.buffer = buf;
+      src.playbackRate.value = voice === 'klong' ? 0.62 : voice === 'khaen' ? 1.18 : 1;
+    }
 
     const g = this.ctx.createGain();
     g.gain.value = HIT_GAIN[verdict];
 
+    // The sustained samples run for three seconds; at a few notes per second
+    // that would pile into a drone, so they are cut short with a quick fade.
+    const now = this.ctx.currentTime;
+    const hold = 0.45;
+    g.gain.setValueAtTime(HIT_GAIN[verdict], now + hold);
+    g.gain.linearRampToValueAtTime(0, now + hold + 0.18);
+
     src.connect(g);
     g.connect(this.sfxBus);
-    src.start();
+    src.start(now);
+    src.stop(now + hold + 0.2);
   }
 
   /**
@@ -176,6 +213,29 @@ export class AudioEngine {
    * Idempotent — every menu scene calls it on entry, so returning from a song
    * or arriving via a dev deep link both pick the music back up.
    */
+  /**
+   * Decodes the delivered instrument one-shots.
+   *
+   * These replace the synthesised hit sounds now that the designer has supplied
+   * real recordings. The synthesis in pluck.ts stays as the fallback: if a file
+   * fails to decode, a hit still makes a sound rather than silently doing
+   * nothing, which is the failure the whole feature exists to avoid.
+   */
+  async prepareSfx(): Promise<void> {
+    const names = ['khaen', 'phin', 'bass', 'saw', 'drum'];
+    await Promise.all(
+      names.map(async (name) => {
+        if (this.sfx.has(name)) return;
+        try {
+          const res = await fetch(`assets/sfx/${name}.mp3`);
+          this.sfx.set(name, await this.ctx.decodeAudioData(await res.arrayBuffer()));
+        } catch (err) {
+          console.warn(`[audio] sfx "${name}" failed to load`, err);
+        }
+      }),
+    );
+  }
+
   /**
    * Fetches and decodes the menu theme without playing it.
    *
@@ -201,12 +261,15 @@ export class AudioEngine {
     // context simply plays when the context resumes. The guard turned that into
     // silence — the method ran, returned on its first line, and nothing played.
     if (this.menuSource) return;
+    this.menuWanted = true;
 
     try {
       if (!this.menuBuffer) await this.prepareMenuMusic(url);
       if (!this.menuBuffer) return;
-      // A second call may have won the race while that was decoding.
-      if (this.menuSource) return;
+      // A second call may have won the race while that was decoding — or a stop
+      // may have been issued, in which case this start is stale and must not
+      // resurrect the theme over a song that has already begun.
+      if (this.menuSource || !this.menuWanted) return;
 
       const gain = this.ctx.createGain();
       gain.gain.value = 0;
@@ -235,6 +298,8 @@ export class AudioEngine {
 
   /** Fades the menu theme out and drops it. Safe to call when nothing is playing. */
   stopMenuMusic(fadeS = 0.35): void {
+    this.menuWanted = false;
+
     const src = this.menuSource;
     const gain = this.menuGain;
     this.menuSource = null;
