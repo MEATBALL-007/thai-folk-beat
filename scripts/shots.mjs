@@ -26,6 +26,7 @@ const SCENES = [
   { name: 'region', wait: 1500 },
   { name: 'song', wait: 1500 },
   { name: 'comic', wait: 1500 },
+  { name: 'comic-soeng', link: 'comic:soeng', wait: 1500 },
   { name: 'game', wait: 1000, click: true },
   { name: 'game-soeng', link: 'game:soeng', wait: 1000, click: true },
   { name: 'result', wait: 2500 },

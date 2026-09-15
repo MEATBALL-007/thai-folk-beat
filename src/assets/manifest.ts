@@ -215,8 +215,8 @@ export const MANIFEST: readonly AssetSpec[] = [
     purpose: `หมอลำ origin comic, panel ${n} of 2`,
     hit: box(959.5, 409, 1307, 596),
   })),
-  // เซิ้ง was cut to two panels on 2026-09-15 to match หมอลำ. Art not yet
-  // delivered; the captions carry the content until it is.
+  // เซิ้ง was cut to two panels on 2026-09-15 to match หมอลำ, and its art
+  // arrived the same day — same 1307x596 painted area as the หมอลำ panels.
   ...([1, 2] as const).map((n) => ({
     key: `comic.soeng.${n}`,
     path: `assets/comic/soeng_${n}.png`,
@@ -224,7 +224,7 @@ export const MANIFEST: readonly AssetSpec[] = [
     w: 1920,
     h: 1080,
     layer: true,
-    purpose: `เซิ้ง origin comic, panel ${n} of 2 (not yet delivered)`,
+    purpose: `เซิ้ง origin comic, panel ${n} of 2`,
     hit: box(959.5, 409, 1307, 596),
   })),
 
